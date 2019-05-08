@@ -226,10 +226,7 @@
     <Content Include="Content\dx.win10.white.css" />
     <Content Include="Content\dx.win8.black.css" />
     <Content Include="Content\dx.win8.white.css" />
-    <Content Include="Content\Email\NotificationEmail\images\facebook.png" />
-    <Content Include="Content\Email\NotificationEmail\images\logo.png" />
-    <Content Include="Content\Email\NotificationEmail\images\pinterest.png" />
-    <Content Include="Content\Email\NotificationEmail\images\twitter.png" />
+    <Content Include="Content\Email\NotificationEmail\NotificationEmail.html" />
     <Content Include="Content\LoadingScreen\css\jquery.loadingModal.css" />
     <Content Include="Content\LoadingScreen\css\jquery.loadingModal.min.css" />
     <Content Include="Content\LoadingScreen\js\jquery.loadingModal.js" />
@@ -561,7 +558,6 @@
     <Content Include="Content\MainPage\scss\_theme-dark.scss" />
     <Content Include="Content\MainPage\scss\_track-order.scss" />
     <Content Include="Content\MainPage\scss\_variabls.scss" />
-    <Content Include="Content\Email\NotificationEmail\images\.DS_Store" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\cldr.min.js" />
