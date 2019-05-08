@@ -1,0 +1,170 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Bà Chị Diệu Hiền - @ViewBag.Title</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/MainPage/images/iconBCDH.jpg">
+    <!-- CSS
+    ============================================ -->
+    <!-- Bootstrap CSS -->
+    @Styles.Render("~/Content/css")
+    @*<link rel="stylesheet" href="~/Content/MainPage/css/bootstrap.min.css">*@
+
+    <!-- Icon Font CSS -->
+    @*<link rel="stylesheet" href="~/Content/MainPage/css/icon-font.min.css">*@
+
+    <!-- Plugins CSS -->
+    @*<link rel="stylesheet" href="~/Content/MainPage/css/plugins.css">*@
+
+    <!-- Main Style CSS -->
+    @*<link rel="stylesheet" href="~/Content/MainPage/css/style.css">*@
+
+    <!-- Modernizer JS -->
+    @*<script src="~/Content/MainPage/js/vendor/modernizr-2.8.3.min.js"></script>*@
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/DevExtremeBundle")
+    @Scripts.Render("~/Scripts/DevExtremeBundle")
+
+</head>
+<body>
+    <!-- Header Section Start -->
+    @Html.Partial("~/Views/Home/header.cshtml")
+    <!-- Header Section End -->
+    <!-- Mini Cart Wrap Start -->
+    <div class="mini-cart-wrap">
+        <!-- Mini Cart Top -->
+        <div class="mini-cart-top">
+            <button class="close-cart">Close Cart<i class="icofont icofont-close"></i></button>
+        </div>
+        <!-- Mini Cart Products -->
+        <ul class="mini-cart-products">
+            <li>
+                <a class="image"><img src="assets/images/product/product-1.png" alt="Product"></a>
+                <div class="content">
+                    <a href="single-product.html" class="title">Waxon Note Book Pro 5</a>
+                    <span class="price">Price: $295</span>
+                    <span class="qty">Qty: 02</span>
+                </div>
+                <button class="remove"><i class="fa fa-trash-o"></i></button>
+            </li>
+            <li>
+                <a class="image"><img src="assets/images/product/product-2.png" alt="Product"></a>
+                <div class="content">
+                    <a href="single-product.html" class="title">Aquet Drone D 420</a>
+                    <span class="price">Price: $275</span>
+                    <span class="qty">Qty: 01</span>
+                </div>
+                <button class="remove"><i class="fa fa-trash-o"></i></button>
+            </li>
+            <li>
+                <a class="image"><img src="assets/images/product/product-3.png" alt="Product"></a>
+                <div class="content">
+                    <a href="single-product.html" class="title">Game Station X 22</a>
+                    <span class="price">Price: $295</span>
+                    <span class="qty">Qty: 01</span>
+                </div>
+                <button class="remove"><i class="fa fa-trash-o"></i></button>
+            </li>
+        </ul>
+
+        <!-- Mini Cart Bottom -->
+        <div class="mini-cart-bottom">
+
+            <h4 class="sub-total">Total: <span>$1160</span></h4>
+
+            <div class="button">
+                <a href="checkout.html">CHECK OUT</a>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- Mini Cart Wrap End -->
+    <!-- Cart Overlay -->
+    <div class="cart-overlay"></div>
+
+    <!-- Hero Section Start -->
+    @RenderSection("Hero", required: false)
+    @*@Html.Partial("~/Views/Home/HeroSectionPartial.cshtml")*@
+
+    <!-- Hero Section End -->
+    <!-- Banner Section Start -->
+    @RenderSection("Banner", required: false)
+    @*@Html.Partial("~/Views/Home/BannerPartial.cshtml")*@
+    <!-- Banner Section End -->
+    <!-- Feature Product Section Start -->
+    @RenderSection("Feature", required: false)
+
+    <!-- Feature Product Section End -->
+    <!-- Best Sell Product Section Start -->
+    @RenderSection("BestSell", required: false)
+
+    <!-- Best Sell Product Section End -->
+    <!-- Banner Section Start -->
+    @RenderSection("BannerSection", required: false)
+
+    <!-- Banner Section End -->
+
+    <div class="product-section section mt-90 mb-90">
+        <div class="container">
+            <div class="row">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Section Start -->
+    @RenderSection("FeatureLogoPaymentSection", required: false)
+
+    <!-- Feature Section End -->
+    <!-- Best Deals Product Section Start -->
+    @RenderSection("BestDeal", required: false)
+
+    <!-- Best Deals Product Section End -->
+    <!-- New Arrival Product Section Start -->
+    @RenderSection("NewArrival", required: false)
+    <!-- New Arrival Product Section End -->
+    <!-- Banner Section Start -->
+    @RenderSection("BannerBottom", required: false)
+
+    <!-- Banner Section End -->
+    <!-- Brands Section Start -->
+    @RenderSection("Brands", required: false)
+
+    <!-- Brands Section End -->
+    <!-- Subscribe Section Start -->
+    @RenderSection("Subscribe", required: false)
+
+    <!-- Subscribe Section End -->
+    <!-- Footer Section Start -->
+    @Html.Partial("~/Views/Home/footer.cshtml")
+    <!-- Footer Section End -->
+    <!-- Popup Subscribe Section Start -->
+    @RenderSection("popupsubscribe", required: false)
+
+    <!-- Popup Subscribe Section End -->
+    <!-- JS
+    ============================================ -->
+    <!-- jQuery JS -->
+    @*<script src="@Url.Content("~/Scripts/jquery-3.3.1.min.js")"></script>*@
+    @Scripts.Render("~/bundles/jquery")
+    <!-- Popper JS -->
+    <script src="@Url.Content("~/Content/MainPage/js/popper.min.js")"></script>
+    <!-- Bootstrap JS -->
+    <script src="@Url.Content("~/Content/MainPage/js/bootstrap.min.js")"></script>
+    <!-- Plugins JS -->
+    <script src="@Url.Content("~/Content/MainPage/js/plugins.js")"></script>
+    <!-- Main JS -->
+    <script src="@Url.Content("~/Content/MainPage/js/main.js")"></script>
+    @RenderSection("ScriptBundle", required: false)
+</body>
+
+</html>

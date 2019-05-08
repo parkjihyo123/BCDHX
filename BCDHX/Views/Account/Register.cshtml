@@ -1,41 +1,88 @@
-﻿@model BCDHX.Models.RegisterViewModel
+﻿
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Đăng Ký Thành Viên";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Bà Chị Diệu Hiền - @ViewBag.Title</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/MainPage/images/iconBCDH.jpg">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="@Url.Content("~/Content/LoadingScreen/css/jquery.loadingModal.css")">
+    <link href="@Url.Content("~/Content/SweetAlret/sweetalert2.min.css")" rel="stylesheet" />
+    @Styles.Render("~/Content/DevExtremeBundle")
+</head>
+<body>
 
-<h2>@ViewBag.Title.</h2>
+    @Html.Partial("~/Views/Home/HeaderForShorter.cshtml")
+    @Html.Partial("~/Views/Home/PageBannerForRg.cshtml")
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
-        </div>
-    </div>
-}
+    <div class="register-section section mt-90 mb-90">
+        <div class="container">
+            <div class="row">
+                <!-- Register --> 
+               
+                    <div class="col-md-6 col-12 d-flex">
+                        <div class="ee-register">
+                            <h3>Bạn Muốn Trở Thành Thành Viên Của Bà Chị Shop</h3>
+                            <p>Cung cấp những dịch vụ tốt nhất cho khách hàng là phương châm của chúng tôi</p>
+                            <!-- Register Form -->
+                            <form id="dangkyform">
+                                <div class="row">
+                                    <div class="col-12 mb-30"><div id="sumerror"></div></div>
+                                    <div class="col-12 mb-30"> <input type="text" name="Email" id="Email" placeholder="Sử dụng email làm tên đăng nhập"></div>
+                                    <div class="col-12 mb-30"><input type="text" name="Fullname" id="Fullname" placeholder="Họ Và Tên" required></div>
+                                    <div class="col-12 mb-30"><input type="text" name="Address" id="Address" placeholder="Địa Chỉ" required></div>
+                                    <div class="col-12 mb-30"><input type="password" name="Password" id="Password" placeholder="Mật Khẩu"></div>
+                                    <div class="col-12 mb-30"><input type="password" name="Repassword" id="Repassword" placeholder="Nhập Lại mật khẩu" required><div id="error"></div></div>
+                                    <div class="col-12"><input type="submit" value="Đăng Ký" id="subbt"></div>
+                                </div>
+                            </form>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+                        </div>
+                    </div>
+                    <div class="col-md-1 col-12 d-flex">
+                        <div class="login-reg-vertical-boder"></div>
+                    </div>
+                    <!-- Account Image -->
+                    <div class="col-md-5 col-12 d-flex">
+                        <div class="ee-account-image">
+                            <h3>Tải Ảnh Đại Diện</h3>
+                            <img src="~/Content/MainPage/images/account-image-placeholder.jpg" alt="Account Image Placeholder" class="image-placeholder">
+                            <div id="uploadimge">
+                            </div>
+                            <input type="hidden" id="LinkImageUser">
+                            <p>File ảnh hỗ trợ .jpg, .jpeg, .gif, .png.</p>
+                        </div>
+                    </div>
+               
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Views/Home/BrandsPartial.cshtml")
+    @Html.Partial("~/Views/Home/footer.cshtml")
+    @Scripts.Render("~/bundles/jquery")
+    <!-- Popper JS -->
+    <script src="@Url.Content("~/Content/MainPage/js/popper.min.js")"></script>
+    <!-- Bootstrap JS -->
+    <script src="@Url.Content("~/Content/MainPage/js/bootstrap.min.js")"></script>
+    <!-- Plugins JS -->
+    <script src="@Url.Content("~/Content/MainPage/js/plugins.js")"></script>
+    <!-- Main JS -->
+    <script src="@Url.Content("~/Content/MainPage/js/main.js")"></script>
+    <script src="@Url.Content("~/Content/LoadingScreen/js/jquery.loadingModal.js")"></script>
+    <script src="@Url.Content("~/Content/SweetAlret/sweetalert2.all.js")"></script>
+    @Scripts.Render("~/Scripts/DevExtremeBundle")
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <script src="@Url.Content("~/ScriptsBundle/AccountSC.js")"></script>
+
+</body>
+
+</html>

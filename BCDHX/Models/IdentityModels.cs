@@ -21,7 +21,7 @@ namespace BCDHX.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("WebDieuHienDB", throwIfV1Schema: false)
         {
         }
 

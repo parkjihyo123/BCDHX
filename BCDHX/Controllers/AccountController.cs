@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using BCDHX.Models;
+using BCDHX.Moduns.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using BCDHX.Models;
-
 namespace BCDHX.Controllers
 {
     [Authorize]
@@ -17,12 +21,15 @@ namespace BCDHX.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private WebDieuHienDB _db;
+        private ApplicationDbContext _dbasp;
         public AccountController()
         {
+            _db = new WebDieuHienDB();
+            _dbasp = new ApplicationDbContext();
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -34,9 +41,9 @@ namespace BCDHX.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -65,29 +72,40 @@ namespace BCDHX.Controllers
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        //[ValidateAntiForgeryToken]
+        public async Task<JsonResult> Login(LoginViewModel model, string returnUrl)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return Json(new
+                    {
+                        Status = 0,
+                        Error = "Done",
+                        ReturnUrl= returnUrl
+                    });
                 case SignInStatus.LockedOut:
-                    return View("Lockout");
+                    return Json(new
+                    {
+                        Status = 1,
+                        Error = "Tài khoản bị khóa"
+                    });
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    return Json(new
+                    {
+                        Status = 2,
+                        Error = "NeedVerification"
+                    });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                    //ModelState.AddModelError("", "Invalid login attempt.");
+                    return Json(new {
+                        Status = 3,
+                        Error="Sai tên đang nhập hoặc mật khẩu"
+                    });
             }
         }
 
@@ -120,7 +138,7 @@ namespace BCDHX.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -146,32 +164,76 @@ namespace BCDHX.Controllers
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+
+        public async Task<JsonResult> Register(Account model)
         {
-            if (ModelState.IsValid)
+
+
+            var user = new ApplicationUser { UserName = model.Username, Email = model.Username };
+
+            var result = await UserManager.CreateAsync(user, model.Password);
+            if (result.Errors.Count() != 0)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                foreach (var item in result.Errors)
+                {
+                    return Json(item.ToString());
+                }
+            }
+            else
+            {
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    ApplicationUser currentUser = _dbasp.Users.FirstOrDefault(x => x.Email.Equals(model.Username));
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //string currentUserId = User.Identity.GetUserId();
+                    AddAccountToDB(model.Fullname, model.Username, model.Address, currentUser.Id, model.Password);
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return Json("1");
                 }
-                AddErrors(result);
             }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
 
+
+            return null;
+
+
+
+            // If we got this far, something failed, redisplay form
+            //return View(model);
+        }
+        /// <summary>
+        /// Add to database userinformation
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        /// 
+        public void AddAccountToDB(string fullname, string username, string address, string idAccount, string password)
+        {
+            var TempUserId = TempData["TempIdForUser"];
+            var TempUserLinkImage = "";
+            if (TempUserId !=null)
+            {
+                idAccount = TempUserId.ToString();
+            }
+            if (TempData["TempImageFileName"]!=null)
+            {
+                TempUserLinkImage = TempData["TempImageFileName"].ToString();
+            }
+            else
+            {
+                TempUserLinkImage = "account-image-placeholder.jpg";
+            }
+            var userToDB = new Account { Fullname = fullname, Access = 1, Address = address, ID_Account = idAccount, Username = username, Amount = 0, Password = password,Img = TempUserLinkImage };
+            _db.Entry(userToDB).State = System.Data.Entity.EntityState.Added;
+            _db.SaveChanges();
+        }
+      
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

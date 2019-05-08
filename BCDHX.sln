@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BCDHX", "BCDHX\BCDHX.csproj", "{C52DB854-62FE-4AC8-8BEF-EF41D389574A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BCDHX.Moduns", "BCDHX.Moduns\BCDHX.Moduns.csproj", "{1691FA4C-C4BF-42A8-90FF-B0487B829D4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C52DB854-62FE-4AC8-8BEF-EF41D389574A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C52DB854-62FE-4AC8-8BEF-EF41D389574A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C52DB854-62FE-4AC8-8BEF-EF41D389574A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1691FA4C-C4BF-42A8-90FF-B0487B829D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1691FA4C-C4BF-42A8-90FF-B0487B829D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1691FA4C-C4BF-42A8-90FF-B0487B829D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1691FA4C-C4BF-42A8-90FF-B0487B829D4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -23,8 +23,12 @@ namespace BCDHX
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/MainPage/css/bootstrap.min.css",
+                      "~/Content/MainPage/css/icon-font.min.css",
+                      "~/Content/MainPage/css/plugins.css",
+                      "~/Content/MainPage/css/style.css")
+                     );
+
         }
     }
 }
