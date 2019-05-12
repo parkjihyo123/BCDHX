@@ -1,16 +1,21 @@
-﻿using System.Linq;
+﻿using System;
+using System.Configuration;
+using System.IO;
+using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using BCDHX.Models;
 using BCDHX.Moduns.Models;
+using BCDHX.Moduns.Unity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 namespace BCDHX.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : Controller,IEmail
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -70,7 +75,15 @@ namespace BCDHX.Controllers
         {
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: true);
+           var tempuser= SignInManager.UserManager.Find(model.Email, model.Password);
+            if (tempuser!=null)
+            {
+                if (tempuser.EmailConfirmed != true)
+                {
+                    result = SignInStatus.RequiresVerification;
+                }
+            }
             switch (result)
             {
                 case SignInStatus.Success:
@@ -177,15 +190,15 @@ namespace BCDHX.Controllers
                 if (result.Succeeded)
                 {
                     ApplicationUser currentUser = _dbasp.Users.FirstOrDefault(x => x.Email.Equals(model.Username));
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                   // await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     //string currentUserId = User.Identity.GetUserId();
-                    AddAccountToDB(model.Fullname, model.Username, model.Address, currentUser.Id, model.Password);
+                    AddAccountToDB(model.Fullname, model.Username, model.Address, user.Id, model.Password);
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                      string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                      var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                     SendHtmlFormattedEmail("Xác thực tài khoản",CreateEmailBodyConfirmation(model.Username,model.Password,DateTime.Now.ToString("dd-MM-yyyy"),callbackUrl),model.Username);
                     return Json("1");
                 }
             }
@@ -199,6 +212,89 @@ namespace BCDHX.Controllers
             // If we got this far, something failed, redisplay form
             //return View(model);
         }
+
+        /// <summary>
+        /// use for create body email for confirmation
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="title"></param>
+        /// <param name="datecreate"></param>
+        /// <param name="url_action"></param>
+        /// <returns></returns>
+        public string CreateEmailBodyConfirmation(string userName, string passWord, string datecreate, string url_action)
+        {
+            string body = string.Empty;
+            //using streamreader for reading my htmltemplate   
+            using (StreamReader reader = new StreamReader(Server.MapPath("~/Content/Email/NotificationEmail/NotificationEmail.html")))
+
+            {
+
+                body = reader.ReadToEnd();
+
+            }
+            body = body.Replace("{username}", userName); //replacing the required things  
+            body = body.Replace("{password}", passWord);
+            body = body.Replace("{createdate}", datecreate);
+            body = body.Replace("{action_url}", url_action);
+            return body;
+        }
+
+
+
+        /// <summary>
+        /// send email
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="body"></param>
+        /// <param name="sendto"></param>
+        public void SendHtmlFormattedEmail(string subject, string body, string sendto)
+        {
+            try
+            {
+                using (MailMessage mailMessage = new MailMessage())
+
+                {
+
+                    mailMessage.From = new MailAddress(ConfigurationManager.AppSettings["UserName"]);
+
+                    mailMessage.Subject = subject;
+
+                    mailMessage.Body = body;
+
+                    mailMessage.IsBodyHtml = true;
+
+                    mailMessage.To.Add(new MailAddress(sendto));
+
+                    SmtpClient smtp = new SmtpClient();
+
+                    smtp.Host = ConfigurationManager.AppSettings["Host"];
+
+                    smtp.EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings["EnableSsl"]);
+
+                    System.Net.NetworkCredential NetworkCred = new System.Net.NetworkCredential();
+
+                    NetworkCred.UserName = ConfigurationManager.AppSettings["UserName"]; //reading from web.config  
+
+                    NetworkCred.Password = ConfigurationManager.AppSettings["Password"]; //reading from web.config  
+
+                    smtp.UseDefaultCredentials = true;
+                    //smtp.EnableSsl = true;
+                    smtp.Credentials = NetworkCred;
+
+                    smtp.Port = int.Parse(ConfigurationManager.AppSettings["Port"]); //reading from web.config  
+
+                    smtp.Send(mailMessage);
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
+        }
+
         /// <summary>
         /// Add to database userinformation
         /// </summary>
@@ -240,6 +336,45 @@ namespace BCDHX.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
+        public async Task<JsonResult> ReSendConfirmEmail(Account model)
+        {
+            ApplicationUser currentUser = _dbasp.Users.FirstOrDefault(x => x.Email.Equals(model.Username));
+            if (currentUser !=null && SignInManager.UserManager.Find(model.Username ,model.Password)!=null)
+            {
+                var tempUserAfterSign = SignInManager.UserManager.Find(model.Username, model.Password);
+                if (!tempUserAfterSign.EmailConfirmed)
+                {
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(currentUser.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = currentUser.Id, code = code }, protocol: Request.Url.Scheme);
+                    SendHtmlFormattedEmail("Xác thực tài khoản", CreateEmailBodyConfirmation(model.Username, model.Password, DateTime.Now.ToString("dd-MM-yyyy"), callbackUrl), model.Username);
+                    return Json(new
+                    {
+                        Status = 0,
+                        Error = "Xin mời kiểm tra lại hòm thư của email "+model.Username+"để kích hoạt tài khoản.Nếu có bất cứ gì thắc mắc xin nhắn tin cho livechat của chúng tôi để được hỗ trợ sớm nhất!"
+
+                    });
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        Status = 2,
+                        Error = "Tài khoản quý khách đã kích hoạt!"
+
+                    });
+                }
+            }
+            else
+            {
+                return Json(new {
+                    Status = 1,
+                    Error= "Tài khoản không tồn tại"
+
+                });
+            }
+            return null;
+            
+        }
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
@@ -506,6 +641,8 @@ namespace BCDHX.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+
+        
 
         internal class ChallengeResult : HttpUnauthorizedResult
         {

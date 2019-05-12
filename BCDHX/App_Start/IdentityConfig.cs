@@ -1,10 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using BCDHX.Models;
-using BCDHX.Moduns.Unity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -13,41 +10,16 @@ using Microsoft.Owin.Security;
 
 namespace BCDHX
 {
-    public class EmailService : IIdentityMessageService,IEmail
+    public class EmailService : IIdentityMessageService
     {
-        public string createEmailBody(string userName, string title, string message)
-        {
-            string body = string.Empty;
-            //using streamreader for reading my htmltemplate   
-
-            using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath("~/HtmlTemplate.html")))
-
-            {
-
-                body = reader.ReadToEnd();
-
-            }
-
-            body = body.Replace("{UserName}", userName); //replacing the required things  
-
-            body = body.Replace("{Title}", title);
-
-            body = body.Replace("{message}", message);
-
-            return body;
-        }
 
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-
+           
             return Task.FromResult(0);
         }
-
-        public void SendHtmlFormattedEmail(string subject, string body)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 
     public class SmsService : IIdentityMessageService
@@ -108,8 +80,12 @@ namespace BCDHX
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
-                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                /// set time life for token
+                manager.UserTokenProvider =
+                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"))
+                    {
+                        TokenLifespan = TimeSpan.FromMinutes(5)
+                    };
             }
             return manager;
         }

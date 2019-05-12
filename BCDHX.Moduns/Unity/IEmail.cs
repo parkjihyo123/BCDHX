@@ -8,7 +8,7 @@ namespace BCDHX.Moduns.Unity
 {
     public interface IEmail
     {
-         string createEmailBody(string userName, string title, string message);
-       void SendHtmlFormattedEmail(string subject, string body);
+       string CreateEmailBodyConfirmation(string userName, string passWord, string message,string url_action);
+       void SendHtmlFormattedEmail(string subject, string body,string sendto);
     }
 }

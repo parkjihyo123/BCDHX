@@ -7,7 +7,7 @@ namespace BCDHX.Moduns.Unity
 {
     public class EmailHandlercs
     {
-        private string createEmailBody(string userName, string title, string message)
+        private string CreateEmailBody(string userName, string title, string message)
 
         {
 
@@ -31,7 +31,7 @@ namespace BCDHX.Moduns.Unity
 
         }
 
-        private void SendHtmlFormattedEmail(string subject, string body)
+        private void SendHtmlFormattedEmail(string subject, string body,string sendto)
 
         {
 
@@ -47,7 +47,7 @@ namespace BCDHX.Moduns.Unity
 
                 mailMessage.IsBodyHtml = true;
 
-                mailMessage.To.Add(new MailAddress(txt_email.Text));
+                mailMessage.To.Add(new MailAddress(sendto));
 
                 SmtpClient smtp = new SmtpClient();
 
@@ -75,4 +75,4 @@ namespace BCDHX.Moduns.Unity
 
     }
 }
-}
+

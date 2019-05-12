@@ -204,13 +204,17 @@ function Dangky() {
                 $("#sumerror").html("")
                 Swal.fire({
                     type: 'success',
-                    title: 'Đăng Ký Thành Công',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                setTimeout(function () {
-                    window.location.href = Url + "/Account/Login";
-                }, 2000);
+                    title: 'Đăng ký thành công, xin kiểm tra lại email để kích hoạt tài khoản ,để chính thức thành khách hàng quen thuộc của shop nhé!',
+                    showConfirmButton: true,
+
+                }).then((result) => {
+                    if (result.value) {
+                        window.location.href = Url + "/Account/Login";
+                    }
+                })
+                //setTimeout(function () {
+                //    window.location.href = Url + "/Account/Login";
+                //}, 2000);
             }
             else {
                 $("#sumerror").html("<span style='color:red'>" + rs + "</span>")
@@ -221,6 +225,8 @@ function Dangky() {
         }
     });
 }
+
+
 /////////////////////////
 //////////////////////Login progess
 
@@ -268,8 +274,8 @@ $("#LoginForm").on("submit", function myLogin(e) {
             }
             else if (rs.Status == 1) {
                 $("#sumerror").html("<span style='color:red'>" + rs.Error + "</span>")
-            } else if (rs.Status == 2) {
-
+            } else if (rs.Status == 2 ) {
+                $("#sumerror").html("<span style='color:red'>Tài khoản cần phải kích hoạt để trở thành khách hàng thân thiết của shop, xin lỗi vì sự bất tiện này. Xin kiểm tra lại hòm thư email để kích hoạt tài khoản!.Nếu không nhận được thư thì bấm vào đây để gửi lại:</span>"+"<a style='float:none' herf='#'onClick='return showModelReSend();'>Click!</a>")
             } else {
                 $("#sumerror").html("<span style='color:red'>" + rs.Error + "</span>")
             }
@@ -279,4 +285,8 @@ $("#LoginForm").on("submit", function myLogin(e) {
         }
     });
 });
+function showModelReSend() {
+    
+    $('#ResendConfirmEmail').modal('show');
+}
 /////////////////////
