@@ -1,10 +1,22 @@
-﻿@{
-    ViewBag.Title = "Confirm Email";
+﻿@model BCDHX.Models.ApplicationUser
+@{
+    ViewBag.Title = "ConfirmEmail";
+    Layout = "~/Views/Shared/HomeTempates/_Layout.cshtml";
 }
+<div class="row text-center">
+    <div class="col-sm-4 col-sm-offset-1"></div>
+    <div class="col-sm-4 col-sm-offset-10">
 
-<h2>@ViewBag.Title.</h2>
-<div>
-    <p>
-        Thank you for confirming your email. Please @Html.ActionLink("Click here to Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
-    </p>
+        <br><br> <h3 style="color:#0fad00">Kích hoạt email thành công!</h3>
+        <i class="fas fa-envelope-open-text" style="font-size: 50px;color: green;"></i>
+       
+        <h3>Wellcome, @Model.Email</h3>
+        <p style="font-size:20px;color:#5C5C5C;">
+            Cảm ơn bạn đã tin tưởng và sử dụng dịch vụ của shop chúng tôi . Nếu có gì thắc mắc cần hộ trợ hãy livechat với chúng tôi ngay nhé !.
+        </p>
+        <a href="/Account/Login" class="btn btn-success"> Đăng nhập tại đây</a>
+        <br><br>
+    </div>
+    <div class="col-sm-4 col-sm-offset-1"></div>
 </div>
+

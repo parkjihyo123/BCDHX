@@ -177,6 +177,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NotificationSystemController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -227,6 +228,9 @@
     <Content Include="Content\dx.win8.black.css" />
     <Content Include="Content\dx.win8.white.css" />
     <Content Include="Content\Email\NotificationEmail\NotificationEmail.html" />
+    <Content Include="Content\Email\NotificationEmail\RestEmail.html" />
+    <Content Include="Content\ErrorPage\css\style.css" />
+    <Content Include="Content\ErrorPage\img\bg.jpg" />
     <Content Include="Content\LoadingScreen\css\jquery.loadingModal.css" />
     <Content Include="Content\LoadingScreen\css\jquery.loadingModal.min.css" />
     <Content Include="Content\LoadingScreen\js\jquery.loadingModal.js" />
@@ -637,20 +641,17 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
@@ -680,6 +681,9 @@
     <Content Include="Views\Home\SubscribePartial.cshtml" />
     <Content Include="Views\Shared\HomeTempates\_Layout.cshtml" />
     <Content Include="Views\Home\PageBannerForLoginPartial.cshtml" />
+    <Content Include="Views\NotificationSystem\Index.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

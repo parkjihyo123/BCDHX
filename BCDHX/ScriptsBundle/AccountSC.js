@@ -285,8 +285,103 @@ $("#LoginForm").on("submit", function myLogin(e) {
         }
     });
 });
+
+/////////////////////
+//////////////////// RensendConfirmEmail
 function showModelReSend() {
-    
+
     $('#ResendConfirmEmail').modal('show');
 }
-/////////////////////
+$("#resendconfirm").on("submit", function ResendEmail(e) {
+    e.preventDefault();
+    var email = $("#ReSendConfirmUserName").val();
+    var temp = {
+        Username : email
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: Url + "/Account/ReSendConfirmEmail",
+        data: JSON.stringify(temp),
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            // setting a timeout
+            $('body').loadingModal({
+                position: 'auto',
+                text: '',
+                color: '#fff',
+                opacity: '0.7',
+                backgroundColor: 'rgb(0,0,0)',
+                animation: 'circle'
+            });
+        },
+        success: function (rs) {
+            $('body').loadingModal('destroy');
+            //alert(rs)
+            if (rs.Status == 0 ) {
+                $("#SumErrorResend").html("")
+                Swal.fire({
+                    type: 'success',
+                    title: rs.Error,
+                    showConfirmButton: true,
+                    confirmButtonColor: '#F3D930'
+                });                
+            }
+            else if (rs.Status == 1 || rs.Status == 2) {
+                $("#SumErrorResend").html("<span style='color:red'>" + rs.Error + "</span>")
+            } 
+        }, error: function (xhr, status, error) {
+            var errorMessage = xhr.status + ': ' + xhr.statusText
+            alert('Error - ' + errorMessage);
+        }
+    });
+})
+////////////////////
+///////////////////Forgot Password
+$("#ForgotPasswordForm").on("submit", function g(e) {
+    e.preventDefault();
+    var email = $("#ForgotPasswordEmail").val();
+    var temp = {
+        Email : email
+    }
+    $.ajax({
+        type: 'POST',
+        url: Url + "/Account/ForgotPassword",
+        data: JSON.stringify(temp),
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            // setting a timeout
+            $('body').loadingModal({
+                position: 'auto',
+                text: '',
+                color: '#fff',
+                opacity: '0.7',
+                backgroundColor: 'rgb(0,0,0)',
+                animation: 'circle'
+            });
+        },
+        success: function (rs) {
+            $('body').loadingModal('destroy');
+          
+            if (rs.Status == 0) {
+                $("#SumErrorForgot").html("")
+                Swal.fire({
+                    type: 'success',
+                    title: rs.Error,
+                    showConfirmButton: true,
+                    confirmButtonColor: '#F3D930'
+                });
+            }
+            else if (rs.Status == 1 ) {
+                $("#SumErrorForgot").html("<span style='color:red'>" + rs.Error + "</span>")
+            }
+        }, error: function (xhr, status, error) {
+            var errorMessage = xhr.status + ': ' + xhr.statusText
+            alert('Error - ' + errorMessage);
+        }
+    });
+})
+function ShowModalForgot() {
+    $("#ForgotPasswordModal").modal('show');
+}
+///////////////////

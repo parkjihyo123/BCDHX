@@ -15,16 +15,18 @@ using Microsoft.Owin.Security;
 namespace BCDHX.Controllers
 {
     [Authorize]
-    public class AccountController : Controller,IEmail
+    public class AccountController : Controller, IEmail
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private WebDieuHienDB _db;
         private ApplicationDbContext _dbasp;
+        private GetInformationUserUsingOSAndBrowser _getInforUser;
         public AccountController()
         {
             _db = new WebDieuHienDB();
             _dbasp = new ApplicationDbContext();
+
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -76,8 +78,8 @@ namespace BCDHX.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: true);
-           var tempuser= SignInManager.UserManager.Find(model.Email, model.Password);
-            if (tempuser!=null)
+            var tempuser = SignInManager.UserManager.Find(model.Email, model.Password);
+            if (tempuser != null)
             {
                 if (tempuser.EmailConfirmed != true)
                 {
@@ -91,7 +93,7 @@ namespace BCDHX.Controllers
                     {
                         Status = 0,
                         Error = "Done",
-                        ReturnUrl= returnUrl
+                        ReturnUrl = returnUrl
                     });
                 case SignInStatus.LockedOut:
                     return Json(new
@@ -108,9 +110,10 @@ namespace BCDHX.Controllers
                 case SignInStatus.Failure:
                 default:
                     //ModelState.AddModelError("", "Invalid login attempt.");
-                    return Json(new {
+                    return Json(new
+                    {
                         Status = 3,
-                        Error="Sai tên đang nhập hoặc mật khẩu"
+                        Error = "Sai tên đang nhập hoặc mật khẩu"
                     });
             }
         }
@@ -190,15 +193,15 @@ namespace BCDHX.Controllers
                 if (result.Succeeded)
                 {
                     ApplicationUser currentUser = _dbasp.Users.FirstOrDefault(x => x.Email.Equals(model.Username));
-                   // await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    // await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     //string currentUserId = User.Identity.GetUserId();
                     AddAccountToDB(model.Fullname, model.Username, model.Address, user.Id, model.Password);
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                     SendHtmlFormattedEmail("Xác thực tài khoản",CreateEmailBodyConfirmation(model.Username,model.Password,DateTime.Now.ToString("dd-MM-yyyy"),callbackUrl),model.Username);
+                    SendHtmlFormattedEmail("Xác thực tài khoản", CreateEmailBodyConfirmation(model.Username, model.Password, DateTime.Now.ToString("dd-MM-yyyy"), callbackUrl), model.Username);
                     return Json("1");
                 }
             }
@@ -239,7 +242,26 @@ namespace BCDHX.Controllers
             return body;
         }
 
+        public string CreateEmailBodyForgetPassword(string userName, string url_action, string browserName, string browserVersion, string ip, string osName)
+        {
+            string body = string.Empty;
 
+            //using streamreader for reading my htmltemplate   
+            using (StreamReader reader = new StreamReader(Server.MapPath("~/Content/Email/NotificationEmail/RestEmail.html")))
+
+            {
+
+                body = reader.ReadToEnd();
+
+            }
+            body = body.Replace("{name}", userName); //replacing the required things  
+            body = body.Replace("{browserName}", browserName);
+            body = body.Replace("{browserVersion}", browserVersion);
+            body = body.Replace("{osName}", osName);
+            body = body.Replace("{action_url}", url_action);
+            body = body.Replace("{ip}", ip);
+            return body;
+        }
 
         /// <summary>
         /// send email
@@ -292,7 +314,7 @@ namespace BCDHX.Controllers
 
                 throw;
             }
-           
+
         }
 
         /// <summary>
@@ -306,11 +328,11 @@ namespace BCDHX.Controllers
         {
             var TempUserId = TempData["TempIdForUser"];
             var TempUserLinkImage = "";
-            if (TempUserId !=null)
+            if (TempUserId != null)
             {
                 idAccount = TempUserId.ToString();
             }
-            if (TempData["TempImageFileName"]!=null)
+            if (TempData["TempImageFileName"] != null)
             {
                 TempUserLinkImage = TempData["TempImageFileName"].ToString();
             }
@@ -318,11 +340,11 @@ namespace BCDHX.Controllers
             {
                 TempUserLinkImage = "account-image-placeholder.jpg";
             }
-            var userToDB = new Account { Fullname = fullname, Access = 1, Address = address, ID_Account = idAccount, Username = username, Amount = 0, Password = password,Img = TempUserLinkImage };
+            var userToDB = new Account { Fullname = fullname, Access = 1, Address = address, ID_Account = idAccount, Username = username, Amount = 0, Password = password, Img = TempUserLinkImage };
             _db.Entry(userToDB).State = System.Data.Entity.EntityState.Added;
             _db.SaveChanges();
         }
-      
+
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -330,27 +352,54 @@ namespace BCDHX.Controllers
         {
             if (userId == null || code == null)
             {
-                return View("Error");
+                return RedirectToAction("Index", "NotificationSystem");
             }
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
-        }
 
+            else
+            {
+                var temp = SignInManager.UserManager.FindById(userId);
+                if (temp == null)
+                {
+                    return RedirectToAction("Index", "NotificationSystem");
+                }
+                else
+                {
+                    var tempResult = await UserManager.ConfirmEmailAsync(userId, code);
+                    if (tempResult.Succeeded)
+                    {
+                        var result = await UserManager.ConfirmEmailAsync(userId, code);
+
+                        return View(temp);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "NotificationSystem");
+                    }
+                }
+
+
+            }
+
+
+        }
+        [HttpPost]
+        [AllowAnonymous]
         public async Task<JsonResult> ReSendConfirmEmail(Account model)
         {
-            ApplicationUser currentUser = _dbasp.Users.FirstOrDefault(x => x.Email.Equals(model.Username));
-            if (currentUser !=null && SignInManager.UserManager.Find(model.Username ,model.Password)!=null)
+            //ApplicationUser currentUser = _dbasp.Users.FirstOrDefault(x => x.Email.Equals(model.Username));
+            Account currentUser = _db.Accounts.SingleOrDefault(x => x.Username.Equals(model.Username));
+            if (currentUser != null && SignInManager.UserManager.Find(currentUser.Username, currentUser.Password) != null)
             {
-                var tempUserAfterSign = SignInManager.UserManager.Find(model.Username, model.Password);
+                var tempUserAfterSign = SignInManager.UserManager.Find(currentUser.Username, currentUser.Password);
                 if (!tempUserAfterSign.EmailConfirmed)
                 {
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(currentUser.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = currentUser.Id, code = code }, protocol: Request.Url.Scheme);
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(tempUserAfterSign.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = tempUserAfterSign.Id, code = code }, protocol: Request.Url.Scheme);
                     SendHtmlFormattedEmail("Xác thực tài khoản", CreateEmailBodyConfirmation(model.Username, model.Password, DateTime.Now.ToString("dd-MM-yyyy"), callbackUrl), model.Username);
                     return Json(new
                     {
                         Status = 0,
-                        Error = "Xin mời kiểm tra lại hòm thư của email "+model.Username+"để kích hoạt tài khoản.Nếu có bất cứ gì thắc mắc xin nhắn tin cho livechat của chúng tôi để được hỗ trợ sớm nhất!"
+                        Error = "Xin mời kiểm tra lại hòm thư của email " + model.Username + "để kích hoạt tài khoản.Nếu có bất cứ gì thắc mắc xin nhắn tin cho livechat của chúng tôi để được hỗ trợ sớm nhất!"
 
                     });
                 }
@@ -366,65 +415,79 @@ namespace BCDHX.Controllers
             }
             else
             {
-                return Json(new {
+                return Json(new
+                {
                     Status = 1,
-                    Error= "Tài khoản không tồn tại"
+                    Error = "Tài khoản không tồn tại"
 
                 });
             }
-            return null;
-            
         }
         //
-        // GET: /Account/ForgotPassword
-        [AllowAnonymous]
-        public ActionResult ForgotPassword()
-        {
-            return View();
-        }
-
         //
         // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        public async Task<JsonResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            if (ModelState.IsValid)
+            _getInforUser = new GetInformationUserUsingOSAndBrowser(Request);
+            var user = await UserManager.FindByNameAsync(model.Email);
+            if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                // Don't reveal that the user does not exist or is not confirmed
+                return Json(new
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
-                }
-
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                    Status = 1,
+                    Error = "Kiểm tra lại tài khoản email !"
+                });
             }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            else
+            {
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                TempData["RestTokenCode"] = code;
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                SendHtmlFormattedEmail("Xác thực tài khoản", CreateEmailBodyForgetPassword(user.UserName, callbackUrl, _getInforUser.browserName, _getInforUser.browserVersion, _getInforUser.ipAddress, _getInforUser.osName), user.UserName);
+                return Json(new
+                {
+                    Status = 0,
+                    Error = "Xin mời kiểm tra lại hòm thư của email " + user.Email + " để xác nhận rest mật khẩu.Nếu có bất cứ gì thắc mắc xin nhắn tin cho livechat của chúng tôi để được hỗ trợ sớm nhất!"
+                });
+            }
         }
 
-        //
-        // GET: /Account/ForgotPasswordConfirmation
-        [AllowAnonymous]
-        public ActionResult ForgotPasswordConfirmation()
-        {
-            return View();
-        }
+
 
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
+        public ActionResult ResetPassword(string userId, string code)
         {
-            return code == null ? View("Error") : View();
+            var tempCode = TempData["RestTokenCode"];
+            if (code == null || tempCode == null || userId == null)
+            {
+                return RedirectToAction("Index", "NotificationSystem");
+            }
+            else
+            {
+                var temUser = UserManager.FindById(userId);
+                if (code.Equals(tempCode.ToString()) && temUser != null)
+                {
+
+                    ResetPasswordViewModel actemp = new ResetPasswordViewModel
+                    {
+                        Email = temUser.Email,
+                        Code = code
+                    };
+                    return View(actemp);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "NotificationSystem");
+                }
+            }
+            //   UserManager.UserTokenProvider.ValidateAsync(code);
+            //return code == null ? View("Error") : View();
+
         }
 
         //
@@ -442,12 +505,15 @@ namespace BCDHX.Controllers
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction("ResetPasswordConfirmation", "Account", new { statuscode = "Faile" });
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                //each process hava a randomcode , just use onetime.
+                var tempCodeStatus = new RandomCode().RandomCodeGenral(28, true);
+                TempData["TempCodeStatus"] = tempCodeStatus;
+                return RedirectToAction("ResetPasswordConfirmation", "Account", new { statuscode = tempCodeStatus, id = user.Id });
             }
             AddErrors(result);
             return View();
@@ -456,9 +522,26 @@ namespace BCDHX.Controllers
         //
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation()
+        public ActionResult ResetPasswordConfirmation(string statuscode, string id)
         {
-            return View();
+            var tempCodeStatus = TempData["TempCodeStatus"];
+            if (statuscode == null || tempCodeStatus == null)
+            {
+                return RedirectToAction("Index", "NotificationSystem");
+            }
+            else
+            {
+                var tempUser = UserManager.FindById(id);
+                if (statuscode.Equals("Faile") || tempUser == null)
+                {
+                    return RedirectToAction("Index", "NotificationSystem");
+                }
+                else
+                {
+                    return View(tempUser);
+                }
+            }
+
         }
 
         //
@@ -642,7 +725,7 @@ namespace BCDHX.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        
+
 
         internal class ChallengeResult : HttpUnauthorizedResult
         {
