@@ -26,7 +26,8 @@ namespace BCDHX
                       "~/Content/MainPage/css/bootstrap.min.css",
                       "~/Content/MainPage/css/icon-font.min.css",
                       "~/Content/MainPage/css/plugins.css",
-                      "~/Content/MainPage/css/style.css")
+                      "~/Content/MainPage/css/style.css",
+                      "~/Content/MainPage/css/all.css")
                      );
 
         }

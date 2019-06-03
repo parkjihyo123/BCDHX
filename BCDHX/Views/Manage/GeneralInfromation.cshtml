@@ -1,0 +1,20 @@
+﻿@model BCDHX.Models.UserViewModel
+<h3 class="mt-20">Thông tin chung về tài khoản</h3>
+<div class="ee-grenal">
+    <form id="GeneralChange">
+        <div class="row">
+            <div class="col">
+                <div class="col-12 mb-10"><div id="SumErrorUpdateGeneral"></div></div>
+                <div class="col-12 mb-10"><label>ID khách hàng:</label><input type="text" value="@Model.ID_Account" readonly id="UserIDGeneral"></div>
+                <div class="col-12 mb-10"><label>Họ và tên:</label><input type="text" value="@Model.Fullname" required id="GeneralFullNameChange"></div>
+                <div class="col-12 mb-10"><label>Email:</label><input type="text" value="@Model.Username" required readonly></div>
+            </div>
+            <div class="col">
+                <div class="col-12 mb-10"><label>Mật khẩu:</label><input type="password" value="@Model.Password" required id="GeneralPasswordChange"></div>
+                <div class="col-12 mb-10"><label>Địa chỉ:</label><input type="text" value="@Model.Address" id="GeneralAddressChange"></div>
+                <div class="col-12 mb-10"><label>Số dư tài khoản:</label><input type="text" value="@Model.Amount" readonly></div>
+                <div class="col-12"><input type="submit" value="Thay đổi"></div>
+            </div>
+        </div>
+    </form>
+</div>

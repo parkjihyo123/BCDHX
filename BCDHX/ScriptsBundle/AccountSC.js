@@ -25,92 +25,9 @@ $("#uploadimge").dxFileUploader({
     allowedFileExtensions: [".jpg", ".jpeg", ".gif", ".png"]
 
 });
-////////////Create form with devexpress
-//var dataForm = {
-//    Email: "",
-//    Password: "",
-//    Repassword: "",
-//    Address: "",
-//    Fullname: "",
-//    Repassword: ""
-//};
-//var formWidget = $("#form").dxForm({
-//    formData: dataForm,
-//    readOnly: false,
-//    showColonAfterLabel: true,
-//    showValidationSummary: true,
-//    items: [{
-//        dataField: "Email",
-//        editorType: "dxTextBox",
-//        editorOptions: {
-//            //placeholder:"Email",
-//            name: "Email"
-//        },
-//        validationRules: [{
-//            type: "required",
-//            message: "Phải nhập email"
-//        }, {
-//            type: "email",
-//            message: "Vui Lòng Nhập Địa Chỉ Email Đúng !"
-//        }]
-//    },
-//    {
-//        dataField: "Mật Khẩu",
-//        editorType: "dxTextBox",
-//        editorOptions: {
 
-//            mode: "password",
-//            name: "Password"
-//        },
-//        validationRules: [{
-//            type: "required",
-//            message: "Phải Nhập Mật Khẩu!"
-//        }, {
-//            type: "pattern",
-//            pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})",
-//            message: "Mật khẩu phải chứa ít nhất một kí tự in hoa,gồm số và kí tự đặc biệt.Độ dài mật khẩu lớn hơn 8"
-//        }
-//        ]
-//        },
-//    {
-//        dataField: "Nhập lại mật khẩu",
-//        editorType: "dxTextBox",
-//        editorOptions: {
-//            mode: "password",
-//            name: "Repassword"
-//        },
-//        validationRules: [{
-//            type: "required",
-//            message: "Phải nhập lại mật khẩu!"
-//        }
-//        ]
-//    },
-//    {
-//        dataField: "Họ và tên",
-//        editorType: "dxTextBox",
-//        editorOptions: {
-//            //placeholder:"Email",
-//            name: "Fullname"
-//        },
-//        validationRules: [{
-//            type: "required",
-//            message: "Phải nhập họ và tên!"
-//        }]
-//    },
-//    {
-//        dataField: "Địa Chỉ",
-//        editorType: "dxTextBox",
-//        editorOptions: {
-//            //placeholder:"Email",
-//            name: "Address"
-//        },
-//        validationRules: [{
-//            type: "required",
-//            message: "Phải nhập vào địa chỉ!"
-//        }]
-//    }
-//    ]
-//}).dxForm("instance");
+////////////Create form with devexpress
+
 ///////////////////////////////////////
 
 ////////////Validation of things
@@ -232,14 +149,15 @@ function Dangky() {
 
 $("#LoginForm").on("submit", function myLogin(e) {
     e.preventDefault();
-    
     var username = $("#Username").val();
     var password = $("#Password").val();
     var remmber = $("input[type='checkbox']").val();
-    var temp =  {
-        Email : username,
+    var RtLinkGet = $("#ReturnLink").val();
+    var temp = {
+        Email: username,
         Password: password,
-        RememberMe: remmber
+        RememberMe: remmber,
+        ReturnLink: RtLinkGet,
     }
     $.ajax({
         type: 'POST',
@@ -256,7 +174,7 @@ $("#LoginForm").on("submit", function myLogin(e) {
                 backgroundColor: 'rgb(0,0,0)',
                 animation: 'circle'
             });
-        },
+        }, 
         success: function (rs) {
             $('body').loadingModal('destroy');
             //alert(rs)
@@ -269,17 +187,25 @@ $("#LoginForm").on("submit", function myLogin(e) {
                     timer: 1500
                 });
                 setTimeout(function () {
-                    window.location.href = Url + rs.ReturnUrl;
+                    var rtLink = rs.ReturnUrl;
+                    if (rtLink == null) {
+                        window.location.href = Url;
+                    } else {
+                        window.location.href = Url + rtLink;
+                    }
+
                 }, 2000);
+               
             }
             else if (rs.Status == 1) {
                 $("#sumerror").html("<span style='color:red'>" + rs.Error + "</span>")
-            } else if (rs.Status == 2 ) {
-                $("#sumerror").html("<span style='color:red'>Tài khoản cần phải kích hoạt để trở thành khách hàng thân thiết của shop, xin lỗi vì sự bất tiện này. Xin kiểm tra lại hòm thư email để kích hoạt tài khoản!.Nếu không nhận được thư thì bấm vào đây để gửi lại:</span>"+"<a style='float:none' herf='#'onClick='return showModelReSend();'>Click!</a>")
+            } else if (rs.Status == 2) {
+                $("#sumerror").html("<span style='color:red'>Tài khoản cần phải kích hoạt để trở thành khách hàng thân thiết của shop, xin lỗi vì sự bất tiện này. Xin kiểm tra lại hòm thư email để kích hoạt tài khoản!.Nếu không nhận được thư thì bấm vào đây để gửi lại:</span>" + "<a style='float:none' herf='#'onClick='return showModelReSend();'>Click!</a>")
             } else {
                 $("#sumerror").html("<span style='color:red'>" + rs.Error + "</span>")
             }
-        }, error: function (xhr, status, error) {
+        }, 
+        error: function (xhr, status, error) {
             var errorMessage = xhr.status + ': ' + xhr.statusText
             alert('Error - ' + errorMessage);
         }
@@ -296,7 +222,7 @@ $("#resendconfirm").on("submit", function ResendEmail(e) {
     e.preventDefault();
     var email = $("#ReSendConfirmUserName").val();
     var temp = {
-        Username : email
+        Username: email
     }
 
     $.ajax({
@@ -318,18 +244,18 @@ $("#resendconfirm").on("submit", function ResendEmail(e) {
         success: function (rs) {
             $('body').loadingModal('destroy');
             //alert(rs)
-            if (rs.Status == 0 ) {
+            if (rs.Status == 0) {
                 $("#SumErrorResend").html("")
                 Swal.fire({
                     type: 'success',
                     title: rs.Error,
                     showConfirmButton: true,
                     confirmButtonColor: '#F3D930'
-                });                
+                });
             }
             else if (rs.Status == 1 || rs.Status == 2) {
                 $("#SumErrorResend").html("<span style='color:red'>" + rs.Error + "</span>")
-            } 
+            }
         }, error: function (xhr, status, error) {
             var errorMessage = xhr.status + ': ' + xhr.statusText
             alert('Error - ' + errorMessage);
@@ -342,7 +268,7 @@ $("#ForgotPasswordForm").on("submit", function g(e) {
     e.preventDefault();
     var email = $("#ForgotPasswordEmail").val();
     var temp = {
-        Email : email
+        Email: email
     }
     $.ajax({
         type: 'POST',
@@ -362,7 +288,7 @@ $("#ForgotPasswordForm").on("submit", function g(e) {
         },
         success: function (rs) {
             $('body').loadingModal('destroy');
-          
+
             if (rs.Status == 0) {
                 $("#SumErrorForgot").html("")
                 Swal.fire({
@@ -372,7 +298,7 @@ $("#ForgotPasswordForm").on("submit", function g(e) {
                     confirmButtonColor: '#F3D930'
                 });
             }
-            else if (rs.Status == 1 ) {
+            else if (rs.Status == 1) {
                 $("#SumErrorForgot").html("<span style='color:red'>" + rs.Error + "</span>")
             }
         }, error: function (xhr, status, error) {
@@ -385,3 +311,99 @@ function ShowModalForgot() {
     $("#ForgotPasswordModal").modal('show');
 }
 ///////////////////
+//////////////////Login with External
+function SendToExternalLogin(returnUrl, provider) {
+    var temp = {
+        returnUrl: returnUrl,
+        provider: provider
+    }
+    $.ajax({
+        type: 'POST',
+        url: Url + "/Account/ExternalLogin",
+        data: JSON.stringify(temp),
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            // setting a timeout
+            $('body').loadingModal({
+                position: 'auto',
+                text: '',
+                color: '#fff',
+                opacity: '0.7',
+                backgroundColor: 'rgb(0,0,0)',
+                animation: 'circle'
+            });
+        },
+        success: function (rs) {
+            $('body').loadingModal('destroy');
+
+            alert("xx");
+        }, error: function (xhr, status, error) {
+            var errorMessage = xhr.status + ': ' + xhr.statusText
+            alert('Error - ' + errorMessage);
+        }
+    });
+}
+//////////////////
+$("#dangkyformExternal").on("submit", function EnternalSend(e) {
+    e.preventDefault();
+    var email = $("#EmailExternal").val();
+    var fullname = $("#FullnameExternal").val();
+    var address = $("#AddressExternal").val();
+    var ReturnUrl = $("#returnUrlExternal").val();
+    var temp = {
+        Username: email,
+        Fullname: fullname,
+        Address: address,
+        ReturnLink: ReturnUrl
+    }
+    $.ajax({
+        type: 'POST',
+        url: Url + "/Account/ExternalLoginConfirmation",
+        data: JSON.stringify(temp),
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            // setting a timeout
+            $('body').loadingModal({
+                position: 'auto',
+                text: '',
+                color: '#fff',
+                opacity: '0.7',
+                backgroundColor: 'rgb(0,0,0)',
+                animation: 'circle'
+            });
+        },
+        success: function (rs) {
+            $('body').loadingModal('destroy');
+
+            if (rs.Status == 0) {
+                // $("#sumerrorExternal").html("")
+                Swal.fire({
+                    type: 'success',
+                    title: rs.Error,
+                    showConfirmButton: true,
+                    confirmButtonColor: '#F3D930'
+                });
+            }
+            else if (rs.status == 2) {
+                Swal.fire({
+                    type: 'error',
+                    title: rs.Error,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                setTimeout(function () {
+                    window.location.href = Url + "/Account/Login";
+                }, 2500);
+            } else {
+                window.location.href = Url + rs.Returnlink;
+            }
+        }, error: function (xhr, status, error) {
+            var errorMessage = xhr.status + ': ' + xhr.statusText
+            alert('Error - ' + errorMessage);
+        }
+    });
+})
+function LoginWithExternal(value) {
+    $("#providerID").val(value);
+    document.getElementById('formLogin').submit();
+}

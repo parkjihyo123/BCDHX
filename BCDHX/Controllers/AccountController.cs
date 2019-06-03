@@ -3,6 +3,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -22,11 +23,12 @@ namespace BCDHX.Controllers
         private WebDieuHienDB _db;
         private ApplicationDbContext _dbasp;
         private GetInformationUserUsingOSAndBrowser _getInforUser;
+        
         public AccountController()
         {
             _db = new WebDieuHienDB();
             _dbasp = new ApplicationDbContext();
-
+            
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -64,16 +66,24 @@ namespace BCDHX.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
+            if (IsAuthenticated(AuthenticationManager)&&Session["Authencation"]!=null)
+            {
+                return RedirectToAction("Index","Home");
+            }
+            else
+            {
+                ViewBag.ReturnUrl = returnUrl;
+                return View();
+            }
+            
         }
 
         //
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        public async Task<JsonResult> Login(LoginViewModel model, string returnUrl)
+       /// [ValidateAntiForgeryToken]
+        public async Task<JsonResult> Login(LoginViewModel model)
         {
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -89,11 +99,20 @@ namespace BCDHX.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    ///ClaimsIdentity ident = UserManager.CreateIdentity(tempuser, DefaultAuthenticationTypes.ApplicationCookie);
+                    //AuthenticationManager.SignOut();
+                    //AuthenticationManager.SignIn(ident);
+                    //var userIdentity = await tempuser.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
+                    //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie, DefaultAuthenticationTypes.ApplicationCookie);
+                    //AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = false }, userIdentity);
+                  var GetIdUser =  _db.Accounts.SingleOrDefault(x=>x.Username==model.Email);
+                    Session["Authencation"]= GetUserLoginTemp(AuthenticationManager.AuthenticationResponseGrant.Principal.Identity.Name, GetIdUser.ID_Account, "");                   
+                    //return RedirectToLocal(returnUrl);
                     return Json(new
                     {
                         Status = 0,
                         Error = "Done",
-                        ReturnUrl = returnUrl
+                        ReturnUrl = model.ReturnLink
                     });
                 case SignInStatus.LockedOut:
                     return Json(new
@@ -166,7 +185,14 @@ namespace BCDHX.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            if (IsAuthenticated(AuthenticationManager))
+            {
+                return RedirectToAction("Index","Home");
+            }else
+            {
+                return View();
+            }
+           
         }
 
         //
@@ -193,7 +219,8 @@ namespace BCDHX.Controllers
                 if (result.Succeeded)
                 {
                     ApplicationUser currentUser = _dbasp.Users.FirstOrDefault(x => x.Email.Equals(model.Username));
-                    // await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    Session["Authencation"] = GetUserLoginTemp(AuthenticationManager.AuthenticationResponseGrant.Principal.Identity.Name, AuthenticationManager.AuthenticationResponseGrant.Principal.Identity.GetUserId(), "");
                     //string currentUserId = User.Identity.GetUserId();
                     AddAccountToDB(model.Fullname, model.Username, model.Address, user.Id, model.Password);
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -602,10 +629,11 @@ namespace BCDHX.Controllers
             }
 
             // Sign in the user with this external login provider if the user already has a login
-            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: true);
             switch (result)
             {
                 case SignInStatus.Success:
+                    Session["Authencation"] = GetUserLoginTemp(AuthenticationManager.AuthenticationResponseGrant.Principal.Identity.Name, AuthenticationManager.AuthenticationResponseGrant.Principal.Identity.GetUserId(), "");
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -619,43 +647,58 @@ namespace BCDHX.Controllers
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
         }
-
         //
+
+
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
+        
+        public async Task<JsonResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model)
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Manage");
+                return Json(new
+                {
+                    Status = "1",
+                    Error = "IsAuthenticated",
+                    Returnlink = model.ReturnLink
+                });
             }
 
-            if (ModelState.IsValid)
+
+            // Get the information about the user from the external login provider
+            var info = await AuthenticationManager.GetExternalLoginInfoAsync();
+            if (info == null)
             {
-                // Get the information about the user from the external login provider
-                var info = await AuthenticationManager.GetExternalLoginInfoAsync();
-                if (info == null)
+                return Json(new
                 {
-                    return View("ExternalLoginFailure");
-                }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user);
+                    Status = "2",
+                    Error = "Login Error"
+                });
+            }
+            var user = new ApplicationUser { UserName = model.Username, Email = model.Username };
+            var result = await UserManager.CreateAsync(user);
+            if (result.Succeeded)
+            {
+                result = await UserManager.AddLoginAsync(user.Id, info.Login);
                 if (result.Succeeded)
                 {
-                    result = await UserManager.AddLoginAsync(user.Id, info.Login);
-                    if (result.Succeeded)
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    AddAccountToDB(model.Fullname,model.Username,model.Address,user.Id,user.PasswordHash);
+                    Session["Authencation"] = AuthenticationManager.AuthenticationResponseGrant.Principal.Identity;
+                    return Json(new
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToLocal(returnUrl);
-                    }
+                        Status = "0",
+                        Error = "Bạn đã đăng kí thành công!"
+                    });
+                   
                 }
-                AddErrors(result);
             }
-
-            ViewBag.ReturnUrl = returnUrl;
-            return View(model);
+            AddErrors(result);
+            ViewBag.ReturnUrl = model.ReturnLink;
+            return Json("");
+            //return View(model);
         }
 
         //
@@ -695,8 +738,24 @@ namespace BCDHX.Controllers
 
             base.Dispose(disposing);
         }
-
+                
         #region Helpers
+        //GetUserLoginTemp
+        public UserLoginTemp GetUserLoginTemp(string userName,string userId,string Address)
+        {
+            UserLoginTemp t = new UserLoginTemp{
+                UserId= userId,
+                Address = Address,
+                Username = userName
+            };
+            return t;
+        }
+        //Filter when user had already Authenticated access Login page and Regsiter page
+        private bool IsAuthenticated(IAuthenticationManager aut)
+        {
+            return aut.User.Identity.IsAuthenticated;
+        }
+
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -725,7 +784,10 @@ namespace BCDHX.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
+        private ActionResult RedirectCustom(string returnUrl)
+        {
+             return Redirect(returnUrl);
+        }
 
         internal class ChallengeResult : HttpUnauthorizedResult
         {

@@ -26,12 +26,15 @@ namespace BCDHX
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login"),
+                LogoutPath = new PathString("/Account/Logout"),
+                ExpireTimeSpan = TimeSpan.FromMinutes(20),
+                CookieSecure = CookieSecureOption.Always,
                 Provider = new CookieAuthenticationProvider
                 {
                     // Enables the application to validate the security stamp when the user logs in.
                     // This is a security feature which is used when you change a password or add an external login to your account.  
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                        validateInterval: TimeSpan.FromMinutes(30),
+                        validateInterval: TimeSpan.FromMinutes(5),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
             });            
@@ -54,15 +57,15 @@ namespace BCDHX
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "431308134352220",
+               appSecret: "ea4eb85b6255c4292ebfb88aa73c7f7d");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "579616294678-s6kh2cr2t4p3d2cfc8tubtoveelinudn.apps.googleusercontent.com",
+                ClientSecret = "Ip_4hfHjzRoCDevsSjEE76KQ"
+            });
         }
     }
 }

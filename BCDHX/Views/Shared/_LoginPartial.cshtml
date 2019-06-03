@@ -1,40 +1,52 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using BCDHX.Models
+@{
+    var AuthenTemp = (UserLoginTemp)Session["Authencation"];
 
-@if (Request.IsAuthenticated)
+}
+@if (Request.IsAuthenticated && AuthenTemp!=null)
 {
-
+    <div class="dropdown ">
+        <button class="buttonLogin" type="button" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Xin chào,@AuthenTemp.Username
+        </button>
+        <ul class="dropdown-menu multi-level " role="menu" aria-labelledby="dropdownMenu">
+            <li class="dropdown-item"><a href="#">Quản lý tài khoản</a></li>
+            <li class="dropdown-item"><a href="#">Some other action</a></li>
+            <li class="dropdown-divider"></li>
+            <li class="dropdown-submenu">
+                <a class="dropdown-item" tabindex="-1" href="#">Hover me for more options</a>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item"><a tabindex="-1" href="#">Second level</a></li>
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item" href="#">Even More..</a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item"><a href="#">3rd level</a></li>
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item" href="#">another level</a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-item"><a href="#">4th level</a></li>
+                                    <li class="dropdown-item"><a href="#">4th level</a></li>
+                                    <li class="dropdown-item"><a href="#">4th level</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-item"><a href="#">3rd level</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-item"><a href="#">Second level</a></li>
+                    <li class="dropdown-item"><a href="#">Second level</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
 }
 else
 {
     <div class="header-account-links">
         <a href="@Request.ApplicationPath.ToString()Account/Register"><i class="icofont icofont-login d-none"></i> <span>Đăng Ký</span></a>
-        <a href="login.html"><i class="icofont icofont-login d-none"></i> <span>Đăng Nhập</span></a>
+        <a href="@Request.ApplicationPath.ToString()Account/Login"><i class="icofont icofont-login d-none"></i> <span>Đăng Nhập</span></a>
     </div>
 }
 
 
 
 
-
-
-@*@if (Request.IsAuthenticated)
-    {
-        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-        {
-        @Html.AntiForgeryToken()
-
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-            </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-        </ul>
-        }
-    }
-    else
-    {
-        <ul class="nav navbar-nav navbar-right">
-            <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-            <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-        </ul>
-    }*@

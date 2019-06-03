@@ -22,5 +22,27 @@ namespace BCDHX.Moduns.Unity
                 return builder.ToString().ToLower();
             return builder.ToString();
         }
+
+        
+
+
+        private  string _numbers = "0123456789";
+        public  string RandomNumber()
+        {
+            Random random = new Random();
+            StringBuilder builder = new StringBuilder(6);
+            string numberAsString = "";
+            int numberAsNumber = 0;
+
+            for (var i = 0; i < 4; i++)
+            {
+                builder.Append(_numbers[random.Next(1, _numbers.Length)]);
+            }
+
+            numberAsString = builder.ToString();
+            numberAsNumber = int.Parse(numberAsString);
+            return numberAsString;
+        }
+
     }
 }

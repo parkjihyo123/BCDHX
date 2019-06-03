@@ -1,0 +1,91 @@
+﻿@model IEnumerable<BCDHX.Models.ModelObject.Product>
+<div class="product-section section mb-60">
+    <div class="container">
+        <div class="row">
+            <!-- Section Title Start -->
+            <div class="col-12 mb-40">
+                <div class="section-title-one" data-title="BEST SELLER"><h1>Bán chạy nhất</h1></div>
+            </div><!-- Section Title End -->
+            <div class="col-12">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        if (!item.Sale.Equals("null"))
+                        {
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-12 pb-30 pt-10">
+                                <!-- Product Start -->
+                                <div class="ee-product">
+                                    <!-- Image -->
+                                    <div class="image">
+                                        @if (item.Status == 2)
+                                        {
+                                            <span class="label new">New</span>
+                                            <span class="label sale">Sale</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="label sale">Sale</span>
+                                        }
+                                        <a href="single-product.html" class="img"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/"+@item.Img)" alt="Product Image"></a>
+                                        <div class="wishlist-compare">
+                                            <a href="#" data-tooltip="Wishlist"><i class="ti-heart"></i></a>
+                                        </div>
+                                        <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>Thêm vào giỏ hàng</span></a>
+                                    </div>
+                                    <!-- Content -->
+                                    <div class="content">
+                                        <!-- Category & Title -->
+                                        <div class="category-title">
+                                            <a href="#" class="cat">@item.NameCatogory</a>
+                                            <h5 class="title"><a href="single-product.html">@item.Name_Product</a></h5>
+                                        </div>
+                                        <!-- Price & Ratting -->
+                                        <div class="price-ratting">
+                                            <h5 class="price"><span class="old">@item.Price</span>@item.Sale</h5>
+                                          
+                                        </div>
+                                    </div>
+                                </div><!-- Product End -->
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-12 pb-30 pt-10">
+                                <!-- Product Start -->
+                                <div class="ee-product">
+                                    <!-- Image -->
+                                    <div class="image">
+                                        @if (item.Status == 2)
+                                        {
+                                            <span class="label new">New</span>
+                                            
+                                        }                                      
+                                        <a href="single-product.html" class="img"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/"+@item.Img)" alt="Product Image"></a>
+                                        <div class="wishlist-compare">
+                                            <a href="#" data-tooltip="Wishlist"><i class="ti-heart"></i></a>
+                                        </div>
+                                        <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>Thêm vào giỏ hàng</span></a>
+                                    </div>
+                                    <!-- Content -->
+                                    <div class="content">
+                                        <!-- Category & Title -->
+                                        <div class="category-title">
+                                            <a href="#" class="cat">@item.NameCatogory</a>
+                                            <h5 class="title"><a href="single-product.html">@item.Name_Product</a></h5>
+                                        </div>
+                                        <!-- Price & Ratting -->
+                                        <div class="price-ratting">
+                                            <h5 class="price">@item.Price</h5>
+                                           
+                                        </div>
+                                    </div>
+                                </div><!-- Product End -->
+                            </div>
+                        }
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

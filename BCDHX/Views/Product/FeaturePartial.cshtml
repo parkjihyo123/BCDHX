@@ -1,0 +1,234 @@
+﻿@model ILookup<string,BCDHX.Models.ModelObject.ProductFeature>
+@{
+    var temp = (List<BCDHX.Models.ModelObject.CategoryFeature>)TempData["CategoryName"];
+}
+<!-- Feature Product Section Start -->
+<div class="product-section section mb-70">
+    <div class="container">
+        <div class="row">
+            <!-- Section Title Start -->
+            <div class="col-12 mb-40">
+                <div class="section-title-one" data-title="Feature Items"><h1>Mặt Hàng đang bán</h1></div>
+            </div><!-- Section Title End -->
+            <!-- Product Tab Filter Start -->
+            <div class="col-12 mb-30">
+                <div class="product-tab-filter">
+                    <!-- Tab Filter Toggle -->
+                    <button class="product-tab-filter-toggle">showing: <span></span><i class="icofont icofont-simple-down"></i></button>
+
+                    <!-- Product Tab List -->
+                    <ul class="nav product-tab-list">
+                        <li><a class="active" data-toggle="tab" href="#All">All</a></li>
+                        @foreach (var item in temp)
+                        {
+                            <li><a data-toggle="tab" href="#@item.CategoryID">@item.CategoryName</a></li>
+
+                        }
+                    </ul>
+                </div>
+            </div><!-- Product Tab Filter End -->
+            <!-- Product Tab Content Start -->
+            <div class="col-12">
+                <div class="tab-content">
+                    <!-- Tab Pane Start -->
+                    <div class="tab-pane show active" id="All">
+                        <!-- Product Slider Wrap Start -->
+                        <div class="product-slider-wrap product-slider-arrow-one">
+                            <!-- Product Slider Start -->
+                            <div class="product-slider product-slider-4">
+                                @foreach (var item in Model)
+                                {
+                                    foreach (var item1 in item)
+                                    {
+                                        if (!item1.Sale.Equals("null"))
+                                        {
+
+                                            <div class="col pb-20 pt-10">
+                                                <!-- Product Start -->
+                                                <div class="ee-product">
+                                                    <!-- Image -->
+                                                    <div class="image">
+                                                        @if (item1.Status == 2)
+                                                        {
+                                                            <span class="label new">New</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="label sale">Sale</span>
+                                                        }
+
+                                                        <a href="single-product.html" class="img"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/"+@item1.Img)" alt="Product Image"></a>
+                                                        <div class="wishlist-compare">
+                                                            <a href="#" data-tooltip="Compare"><i class="ti-control-shuffle"></i></a>
+                                                            <a href="#" data-tooltip="Wishlist"><i class="ti-heart"></i></a>
+                                                        </div>
+                                                        <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
+                                                    </div>
+                                                    <!-- Content -->
+                                                    <div class="content">
+                                                        <!-- Category & Title -->
+                                                        <div class="category-title">
+                                                            <a href="#" class="cat">@item1.ID_Category</a>
+                                                            <h5 class="title"><a href="single-product.html">@item1.Name_Product</a></h5>
+                                                        </div>
+                                                        <!-- Price & Ratting -->
+                                                        <div class="price-ratting">
+                                                            <h5 class="price"><span class="old">@item1.Price</span>@item1.Sale</h5>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div><!-- Product End -->
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col pb-20 pt-10">
+                                                <!-- Product Start -->
+                                                <div class="ee-product">
+                                                    <!-- Image -->
+                                                    <div class="image">
+                                                        @if (item1.Status == 2)
+                                                        {
+                                                            <span class="label new">New</span>
+                                                        }                                                      
+                                                        <a href="single-product.html" class="img"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/"+@item1.Img)" alt="Product Image"></a>
+                                                        <div class="wishlist-compare">
+                                                            <a href="#" data-tooltip="Compare"><i class="ti-control-shuffle"></i></a>
+                                                            <a href="#" data-tooltip="Wishlist"><i class="ti-heart"></i></a>
+                                                        </div>
+                                                        <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
+                                                    </div>
+                                                    <!-- Content -->
+                                                    <div class="content">
+                                                        <!-- Category & Title -->
+                                                        <div class="category-title">
+                                                            <a href="#" class="cat">@item1.ID_Category</a>
+                                                            <h5 class="title"><a href="single-product.html">@item1.Name_Product</a></h5>
+                                                        </div>
+                                                        <!-- Price & Ratting -->
+                                                        <div class="price-ratting">
+                                                            <h5 class="price">@item1.Price</h5>
+                                                          
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div><!-- Product End -->
+                                            </div>
+                                        }
+
+
+                                    }
+
+                                }
+
+                            </div><!-- Product Slider End -->
+                        </div><!-- Product Slider Wrap End -->
+
+                    </div>
+                    
+                    @foreach (var item in Model)
+                    {
+                       
+                        <div class="tab-pane fade" id="@item.Key">
+                            <!-- Product Slider Wrap Start -->
+                            <div class="product-slider-wrap product-slider-arrow-one">
+                                <!-- Product Slider Start -->
+                                <div class="product-slider product-slider-4">
+                                    @foreach (var item1 in item)
+                                    {
+                                        if (!item1.Sale.Equals("null"))
+                                        {
+
+                                            <div class="col pb-20 pt-10">
+                                                <!-- Product Start -->
+                                                <div class="ee-product">
+                                                    <!-- Image -->
+                                                    <div class="image">
+                                                        @if (item1.Status == 2)
+                                                        {
+                                                            <span class="label new">New</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="label sale">Sale</span>
+                                                        }
+
+                                                        <a href="single-product.html" class="img"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/"+@item1.Img)" alt="Product Image"></a>
+                                                        <div class="wishlist-compare">
+                                                            <a href="#" data-tooltip="Compare"><i class="ti-control-shuffle"></i></a>
+                                                            <a href="#" data-tooltip="Wishlist"><i class="ti-heart"></i></a>
+                                                        </div>
+                                                        <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
+                                                    </div>
+                                                    <!-- Content -->
+                                                    <div class="content">
+                                                        <!-- Category & Title -->
+                                                        <div class="category-title">
+                                                            <a href="#" class="cat">@item1.ID_Category</a>
+                                                            <h5 class="title"><a href="single-product.html">@item1.Name_Product</a></h5>
+                                                        </div>
+                                                        <!-- Price & Ratting -->
+                                                        <div class="price-ratting">
+                                                            <h5 class="price"><span class="old">@item1.Price </span>$@item1.Sale </h5>
+                                                            
+                                                        </div>
+
+                                                    </div>
+
+                                                </div><!-- Product End -->
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col pb-20 pt-10">
+                                                <!-- Product Start -->
+                                                <div class="ee-product">
+                                                    <!-- Image -->
+                                                    <div class="image">
+                                                        @if (item1.Status == 2)
+                                                        {
+                                                            <span class="label new">New</span>
+                                                        }
+                                                        <a href="single-product.html" class="img"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/"+@item1.Img)" alt="Product Image"></a>
+                                                        <div class="wishlist-compare">
+                                                            <a href="#" data-tooltip="Compare"><i class="ti-control-shuffle"></i></a>
+                                                            <a href="#" data-tooltip="Wishlist"><i class="ti-heart"></i></a>
+                                                        </div>
+                                                        <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
+                                                    </div>
+                                                    <!-- Content -->
+                                                    <div class="content">
+                                                        <!-- Category & Title -->
+                                                        <div class="category-title">
+                                                            <a href="#" class="cat">@item1.ID_Category</a>
+                                                            <h5 class="title"><a href="single-product.html">@item1.Name_Product</a></h5>
+                                                        </div>
+                                                        <!-- Price & Ratting -->
+                                                        <div class="price-ratting">
+                                                            <h5 class="price">@item1.Price </h5>
+                                                          
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div><!-- Product End -->
+                                            </div>
+                                        }
+                                    }
+                                </div><!-- Product Slider End -->
+                            </div><!-- Product Slider Wrap End -->
+                        </div>
+                        <!-- Tab Pane End -->
+                        <!-- Tab Pane Start -->
+                        <!-- Tab Pane End -->
+                    }
+                </div>
+            </div><!-- Product Tab Content End -->
+
+        </div>
+    </div>
+</div><!-- Feature Product Section End -->

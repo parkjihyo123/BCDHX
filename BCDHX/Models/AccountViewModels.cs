@@ -1,13 +1,66 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BCDHX.Models
 {
+    public class UserLoginTemp
+    {
+        public string Username { get; set; }
+        public string UserId { get; set; }
+        public string Address { get; set; }
+    }
+    public class TempUserPaymentForAccount
+    {
+        public string Id { get; set; }
+        public decimal price { get; set; }
+        public string UserId { get; set; }
+        public DateTime PaymentDate { get; set; }
+        public int Status { get; set; }
+        public string PaymentType { get; set; }
+        public string NameAccount { get; set; }
+    }
+
+    public class UserViewModel
+    {
+        private decimal _amount;
+        public string ID_Account { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public int Access { get; set; }
+        public string Fullname { get; set; }
+        public string Address { get; set; }
+        public string Amount
+        {
+            get
+            {
+                return string.Format(System.Globalization.CultureInfo.GetCultureInfo("vi-VN"), "{0:C}", this._amount);
+            }
+            set
+            {
+                this._amount = Convert.ToDecimal(value);
+            }
+        }
+        public string Img { get; set; }
+    }
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
+        [StringLength(50)]
+        public string Username { get; set; }
+
+        [StringLength(250)]
+        public string Password { get; set; }
+
+        public int? Access { get; set; }
+
+        [StringLength(250)]
+        public string Fullname { get; set; }
+
+        public string Address { get; set; }
+        public string ReturnLink { get; set; }
     }
 
     public class ExternalLoginListViewModel
@@ -60,6 +113,7 @@ namespace BCDHX.Models
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+        public string ReturnLink { get; set; }
     }
 
     public class RegisterViewModel
@@ -77,7 +131,7 @@ namespace BCDHX.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-       
+
     }
 
     public class ResetPasswordViewModel

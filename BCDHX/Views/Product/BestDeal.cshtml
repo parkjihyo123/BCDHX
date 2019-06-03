@@ -1,0 +1,149 @@
+﻿@model List<BCDHX.Models.ModelObject.ProductBestDeal>
+@{
+    var CategoryBD = (List<BCDHX.Models.ModelObject.CategoryBestDeal>)TempData["CategoryBD"];
+    var BestDealContent = (BCDHX.Models.ModelObject.BestDealContent)TempData["BestDealContent"];
+    ILookup<string, BCDHX.Models.ModelObject.ProductBestDeal> tAfter = Model.ToLookup(x => x.ID_Category);
+}
+<!-- Best Deals Product Section Start -->
+<div class="product-section section mb-40">
+    <div class="container">
+        <div class="row">
+            <!-- Section Title Start -->
+            <div class="col-12 mb-40">
+                <div class="section-title-one" data-title="BEST DEALS"><h1>Đang giảm giá</h1></div>
+            </div><!-- Section Title End -->
+            <!-- Product Tab Filter Start-->
+            <div class="col-12">
+                <div class="offer-product-wrap row">
+                    <!-- Product Tab Filter Start -->
+                    <div class="col mb-30">
+                        <div class="product-tab-filter">
+                            <!-- Tab Filter Toggle -->
+                            <button class="product-tab-filter-toggle">showing: <span></span><i class="icofont icofont-simple-down"></i></button>
+                            <!-- Product Tab List -->
+                            <ul class="nav product-tab-list">
+                                <li><a class="active" data-toggle="tab" href="#AllBest">All</a></li>
+                                @foreach (var item in CategoryBD)
+                                {
+                                    <li><a data-toggle="tab" href="#@item.CategoryID.ToLower()">@item.CategoryName</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div><!-- Product Tab Filter End -->
+                    <!-- Offer Time Wrap Start -->
+                    <div class="col mb-30">
+                        <div class="offer-time-wrap" style="background-image: url(@Url.Content("~/Content/MainPage/images/bg/offer-products.jpg"))">
+                            <h1><span>Giảm lên đến</span> @BestDealContent.PercentSale%</h1>
+                            <h3>@BestDealContent.Content</h3>
+                            <h4><span>Hãy nhanh tay </span> rinh ngay sản phẩm</h4>
+                            <div class="countdown" data-countdown="@BestDealContent.DateExprie"></div>
+                        </div>
+                    </div>
+                    <!-- Offer Time Wrap End -->
+                    <!-- Product Tab Content Start -->
+                    <div class="col-12 mb-30">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="AllBest">
+                                <!-- Product Slider Wrap Start -->
+                                <div class="product-slider-wrap product-slider-arrow-two">
+                                    <!-- Product Slider Start -->
+                                    <div class="product-slider product-slider-3">
+                                        @foreach (var item in Model)
+                                        {
+                                            <div class="col pb-20 pt-10">
+                                                <!-- Product Start -->
+                                                <div class="ee-product">
+                                                    <!-- Image -->
+                                                    <div class="image">
+                                                        <a href="single-product.html" class="img"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/"+ @item.Img)" alt="Product Image"></a>
+                                                        <div class="wishlist-compare">
+                                                            <a href="#" data-tooltip="Wishlist"><i class="ti-heart"></i></a>
+                                                        </div>
+                                                        <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
+                                                    </div>
+                                                    <!-- Content -->
+                                                    <div class="content">
+                                                        <!-- Category & Title -->
+                                                        <div class="category-title">
+                                                            <a href="#" class="cat">@item.NameCatogory</a>
+                                                            <h5 class="title"><a href="single-product.html">@item.Name_Product</a></h5>
+                                                        </div>
+                                                        <!-- Price & Ratting -->
+                                                        <div class="price-ratting">
+                                                          
+                                                            @if (!item.Sale.Equals("null"))
+                                                            {
+                                                                <h5 class="price"><span class="old">@item.Price</span>@item.Sale</h5>
+                                                            }else
+                                                            {
+                                                                <h5 class="price">@item.Price</h5>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div><!-- Product End -->
+                                            </div>
+                                        }
+                                    </div><!-- Product Slider End -->
+                                </div><!-- Product Slider Wrap End -->
+                            </div>
+                            @foreach (var item in tAfter)
+                            {
+                                <!-- Tab Pane Start -->
+                                <div class="tab-pane fade" id="@item.Key.ToLower()">
+                                    <!-- Product Slider Wrap Start -->
+                                    <div class="product-slider-wrap product-slider-arrow-two">
+                                        <!-- Product Slider Start -->
+                                        <div class="product-slider product-slider-3">
+                                            @foreach (var ItemTemp in item)
+                                            {
+                                                <div class="col pb-20 pt-10">
+                                                    <!-- Product Start -->
+                                                    <div class="ee-product">
+                                                        <!-- Image -->
+                                                        <div class="image">
+
+                                                            <a href="single-product.html" class="img"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/"+ @ItemTemp.Img)" alt="Product Image"></a>
+
+                                                            <div class="wishlist-compare">
+
+                                                                <a href="#" data-tooltip="Wishlist"><i class="ti-heart"></i></a>
+                                                            </div>
+                                                            <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
+                                                        </div>
+                                                       <!-- Content -->
+                                                        <div class="content">
+                                                           <!-- Category & Title -->
+                                                            <div class="category-title">
+                                                                <a href="#" class="cat">@ItemTemp.NameCatogory</a>
+                                                                <h5 class="title"><a href="single-product.html">@ItemTemp.Name_Product</a></h5>
+                                                            </div>
+                                                            <!-- Price & Ratting -->
+                                                            <div class="price-ratting">
+                                                                @if (!ItemTemp.Sale.Equals("null"))
+                                                                {
+                                                                    <h5 class="price"><span class="old">@ItemTemp.Price</span>@ItemTemp.Sale</h5>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <h5 class="price">@ItemTemp.Price</h5>
+                                                                }
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div><!-- Product End -->
+                                                </div>
+                                            }
+                                        </div><!-- Product Slider End -->
+                                    </div><!-- Product Slider Wrap End -->
+                                </div>
+                            }
+                            <!-- Tab Pane End -->
+                        </div>
+                    </div><!-- Product Tab Content End -->
+                </div>
+            </div><!-- Product Tab Filter End-->
+
+        </div>
+    </div>
+</div><!-- Best Deals Product Section End -->

@@ -1,6 +1,11 @@
-﻿@{
-    ViewBag.Title = "Đăng Ký Thành Viên";
+﻿@using BCDHX.Models
+@model LoginViewModel
+@using Microsoft.Owin.Security
+@{
+    ViewBag.Title = "Đăng nhập";
     Layout = null;
+    var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
+
 }
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -19,7 +24,7 @@
     @Styles.Render("~/Content/DevExtremeBundle")
 </head>
 <body>
-    @Html.Partial("~/Views/Home/HeaderForShorter.cshtml")
+    @Html.Partial("~/Views/Home/HeaderCustom.cshtml")
     @Html.Partial("~/Views/Home/PageBannerForLoginPartial.cshtml")
     <!-- Login Section Start -->
     <div class="login-section section mt-90 mb-90">
@@ -36,6 +41,7 @@
                                 <div class="col-12 mb-30"><div id="sumerror"></div></div>
                                 <div class="col-12 mb-30"><input type="text" id="Username" placeholder="Email đã đăng kí để đăng nhập" required=""></div>
                                 <div class="col-12 mb-20"><input type="password" id="Password" placeholder="Mật khẩu" required=""></div>
+                                <input type="hidden" id="ReturnLink" value="@ViewBag.ReturnUrl">
                                 <div class="col-12 mb-15">
                                     <input type="checkbox" id="remember_me">
                                     <label for="remember_me">Ghi nhớ</label>
@@ -52,12 +58,7 @@
                 </div>
                 <!-- Login With Social -->
                 <div class="col-md-5 col-12 d-flex">
-                    <div class="ee-social-login">
-                        <h3>Hoặc cũng có thể đăng nhập bằng</h3>
-                        <a href="#" class="facebook-login">Đăng nhập với <i class="fa fa-facebook"></i></a>
-                        <a href="#" class="twitter-login">Đăng nhập với <i class="fa fa-twitter"></i></a>
-                        <a href="#" class="google-plus-login">Đăng nhập với <i class="fa fa-google-plus"></i></a>
-                    </div>
+                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
                 </div>
             </div>
         </div>
@@ -133,11 +134,15 @@
     <script src="@Url.Content("~/Content/MainPage/js/plugins.js")"></script>
     <!-- Main JS -->
     <script src="@Url.Content("~/Content/MainPage/js/main.js")"></script>
+    <!--LoadingModal JS-->
     <script src="@Url.Content("~/Content/LoadingScreen/js/jquery.loadingModal.js")"></script>
+    <!--SweetAlret JS-->
     <script src="@Url.Content("~/Content/SweetAlret/sweetalert2.all.js")"></script>
+    <!--DevExtremeBundle JS-->
     @Scripts.Render("~/Scripts/DevExtremeBundle")
+    <!--JqueryValidate JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <!--AccountControl JS-->
     <script src="@Url.Content("~/ScriptsBundle/AccountSC.js")"></script>
 </body>
-
 </html>

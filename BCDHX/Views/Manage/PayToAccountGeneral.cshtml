@@ -1,0 +1,84 @@
+﻿
+<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+    <div class="main">
+        <h1>Nạp tiền vào tài khoản</h1>
+        <div class="content">
+            <div class="sap_tabs">
+                <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
+                    <div class="pay-tabs">
+                        <h2>Chọn phương thức thanh toán</h2>
+                        <ul class="resp-tabs-list">
+                            <li class="resp-tab-item" aria-controls="2" role="tab"><span><label class="pic4"></label>Thanh toán online</span></li>
+                            <li class="resp-tab-item" aria-controls="1" role="tab"><span><label class="pic3"></label>Chuyển khoản ngân hàng</span></li>
+
+                            <div class="clear"></div>
+                        </ul>
+                    </div>
+                    <div class="resp-tabs-container">
+                        <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
+                            <div class="payment-info">
+                               
+                                <h3>Thanh toán online bằng cổng thanh toán VTCPAY</h3>
+                                <form>
+                                    <div class="tab-for">
+                                        <h5>
+                                            Bảo mật an toàn tối đa cho mọi giao dịch:
+                                            Các chứng chỉ quốc tế: PCI-DSS, EV-SSL, ISO-27001
+                                            Hệ thống bảo mật nhiều lớp 3D Secure, Payment Tokenization, OTP /ODP ma trận
+                                            Giấy phép hoạt động Cung ứng Dịch vụ Trung gian Thanh toán của Ngân hàng Nhà nước Việt Nam.
+                                        </h5>
+                                    </div>
+                                </form>
+                                <h3 class="pay-title">Điền thông tin</h3>
+                                <hr>
+                                @using (Html.BeginForm("PaymentProcess", "Manage", FormMethod.Post))
+                                {@Html.AntiForgeryToken()
+                                <form id="PaytoAccountForm1">
+                                    <div class="tab-for">
+                                        <h5>Số tiền cần nạp</h5>
+                                        <input type="text" value="0" required name="moneyAccount">
+                                    </div>
+                                    <span>Lưu ý: Nếu có lỗi hay thắc mắc xin liên hệ ngay LiveChat để được hỗ trợ sớm nhất!</span>
+                                    <br>
+                                    <input type="submit" value="Thanh toán">
+                                </form>
+                            }
+                                
+                                <div class="single-bottom">
+                                    <ul>
+                                        <li>
+                                            <input type="checkbox" id="brand" value="">
+                                            <label for="brand"><span></span>By checking this box, I agree to the Terms & Conditions & Privacy Policy.</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
+                            <div class="payment-info">
+                                <h3> Thông Tin Chuyển Khoản:</h3>
+                                <hr>
+                                <ul style="text-align:center;font-weight:700">
+                                    <li>Agribank Phú Nhuận - TPHCM: 1604205435790</li>
+                                    <li> Vietcombank Phú Nhuận - TPHCM :0721000635022</li>
+                                    <li>Sacombank Phan Xích Long - Phú Nhuận: 060187111369</li>
+                                    <li> VP Bank Gia Định - Tphcm : 158248069</li>
+                                    <li> Techcombank Phan Xích Long - Phú Nhuận: 19032926197010</li>
+                                    <li> Chủ tài khoản: Châu Thị Mẫn Sương,Sđt: 0833290924</li>
+                                </ul>
+                                <span style="color: red;font-weight: 700;font-size: 18px;"> 
+                                    Vui Lòng Chụp Lại Biên Lai Và Gửi Cho Bọn Mình Qua LiveChat Hoặc Page Bà Chị Diệu Hiền, Mọi Thắc Mắc Liên Hệ Hot Line Hoặc LiveChat Nhé!
+                                </span>
+                                <div class="clear"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+

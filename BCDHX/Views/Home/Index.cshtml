@@ -2,7 +2,6 @@
     ViewBag.Title = "Trang Chủ";
     Layout = "~/Views/Shared/HomeTempates/_Layout.cshtml";
 }
-
 @section Hero{
     @Html.Partial("~/Views/Home/HeroSectionPartial.cshtml")
 }
@@ -10,12 +9,30 @@
     @Html.Partial("~/Views/Home/BannerPartial.cshtml")
 }
 @section Feature{
-    @Html.Partial("~/Views/Home/FeaturePartial.cshtml")
+    @Html.Action("FeaturePartial", "Product")
 }
-@section BestSell{
-    @Html.Partial("~/Views/Home/BestSellPartial.cshtml")
-    }
 
+@section BannerSection{
+    @Html.Partial("~/Views/Home/BannerSectionPartial.cshtml")
+}
+@section FeatureLogoPaymentSection{
+    @Html.Partial("~/Views/Home/FeatureLogoPaymentSectionPartial.cshtml")
+}
 @section popupsubscribe{
     @Html.Partial("~/Views/Home/PopupSubscribePartial.cshtml")
 }
+@section Brands
+{
+    @Html.Partial("~/Views/Home/BrandsPartial.cshtml")
+}   
+@section BestDeal{
+        @Html.Action("BestDeal","Product")
+    }
+@section NewArrival{
+    @Html.Action("NewArrival","Product")
+}
+@section Subscribe{
+    @Html.Partial("~/Views/Home/SubscribePartial.cshtml")
+}
+@Html.Action("BestSeller", "Product")
+

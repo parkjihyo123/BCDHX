@@ -7,17 +7,30 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using BCDHX.Models;
 using BCDHX.Moduns;
+using BCDHX.Moduns.Models;
 using BCDHX.Moduns.Unity;
 
 namespace BCDHX.Controllers
 {
     public class UploadController : Controller
     {
-        RandomCode _randomcode;
+        private RandomCode _randomcode;
+        private WebDieuHienDB _dbBCDH;
         public UploadController()
         {
             _randomcode = new RandomCode();
+            _dbBCDH = new WebDieuHienDB();
+        }
+        private string UserId
+        {
+            get
+            {
+                var temp = (UserLoginTemp)Session["Authencation"];
+                return temp.UserId;
+            }
+
         }
         // GET: Upload
         /// <summary>
@@ -26,6 +39,7 @@ namespace BCDHX.Controllers
         /// <param name="imageFile"></param>
         /// <returns></returns>
         /// 
+
         [HttpPost]
         public void UploadImage(HttpPostedFileBase ImageUp)
         {
@@ -94,5 +108,44 @@ namespace BCDHX.Controllers
             }
 
         }
+        
+        [HttpPost]
+        public void ProcessChangeAvatar(HttpPostedFileBase ChangeAvatarImage)
+        {
+            try
+            {               
+                string[] imageExtensions = { ".jpg", ".jpeg", ".gif", ".png" };
+                var fileName = ChangeAvatarImage.FileName.ToLower();
+                var isValidExtenstion = imageExtensions.Any(ext =>
+                {
+                    return fileName.LastIndexOf(ext) > -1;
+                });
+
+                if (isValidExtenstion)
+                {
+                    // Uncomment to save the file
+                    //var path = Server.MapPath("~/Content/ImageUploaded/ImageForUser/");
+                    string path = Path.Combine(Server.MapPath("~/Content/ImageUploaded/ImageForUser/"), Path.GetFileName(ChangeAvatarImage.FileName));
+                    //if (!Directory.Exists(path))
+                    //    Directory.CreateDirectory(path);
+
+                    if (SaveResizeImage(Image.FromStream(ChangeAvatarImage.InputStream), path))
+                    {                                              
+                        var tempForChange = _dbBCDH.Accounts.AsNoTracking().SingleOrDefault(x => x.ID_Account == UserId);
+                        tempForChange.Img = fileName;
+                        _dbBCDH.Entry(tempForChange).State = System.Data.Entity.EntityState.Modified;
+                        _dbBCDH.SaveChanges();
+                    }
+
+                    //Test.SaveAs(path);
+                }
+            }
+            catch
+            {
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
+       
+       
     }
 }

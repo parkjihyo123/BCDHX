@@ -20,10 +20,8 @@
     @Styles.Render("~/Content/DevExtremeBundle")
 </head>
 <body>
-
-    @Html.Partial("~/Views/Home/HeaderForShorter.cshtml")
+    @Html.Partial("~/Views/Home/HeaderCustom.cshtml")
     @Html.Partial("~/Views/Home/PageBannerForRg.cshtml")
-
     <div class="register-section section mt-90 mb-90">
         <div class="container">
             <div class="row">
@@ -82,7 +80,6 @@
     @Scripts.Render("~/Scripts/DevExtremeBundle")
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
     <script src="@Url.Content("~/ScriptsBundle/AccountSC.js")"></script>
-
 </body>
 
 </html>

@@ -28,6 +28,8 @@ namespace BCDHX.Moduns.Models
         public virtual DbSet<StockInOutDetail> StockInOutDetails { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<WishList> WishLists { get; set; }
+        public virtual DbSet<About> Abouts { get; set; }
+        public virtual DbSet<BestDeal> BestDeals { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

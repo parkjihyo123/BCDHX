@@ -36,10 +36,9 @@ namespace BCDHX.Moduns.Models
 
         [Column(TypeName = "money")]
         public decimal? Amount { get; set; }
-
         [StringLength(250)]
         public string Img { get; set; }
-
+      
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Invoice> Invoices { get; set; }
 
@@ -47,3 +46,5 @@ namespace BCDHX.Moduns.Models
         public virtual ICollection<StockInOut> StockInOuts { get; set; }
     }
 }
+
+

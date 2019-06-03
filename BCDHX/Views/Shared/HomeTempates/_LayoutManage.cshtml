@@ -1,0 +1,131 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Bà Chị Diệu Hiền - @ViewBag.Title</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/MainPage/images/iconBCDH.jpg">
+    <!-- CSS
+    ============================================ -->
+    <!-- Bootstrap CSS -->
+    @Styles.Render("~/Content/css")
+    <!-- FontAwesome CSS-->
+   
+    <!-- Modernizer JS -->
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="@Url.Content("~/Content/LoadingScreen/css/jquery.loadingModal.css")">
+    <link href="@Url.Content("~/Content/SweetAlret/sweetalert2.min.css")" rel="stylesheet" />
+    <!-- DevExtremeBundle CSS -->
+    @Styles.Render("~/Content/DevExtremeBundle")
+  
+</head>
+<body>
+    <!-- Header Section Start -->
+    @Html.Partial("~/Views/Home/HeaderCustom.cshtml")
+    <!-- Header Section End -->
+    <!-- Mini Cart Wrap Start -->
+    <div class="mini-cart-wrap">
+        <!-- Mini Cart Top -->
+        <div class="mini-cart-top">
+            <button class="close-cart">Close Cart<i class="icofont icofont-close"></i></button>
+        </div>
+        <!-- Mini Cart Products -->
+        <ul class="mini-cart-products">
+            <li>
+                <a class="image"><img src="assets/images/product/product-1.png" alt="Product"></a>
+                <div class="content">
+                    <a href="single-product.html" class="title">Waxon Note Book Pro 5</a>
+                    <span class="price">Price: $295</span>
+                    <span class="qty">Qty: 02</span>
+                </div>
+                <button class="remove"><i class="fa fa-trash-o"></i></button>
+            </li>
+            <li>
+                <a class="image"><img src="assets/images/product/product-2.png" alt="Product"></a>
+                <div class="content">
+                    <a href="single-product.html" class="title">Aquet Drone D 420</a>
+                    <span class="price">Price: $275</span>
+                    <span class="qty">Qty: 01</span>
+                </div>
+                <button class="remove"><i class="fa fa-trash-o"></i></button>
+            </li>
+            <li>
+                <a class="image"><img src="assets/images/product/product-3.png" alt="Product"></a>
+                <div class="content">
+                    <a href="single-product.html" class="title">Game Station X 22</a>
+                    <span class="price">Price: $295</span>
+                    <span class="qty">Qty: 01</span>
+                </div>
+                <button class="remove"><i class="fa fa-trash-o"></i></button>
+            </li>
+        </ul>
+        <!-- Mini Cart Bottom -->
+        <div class="mini-cart-bottom">
+            <h4 class="sub-total">Total: <span>$1160</span></h4>
+            <div class="button">
+                <a href="checkout.html">CHECK OUT</a>
+            </div>
+        </div>
+    </div>
+    <div class="cart-overlay"></div>
+    <div class="product-section section mt-20 mb-20">
+        <div class="container">
+            @RenderBody()
+        </div>
+    </div>
+
+
+    <!-- Best Sell Product Section End -->
+    <!-- Banner Section Start -->
+    <!-- Banner Section End -->
+    <!-- Feature Section Start -->
+    <!-- Feature Section End -->
+    <!-- Best Deals Product Section Start -->
+    <!-- Best Deals Product Section End -->
+    <!-- New Arrival Product Section Start -->
+    <!-- New Arrival Product Section End -->
+    <!-- Banner Section Start -->
+    <!-- Banner Section End -->
+    <!-- Brands Section Start -->
+    @RenderSection("Brands", required: false)
+    <!-- Brands Section End -->
+    <!-- Subscribe Section Start -->
+    @RenderSection("Subscribe", required: false)
+    <!-- Subscribe Section End -->
+    <!-- Footer Section Start -->
+    @Html.Partial("~/Views/Home/footer.cshtml")
+    <!-- Footer Section End -->
+    <!-- Popup Subscribe Section Start -->
+    <!-- Popup Subscribe Section End -->
+    <!-- JS
+    ============================================ -->
+    <!-- jQuery JS -->
+    @Scripts.Render("~/bundles/jquery")
+    <!-- Popper JS -->
+    <script src="@Url.Content("~/Scripts/popper.min.js")"></script>
+    <!-- Bootstrap JS -->
+    @Scripts.Render("~/bundles/bootstrap")
+    <!-- Plugins JS -->
+    <script src="@Url.Content("~/Content/MainPage/js/plugins.js")"></script>
+    <!-- Main JS -->
+    <script src="@Url.Content("~/Content/MainPage/js/main.js")"></script>
+    <script src="@Url.Content("~/Scripts/all.js")"></script>
+    <!--LoadingModal JS-->
+    <script src="@Url.Content("~/Content/LoadingScreen/js/jquery.loadingModal.js")"></script>
+    <!--SweetAlret JS-->
+    <script src="@Url.Content("~/Content/SweetAlret/sweetalert2.all.js")"></script>
+    <script src="~/Content/MainPage/js/easyResponsiveTabs.js" type="text/javascript"></script>
+    <!-- DevExtremeBundle JS -->
+    @Scripts.Render("~/Scripts/DevExtremeBundle")
+    <script src="@Url.Content("~/ScriptsBundle/GeneralUser.js")"></script>
+    @RenderSection("ScriptBundle", required: false)
+</body>
+</html>
+

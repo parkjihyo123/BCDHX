@@ -31,7 +31,8 @@ namespace BCDHX.Moduns.Models
         public decimal? Price { get; set; }
 
         public int? Status { get; set; }
-
+        public bool? NewArrival { get; set; }
+        public bool? BestSale { get; set; }
         [Column(TypeName = "money")]
         public decimal? Sale { get; set; }
 
