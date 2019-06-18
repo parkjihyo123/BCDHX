@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin;
+﻿
+using Microsoft.Owin;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(BCDHX.Startup))]
@@ -8,7 +9,10 @@ namespace BCDHX
     {
         public void Configuration(IAppBuilder app)
         {
+            
             ConfigureAuth(app);
         }
+       
+
     }
 }

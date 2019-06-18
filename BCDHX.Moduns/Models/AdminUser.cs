@@ -9,7 +9,8 @@ namespace BCDHX.Moduns.Models
     public partial class AdminUser
     {
         [Key]
-        public int ID_AdminUser { get; set; }
+        [StringLength(250)]
+        public string ID_AdminUser { get; set; }
 
         [StringLength(50)]
         public string UserName { get; set; }
@@ -21,5 +22,8 @@ namespace BCDHX.Moduns.Models
 
         [StringLength(50)]
         public string FullName { get; set; }
+
+        [StringLength(250)]
+        public string Img { get; set; }
     }
 }

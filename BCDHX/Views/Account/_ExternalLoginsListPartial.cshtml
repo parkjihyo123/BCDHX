@@ -12,17 +12,20 @@
     <h3>Sử dụng cách khác</h3>
     <input type="hidden" value="" name="provider" id="providerID">
     @foreach (AuthenticationDescription p in loginProviders)
-    {
+            {
 
-        if (p.AuthenticationType == "Google")
-        {
+                if (p.AuthenticationType == "Google")
+                {
 
-            <a class="google-plus-login" onclick="return LoginWithExternal('@p.AuthenticationType');" href="#">Đăng nhập với<i class="fa fa-google-plus"></i></a>
+                  
+                    
+
+            <a class="google-plus-login" onclick="return LoginWithExternal('@p.AuthenticationType');" href="#">Đăng nhập với <i class="fab fa-google-plus-g"></i></a>
         }
         else
         {
 
-            <a class="facebook-login" onclick="return LoginWithExternal('@p.AuthenticationType');" href="#">Đăng nhập với<i class="fa fa-facebook"></i></a>
+            <a class="facebook-login" onclick="return LoginWithExternal('@p.AuthenticationType');" href="#">Đăng nhập với<i class="fab fa-facebook-f"></i></a>
 
         }
 

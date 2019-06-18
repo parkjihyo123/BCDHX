@@ -38,7 +38,7 @@
                         <!-- Login Form -->
                         <form id="LoginForm">
                             <div class="row">
-                                <div class="col-12 mb-30"><div id="sumerror"></div></div>
+                                <div class="col-12 mb-30"><div id="sumerror"><span style="color:red">@ViewBag.Error</span></div></div>
                                 <div class="col-12 mb-30"><input type="text" id="Username" placeholder="Email đã đăng kí để đăng nhập" required=""></div>
                                 <div class="col-12 mb-20"><input type="password" id="Password" placeholder="Mật khẩu" required=""></div>
                                 <input type="hidden" id="ReturnLink" value="@ViewBag.ReturnUrl">
@@ -126,23 +126,8 @@
     @Html.Partial("~/Views/Home/BrandsPartial.cshtml")
     @Html.Partial("~/Views/Home/footer.cshtml")
     @Scripts.Render("~/bundles/jquery")
-    <!-- Popper JS -->
-    <script src="@Url.Content("~/Content/MainPage/js/popper.min.js")"></script>
-    <!-- Bootstrap JS -->
-    <script src="@Url.Content("~/Content/MainPage/js/bootstrap.min.js")"></script>
-    <!-- Plugins JS -->
-    <script src="@Url.Content("~/Content/MainPage/js/plugins.js")"></script>
-    <!-- Main JS -->
-    <script src="@Url.Content("~/Content/MainPage/js/main.js")"></script>
-    <!--LoadingModal JS-->
-    <script src="@Url.Content("~/Content/LoadingScreen/js/jquery.loadingModal.js")"></script>
-    <!--SweetAlret JS-->
-    <script src="@Url.Content("~/Content/SweetAlret/sweetalert2.all.js")"></script>
-    <!--DevExtremeBundle JS-->
+    @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/DevExtremeBundle")
-    <!--JqueryValidate JS-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
-    <!--AccountControl JS-->
-    <script src="@Url.Content("~/ScriptsBundle/AccountSC.js")"></script>
+    <script src="@Url.Content("~/ScriptsBundle/AccountSC.min.js")"></script>
 </body>
 </html>

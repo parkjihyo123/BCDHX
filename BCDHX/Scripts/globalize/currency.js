@@ -1,5 +1,5 @@
 /*!
- * Globalize v1.4.2
+ * Globalize v1.1.1
  *
  * http://github.com/jquery/globalize
  *
@@ -7,7 +7,7 @@
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2019-03-07T13:47Z
+ * Date: 2016-02-04T12:01Z
  */
 (function( root, factory ) {
 
@@ -25,7 +25,7 @@
 	} else if ( typeof exports === "object" ) {
 
 		// Node, CommonJS
-		module.exports = factory( require( "cldrjs" ), require( "../globalize" ) );
+		module.exports = factory( require( "cldrjs" ), require( "globalize" ) );
 	} else {
 
 		// Global
@@ -224,25 +224,16 @@ var regexpNotS = /[\0-#%-\*,-;\?-\]_a-\{\}\x7F-\xA1\xA7\xAA\xAB\xAD\xB2\xB3\xB5-
  * Return pattern replacing `¤` with the appropriate currency symbol literal.
  */
 var currencySymbolProperties = function( currency, cldr, options ) {
-	var currencySpacing, pattern, symbol,
-		symbolEntries = [ "symbol" ],
+	var currencySpacing, pattern,
 		regexp = {
 			"[:digit:]": /\d/,
 			"[:^S:]": regexpNotS
-		};
-
-	// If options.symbolForm === "narrow" was passed, prepend it.
-	if ( options.symbolForm === "narrow" ) {
-		symbolEntries.unshift( "symbol-alt-narrow" );
-	}
-
-	symbolEntries.some(function( symbolEntry ) {
-		return symbol = cldr.main([
+		},
+		symbol = cldr.main([
 			"numbers/currencies",
 			currency,
-			symbolEntry
+			"symbol"
 		]);
-	});
 
 	currencySpacing = [ "beforeCurrency", "afterCurrency" ].map(function( position ) {
 		return cldr.main([
@@ -322,10 +313,7 @@ var objectOmit = function( object, keys ) {
 
 function validateRequiredCldr( path, value ) {
 	validateCldr( path, value, {
-		skip: [
-			/numbers\/currencies\/[^/]+\/symbol-alt-/,
-			/supplemental\/currencyData\/fractions\/[A-Za-z]{3}$/
-		]
+		skip: [ /supplemental\/currencyData\/fractions\/[A-Za-z]{3}$/ ]
 	});
 }
 

@@ -21,7 +21,7 @@
     @Styles.Render("~/Content/DevExtremeBundle")
 </head>
 <body>
-    @Html.Partial("~/Views/Home/HeaderForShorter.cshtml")
+    @Html.Partial("~/Views/Home/HeaderCustom.cshtml")
     @Html.Partial("~/Views/Home/PageBannerForRg.cshtml")
     <div class="register-section section mt-90 mb-90">
         <div class="container">
@@ -35,7 +35,6 @@
                         <form id="dangkyformExternal">
                             <div class="row">
                                 <div class="col-12 mb-30">
-
                                     <div class="col-12 mb-30"> <input type="text" name="Email" id="EmailExternal" value="@Model.Email" readonly></div>
                                     <div class="col-12 mb-30"><input type="text" name="Fullname" id="FullnameExternal" placeholder="Họ Và Tên" required></div>
                                     <div class="col-12 mb-30"><input type="text" name="Address" id="AddressExternal" placeholder="Địa Chỉ" required></div>
@@ -46,26 +45,14 @@
                         </form>
                     </div>
                 </div>
-
                 <!-- Account Image -->
-
-
             </div>
         </div>
     </div>
     @Html.Partial("~/Views/Home/BrandsPartial.cshtml")
     @Html.Partial("~/Views/Home/footer.cshtml")
     @Scripts.Render("~/bundles/jquery")
-    <!-- Popper JS -->
-    <script src="@Url.Content("~/Content/MainPage/js/popper.min.js")"></script>
-    <!-- Bootstrap JS -->
-    <script src="@Url.Content("~/Content/MainPage/js/bootstrap.min.js")"></script>
-    <!-- Plugins JS -->
-    <script src="@Url.Content("~/Content/MainPage/js/plugins.js")"></script>
-    <!-- Main JS -->
-    <script src="@Url.Content("~/Content/MainPage/js/main.js")"></script>
-    <script src="@Url.Content("~/Content/LoadingScreen/js/jquery.loadingModal.js")"></script>
-    <script src="@Url.Content("~/Content/SweetAlret/sweetalert2.all.js")"></script>
+    @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/DevExtremeBundle")
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
     <script src="@Url.Content("~/ScriptsBundle/AccountSC.js")"></script>

@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Danh mục sản phẩm";
+    Layout = "~/Areas/AdminBCDH/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Breadcrums{
+    <div class="breadcrumbs">
+        <div class="breadcrumbs-inner">
+            <div class="row m-0">
+                <div class="col-sm-4">
+                    <div class="page-header float-left">
+                        <div class="page-title">
+                            <h1>Chỉnh sửa chung danh mục sản phẩm</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="page-header float-right">
+                        <div class="page-title">
+                            <ol class="breadcrumb text-right">
+                                <li>@Html.ActionLink("Thống kê", "Index", "Home")</li>
+                                <li class="active">@Html.ActionLink("Edit danh mục sản phẩm", "Category", "Home")</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div id="Category">
+
+</div>
+@section scripts{
+    <script src="@Url.Content("~/ScriptsBundle/AdminJquery/CategoryManager/Category.min.js")"></script>
+}
+

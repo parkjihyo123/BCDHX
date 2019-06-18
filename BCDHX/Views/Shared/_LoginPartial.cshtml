@@ -1,13 +1,9 @@
-﻿@using BCDHX.Models
-@{
-    var AuthenTemp = (UserLoginTemp)Session["Authencation"];
-
-}
-@if (Request.IsAuthenticated && AuthenTemp!=null)
+﻿
+@if (Request.IsAuthenticated&&User.IsInRole("Customer"))
 {
     <div class="dropdown ">
         <button class="buttonLogin" type="button" id="1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Xin chào,@AuthenTemp.Username
+            Xin chào,@User.Identity.Name
         </button>
         <ul class="dropdown-menu multi-level " role="menu" aria-labelledby="dropdownMenu">
             <li class="dropdown-item"><a href="#">Quản lý tài khoản</a></li>
@@ -33,9 +29,10 @@
                         </ul>
                     </li>
                     <li class="dropdown-item"><a href="#">Second level</a></li>
-                    <li class="dropdown-item"><a href="#">Second level</a></li>
+                    <li class="dropdown-item">ggg</li>
                 </ul>
             </li>
+            <li class="dropdown-item"><i class="icofont-sign-out"></i>@Html.ActionLink("Thoát", "LogOff", "Account")</li>
         </ul>
     </div>
 }

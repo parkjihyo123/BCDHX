@@ -11,7 +11,11 @@ namespace BCDHX.Controllers
         {
             return View();
         }
+        public PartialViewResult Menu()
+        {
 
+            return PartialView();
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

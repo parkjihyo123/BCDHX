@@ -18,20 +18,13 @@ namespace BCDHX.Controllers
     {
         private RandomCode _randomcode;
         private WebDieuHienDB _dbBCDH;
+       
         public UploadController()
         {
             _randomcode = new RandomCode();
             _dbBCDH = new WebDieuHienDB();
         }
-        private string UserId
-        {
-            get
-            {
-                var temp = (UserLoginTemp)Session["Authencation"];
-                return temp.UserId;
-            }
-
-        }
+       
         // GET: Upload
         /// <summary>
         /// upload avata của người dùng!
@@ -51,23 +44,13 @@ namespace BCDHX.Controllers
                 {
                     return fileName.LastIndexOf(ext) > -1;
                 });
-
                 if (isValidExtenstion)
-                {
-                    // Uncomment to save the file
-                    //var path = Server.MapPath("~/Content/ImageUploaded/ImageForUser/");
-                    string path = Path.Combine(Server.MapPath("~/Content/ImageUploaded/ImageForUser/"), Path.GetFileName(ImageUp.FileName));
-                    //if (!Directory.Exists(path))
-                    //    Directory.CreateDirectory(path);
-                    
+                {                   
+                    string path = Path.Combine(Server.MapPath("~/Content/ImageUploaded/ImageForUser/"), Path.GetFileName(ImageUp.FileName));                                      
                     if (SaveResizeImage(Image.FromStream(ImageUp.InputStream), path))
-                    {
-                        TempData["TempIdForUser"] = _randomcode.RandomCodeGenral(18, true);
-                  
+                    {                          
                         TempData["TempImageFileName"] = fileName;
-                    }
-                    
-                    //Test.SaveAs(path);
+                    }                                 
                 }
             }
             catch
@@ -108,7 +91,41 @@ namespace BCDHX.Controllers
             }
 
         }
-        
+
+
+        [HttpPost]
+        public void UploadImageForStaff(HttpPostedFileBase UpdateAvata)
+        {
+            try
+            {
+                string[] imageExtensions = { ".jpg", ".jpeg", ".gif", ".png" };
+                var fileName = UpdateAvata.FileName.ToLower();
+                var isValidExtenstion = imageExtensions.Any(ext =>
+                {
+                    return fileName.LastIndexOf(ext) > -1;
+                });
+                if (isValidExtenstion)
+                {
+                    string path = Path.Combine(Server.MapPath("~/Content/ImageUploaded/ImageForUser/StaffAvata"), Path.GetFileName(UpdateAvata.FileName));
+                    SaveResizeImage(Image.FromStream(UpdateAvata.InputStream), path);               
+                        //var tempForChange = _dbBCDH.AdminUsers.AsNoTracking().SingleOrDefault(x => x.UserName == User.Identity.Name);
+                        //tempForChange.Img = fileName;
+                        //_dbBCDH.Entry(tempForChange).State = System.Data.Entity.EntityState.Modified;
+                        //_dbBCDH.SaveChanges();    
+                }
+            }
+            catch
+            {
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+          
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ChangeAvatarImage"></param>       
         [HttpPost]
         public void ProcessChangeAvatar(HttpPostedFileBase ChangeAvatarImage)
         {
@@ -130,8 +147,9 @@ namespace BCDHX.Controllers
                     //    Directory.CreateDirectory(path);
 
                     if (SaveResizeImage(Image.FromStream(ChangeAvatarImage.InputStream), path))
-                    {                                              
-                        var tempForChange = _dbBCDH.Accounts.AsNoTracking().SingleOrDefault(x => x.ID_Account == UserId);
+                    {                  
+                        
+                        var tempForChange = _dbBCDH.Accounts.AsNoTracking().SingleOrDefault(x => x.Username == User.Identity.Name);
                         tempForChange.Img = fileName;
                         _dbBCDH.Entry(tempForChange).State = System.Data.Entity.EntityState.Modified;
                         _dbBCDH.SaveChanges();

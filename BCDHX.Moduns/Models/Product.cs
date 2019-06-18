@@ -31,8 +31,7 @@ namespace BCDHX.Moduns.Models
         public decimal? Price { get; set; }
 
         public int? Status { get; set; }
-        public bool? NewArrival { get; set; }
-        public bool? BestSale { get; set; }
+
         [Column(TypeName = "money")]
         public decimal? Sale { get; set; }
 
@@ -41,6 +40,10 @@ namespace BCDHX.Moduns.Models
 
         [Column(TypeName = "ntext")]
         public string Description { get; set; }
+
+        public bool? NewArrival { get; set; }
+
+        public bool? BestSale { get; set; }
 
         public virtual Category Category { get; set; }
 

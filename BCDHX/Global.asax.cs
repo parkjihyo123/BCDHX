@@ -19,5 +19,10 @@ namespace BCDHX
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             DevExtremeBundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+        protected void Application_BeginRequest()
+        {
+            if (!Context.Request.IsSecureConnection)
+                Response.Redirect(Context.Request.Url.ToString().Replace("http:", "https:"));
+        }
     }
 }

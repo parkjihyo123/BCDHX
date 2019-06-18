@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\JavaScriptEngineSwitcher.ChakraCore.Native.win-x86.3.1.1\build\JavaScriptEngineSwitcher.ChakraCore.Native.win-x86.props" Condition="Exists('..\packages\JavaScriptEngineSwitcher.ChakraCore.Native.win-x86.3.1.1\build\JavaScriptEngineSwitcher.ChakraCore.Native.win-x86.props')" />
+  <Import Project="..\packages\JavaScriptEngineSwitcher.V8.Native.win-x86.3.1.0\build\JavaScriptEngineSwitcher.V8.Native.win-x86.props" Condition="Exists('..\packages\JavaScriptEngineSwitcher.V8.Native.win-x86.3.1.0\build\JavaScriptEngineSwitcher.V8.Native.win-x86.props')" />
+  <Import Project="..\packages\JavaScriptEngineSwitcher.ChakraCore.Native.win-x64.3.1.1\build\JavaScriptEngineSwitcher.ChakraCore.Native.win-x64.props" Condition="Exists('..\packages\JavaScriptEngineSwitcher.ChakraCore.Native.win-x64.3.1.1\build\JavaScriptEngineSwitcher.ChakraCore.Native.win-x64.props')" />
+  <Import Project="..\packages\JavaScriptEngineSwitcher.V8.Native.win-x64.3.1.0\build\JavaScriptEngineSwitcher.V8.Native.win-x64.props" Condition="Exists('..\packages\JavaScriptEngineSwitcher.V8.Native.win-x64.3.1.0\build\JavaScriptEngineSwitcher.V8.Native.win-x64.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -19,8 +23,8 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44343</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -34,6 +38,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <IncludeIisSettings>false</IncludeIisSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,11 +50,30 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AdvancedStringBuilder, Version=0.1.0.0, Culture=neutral, PublicKeyToken=e818a2fc08933ddb, processorArchitecture=MSIL">
+      <HintPath>..\packages\AdvancedStringBuilder.0.1.0\lib\net45\AdvancedStringBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="ClearScript, Version=5.5.6.0, Culture=neutral, PublicKeyToken=935d0c957da47c73, processorArchitecture=MSIL">
+      <HintPath>..\packages\JavaScriptEngineSwitcher.V8.3.1.0\lib\net45\ClearScript.dll</HintPath>
+    </Reference>
     <Reference Include="DevExtreme.AspNet.Data, Version=2.2.1.0, Culture=neutral, PublicKeyToken=982f5dab1439d0f7, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExtreme.AspNet.Data.2.2.1\lib\net452\DevExtreme.AspNet.Data.dll</HintPath>
     </Reference>
-    <Reference Include="DevExtreme.AspNet.Mvc">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\DevExpress 18.2\DevExtreme\System\DevExtreme\Bin\AspNet\DevExtreme.AspNet.Mvc.dll</HintPath>
+    <Reference Include="DevExtreme.AspNet.Mvc, Version=19.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\DevExpress 19.1\DevExtreme\System\DevExtreme\Bin\AspNet\DevExtreme.AspNet.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="JavaScriptEngineSwitcher.ChakraCore, Version=3.1.1.0, Culture=neutral, PublicKeyToken=c608b2a8cc9e4472, processorArchitecture=MSIL">
+      <HintPath>..\packages\JavaScriptEngineSwitcher.ChakraCore.3.1.1\lib\net45\JavaScriptEngineSwitcher.ChakraCore.dll</HintPath>
+    </Reference>
+    <Reference Include="JavaScriptEngineSwitcher.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=c608b2a8cc9e4472, processorArchitecture=MSIL">
+      <HintPath>..\packages\JavaScriptEngineSwitcher.Core.3.1.0\lib\net45\JavaScriptEngineSwitcher.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="JavaScriptEngineSwitcher.V8, Version=3.1.0.0, Culture=neutral, PublicKeyToken=c608b2a8cc9e4472, processorArchitecture=MSIL">
+      <HintPath>..\packages\JavaScriptEngineSwitcher.V8.3.1.0\lib\net45\JavaScriptEngineSwitcher.V8.dll</HintPath>
+    </Reference>
+    <Reference Include="JSPool, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2fc7775f73072640, processorArchitecture=MSIL">
+      <HintPath>..\packages\JSPool.4.0.0\lib\net45\JSPool.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -79,6 +103,15 @@
     <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
       <HintPath>..\packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
     </Reference>
+    <Reference Include="React.Core, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
+      <HintPath>..\packages\React.Core.4.1.1\lib\net45\React.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="React.Web, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
+      <HintPath>..\packages\React.Web.4.1.1\lib\net40\React.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="React.Web.Mvc4, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
+      <HintPath>..\packages\React.Web.Mvc4.4.1.1\lib\net40\React.Web.Mvc4.dll</HintPath>
+    </Reference>
     <Reference Include="RestClient, Version=2.4.4.21, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestClient.2.4.4.21\lib\net451\RestClient.dll</HintPath>
     </Reference>
@@ -88,6 +121,9 @@
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.0.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -127,6 +163,7 @@
       <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
@@ -150,6 +187,13 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization.React, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9aed67b161f7db78, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Web.Optimization.React.4.1.1\lib\net40\System.Web.Optimization.React.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -168,10 +212,6 @@
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
@@ -194,6 +234,9 @@
     </Reference>
     <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -259,8 +302,20 @@
     <Compile Include="App_Start\DevExtremeBundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\ReactConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\AdminBCDH\AdminBCDHAreaRegistration.cs" />
+    <Compile Include="Areas\AdminBCDH\Controllers\AccountController.cs" />
+    <Compile Include="Areas\AdminBCDH\Controllers\HomeController.cs" />
+    <Compile Include="Areas\AdminBCDH\Controllers\NotAuthorizeController.cs" />
+    <Compile Include="Areas\AdminBCDH\Controllers\ProcessGetResourcesController.cs" />
+    <Compile Include="Areas\AdminBCDH\Controllers\ProcessWithCategoryController.cs" />
+    <Compile Include="Areas\AdminBCDH\Controllers\ProcessWithProductController.cs" />
+    <Compile Include="Areas\AdminBCDH\Models\AccountViewModelsAdmin.cs" />
+    <Compile Include="Areas\AdminBCDH\Models\CategoryDataWithDB.cs" />
+    <Compile Include="Areas\AdminBCDH\Models\CategoryViewModel.cs" />
+    <Compile Include="Areas\AdminBCDH\Models\RoleViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -284,8 +339,77 @@
     <Compile Include="Models\UserPayment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Unity\CustomeAuthorizeAdmin.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AdminPage\assets\css\cs-skin-elastic.css" />
+    <Content Include="Content\AdminPage\assets\css\flag-icon.min.css" />
+    <Content Include="Content\AdminPage\assets\css\all.css" />
+    <Content Include="Content\AdminPage\assets\css\lib\chosen\chosen-sprite%402x.png" />
+    <Content Include="Content\AdminPage\assets\css\lib\chosen\chosen-sprite.png" />
+    <Content Include="Content\AdminPage\assets\css\lib\chosen\chosen.css" />
+    <Content Include="Content\AdminPage\assets\css\lib\chosen\chosen.min.css" />
+    <Content Include="Content\AdminPage\assets\css\lib\datatable\buttons.bootstrap.min.css" />
+    <Content Include="Content\AdminPage\assets\css\lib\datatable\buttons.dataTables.min.css" />
+    <Content Include="Content\AdminPage\assets\css\lib\datatable\dataTables.bootstrap.min.css" />
+    <Content Include="Content\AdminPage\assets\css\themify-icons.css" />
+    <Content Include="Content\AdminPage\assets\css\lib\vector-map\jqvmap.min.css" />
+    <Content Include="Content\AdminPage\assets\css\normalize.min.css" />
+    <Content Include="Content\AdminPage\assets\css\pe-icon-7-stroke.css" />
+    <Content Include="Content\AdminPage\assets\css\style.css" />
+    <Content Include="Content\AdminPage\assets\fonts\fa-brands-400.svg" />
+    <Content Include="Content\AdminPage\assets\fonts\fa-regular-400.svg" />
+    <Content Include="Content\AdminPage\assets\fonts\fa-solid-900.svg" />
+    <Content Include="Content\AdminPage\assets\fonts\icomoon\icomoon.svg" />
+    <Content Include="Content\AdminPage\assets\fonts\icomoon\index.html" />
+    <Content Include="Content\AdminPage\assets\fonts\themify.svg" />
+    <Content Include="Content\AdminPage\assets\js\dashboard.js" />
+    <Content Include="Content\AdminPage\assets\js\init\chartjs-init.js" />
+    <Content Include="Content\AdminPage\assets\js\init\datatables-init.js" />
+    <Content Include="Content\AdminPage\assets\js\init\flot-chart-init.js" />
+    <Content Include="Content\AdminPage\assets\js\init\fullcalendar-init.js" />
+    <Content Include="Content\AdminPage\assets\js\init\gmap-init.js" />
+    <Content Include="Content\AdminPage\assets\js\init\peitychart-init.js" />
+    <Content Include="Content\AdminPage\assets\js\init\vector-init.js" />
+    <Content Include="Content\AdminPage\assets\js\init\weather-init.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\chosen\chosen.jquery.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\chosen\chosen.jquery.min.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\chosen\chosen.proto.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\chosen\chosen.proto.min.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\data-table\buttons.bootstrap.min.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\data-table\buttons.colVis.min.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\data-table\buttons.flash.min.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\data-table\buttons.html5.min.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\data-table\buttons.print.min.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\data-table\dataTables.bootstrap.min.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\data-table\dataTables.buttons.min.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\data-table\datatables.min.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\data-table\jquery-1.12.4.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\data-table\jquery.dataTables.min.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\data-table\jszip.min.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\data-table\pdfmake.min.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\data-table\vfs_fonts.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\gmap\gmapApi.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\gmap\gmaps.js" />
+    <Content Include="Content\AdminPage\assets\js\lib\gmap\gmaps.min.js" />
+    <Content Include="Content\AdminPage\assets\js\main.js" />
+    <Content Include="Content\AdminPage\assets\js\vmap.sampledata.js" />
+    <Content Include="Content\AdminPage\assets\js\widgets.js" />
+    <Content Include="Content\AdminPage\assets\scss\style.css" />
+    <Content Include="Content\AdminPage\images\admin.jpg" />
+    <Content Include="Content\AdminPage\images\avatar\1.jpg" />
+    <Content Include="Content\AdminPage\images\avatar\2.jpg" />
+    <Content Include="Content\AdminPage\images\avatar\3.jpg" />
+    <Content Include="Content\AdminPage\images\avatar\4.jpg" />
+    <Content Include="Content\AdminPage\images\avatar\5.jpg" />
+    <Content Include="Content\AdminPage\images\avatar\6.jpg" />
+    <Content Include="Content\AdminPage\images\avatar\64-1.jpg" />
+    <Content Include="Content\AdminPage\images\avatar\64-2.jpg" />
+    <Content Include="Content\AdminPage\images\favicon.png" />
+    <Content Include="Content\AdminPage\images\logo.png" />
+    <Content Include="Content\AdminPage\images\logo2.png" />
+    <Content Include="Content\Authorz\script.js" />
+    <Content Include="Content\Authorz\style.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -307,15 +431,25 @@
     <Content Include="Content\dx.ios7.default.css" />
     <Content Include="Content\dx.light.compact.css" />
     <Content Include="Content\dx.light.css" />
+    <Content Include="Content\dx.material.blue.dark.compact.css" />
     <Content Include="Content\dx.material.blue.dark.css" />
+    <Content Include="Content\dx.material.blue.light.compact.css" />
     <Content Include="Content\dx.material.blue.light.css" />
+    <Content Include="Content\dx.material.lime.dark.compact.css" />
     <Content Include="Content\dx.material.lime.dark.css" />
+    <Content Include="Content\dx.material.lime.light.compact.css" />
     <Content Include="Content\dx.material.lime.light.css" />
+    <Content Include="Content\dx.material.orange.dark.compact.css" />
     <Content Include="Content\dx.material.orange.dark.css" />
+    <Content Include="Content\dx.material.orange.light.compact.css" />
     <Content Include="Content\dx.material.orange.light.css" />
+    <Content Include="Content\dx.material.purple.dark.compact.css" />
     <Content Include="Content\dx.material.purple.dark.css" />
+    <Content Include="Content\dx.material.purple.light.compact.css" />
     <Content Include="Content\dx.material.purple.light.css" />
+    <Content Include="Content\dx.material.teal.dark.compact.css" />
     <Content Include="Content\dx.material.teal.dark.css" />
+    <Content Include="Content\dx.material.teal.light.compact.css" />
     <Content Include="Content\dx.material.teal.light.css" />
     <Content Include="Content\dx.softblue.compact.css" />
     <Content Include="Content\dx.softblue.css" />
@@ -335,10 +469,14 @@
     <Content Include="Content\LoadingScreen\js\jquery.loadingModal.min.js" />
     <Content Include="Content\MainPage\css\all.css" />
     <Content Include="Content\MainPage\css\bootstrap.min.css" />
+    <Content Include="Content\MainPage\css\icofont.css" />
     <Content Include="Content\MainPage\css\icon-font.min.css" />
     <Content Include="Content\MainPage\css\plugins.css" />
     <Content Include="Content\MainPage\css\style.css" />
-    <Content Include="Content\MainPage\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\MainPage\css\themify-icons.css" />
+    <Content Include="Content\MainPage\fonts\fa-brands-400.svg" />
+    <Content Include="Content\MainPage\fonts\fa-regular-400.svg" />
+    <Content Include="Content\MainPage\fonts\fa-solid-900.svg" />
     <Content Include="Content\MainPage\fonts\icofont.svg" />
     <Content Include="Content\MainPage\fonts\themify.svg" />
     <Content Include="Content\MainPage\images\1.png" />
@@ -589,9 +727,9 @@
     <Content Include="Content\MainPage\images\tick-mark1.png" />
     <Content Include="Content\MainPage\images\visa.png" />
     <Content Include="Content\MainPage\js\ajax-mail.js" />
-    <Content Include="Content\MainPage\js\all.js" />
     <Content Include="Content\MainPage\js\bootstrap.min.js" />
     <Content Include="Content\MainPage\js\easyResponsiveTabs.js" />
+    <Content Include="Content\MainPage\js\jquery.validate.js" />
     <Content Include="Content\MainPage\js\main.js" />
     <Content Include="Content\MainPage\js\plugins.js" />
     <Content Include="Content\MainPage\js\popper.min.js" />
@@ -603,9 +741,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="ScriptsBundle\AccountSC.js" />
+    <Content Include="readme.txt" />
+    <Content Include="ScriptsBundle\AdminJquery\ProductManager\Product.min.js" />
     <Content Include="ScriptsBundle\GeneralUser.js" />
-    <Content Include="Scripts\all.js" />
+    <Content Include="ScriptsBundle\React\Admin\ListStaffAccount\ListStaffAccount.jsx" />
+    <Content Include="ScriptsBundle\React\remarkable.min.js" />
+    <Content Include="ScriptsBundle\React\react-dom.development.js" />
+    <Content Include="ScriptsBundle\React\Login.jsx" />
+    <Content Include="ScriptsBundle\AccountSC.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\aspnet\dx.aspnet.data.js" />
@@ -631,17 +774,6 @@
     <Content Include="Content\icons\dxiconsmaterial.woff" />
     <Content Include="Content\icons\dxiconsmaterial.woff2" />
     <Content Include="Content\LoadingScreen\scss\jquery.loadingModal.scss" />
-    <Content Include="Content\MainPage\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\MainPage\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\MainPage\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\MainPage\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\MainPage\fonts\FontAwesome.otf" />
-    <Content Include="Content\MainPage\fonts\icofont.eot" />
-    <Content Include="Content\MainPage\fonts\icofont.ttf" />
-    <Content Include="Content\MainPage\fonts\icofont.woff" />
-    <Content Include="Content\MainPage\fonts\themify.eot" />
-    <Content Include="Content\MainPage\fonts\themify.ttf" />
-    <Content Include="Content\MainPage\fonts\themify.woff" />
     <Content Include="Content\MainPage\scss\style.scss" />
     <Content Include="Content\MainPage\scss\_about.scss" />
     <Content Include="Content\MainPage\scss\_banner.scss" />
@@ -675,7 +807,66 @@
     <Content Include="Content\MainPage\scss\_theme-dark.scss" />
     <Content Include="Content\MainPage\scss\_track-order.scss" />
     <Content Include="Content\MainPage\scss\_variabls.scss" />
+    <Content Include="Areas\AdminBCDH\Views\web.config" />
+    <Content Include="Content\AdminPage\assets\css\style.css.map" />
+    <Content Include="Content\AdminPage\assets\fonts\icomoon\icomoon.eot" />
+    <Content Include="Content\AdminPage\assets\fonts\icomoon\icomoon.ttf" />
+    <Content Include="Content\AdminPage\assets\fonts\icomoon\icomoon.woff" />
+    <Content Include="Content\AdminPage\assets\scss\style.css.map" />
+    <Content Include="Content\AdminPage\assets\scss\style.scss" />
+    <Content Include="Content\AdminPage\images\.gitignore" />
+    <Content Include="Content\AdminPage\images\logo.psd" />
+    <Content Include="Areas\AdminBCDH\Views\Shared\_LayoutAdmin.cshtml" />
+    <Content Include="Areas\AdminBCDH\Views\Home\Index.cshtml" />
+    <Content Include="Areas\AdminBCDH\Views\Account\Login.cshtml" />
+    <Content Include="Content\MainPage\fonts\themify.eot" />
+    <Content Include="Content\MainPage\fonts\themify.ttf" />
+    <Content Include="Content\MainPage\fonts\themify.woff" />
+    <Content Include="Content\MainPage\fonts\icofont.eot" />
+    <Content Include="Content\MainPage\fonts\icofont.ttf" />
+    <Content Include="Content\MainPage\fonts\icofont.woff" />
+    <Content Include="Content\MainPage\fonts\icofont.woff2" />
+    <Content Include="Content\MainPage\fonts\fa-brands-400.eot" />
+    <Content Include="Content\MainPage\fonts\fa-brands-400.ttf" />
+    <Content Include="Content\MainPage\fonts\fa-brands-400.woff" />
+    <Content Include="Content\MainPage\fonts\fa-brands-400.woff2" />
+    <Content Include="Content\MainPage\fonts\fa-regular-400.eot" />
+    <Content Include="Content\MainPage\fonts\fa-regular-400.ttf" />
+    <Content Include="Content\MainPage\fonts\fa-regular-400.woff" />
+    <Content Include="Content\MainPage\fonts\fa-regular-400.woff2" />
+    <Content Include="Content\MainPage\fonts\fa-solid-900.eot" />
+    <Content Include="Content\MainPage\fonts\fa-solid-900.ttf" />
+    <Content Include="Content\MainPage\fonts\fa-solid-900.woff" />
+    <Content Include="Content\MainPage\fonts\fa-solid-900.woff2" />
+    <Content Include="Areas\AdminBCDH\Views\Home\ListStaffAccount.cshtml" />
+    <Content Include="Areas\AdminBCDH\Views\Home\HeaderPartial.cshtml" />
+    <Content Include="Content\AdminPage\assets\fonts\fa-brands-400.eot" />
+    <Content Include="Content\AdminPage\assets\fonts\fa-brands-400.ttf" />
+    <Content Include="Content\AdminPage\assets\fonts\fa-brands-400.woff" />
+    <Content Include="Content\AdminPage\assets\fonts\fa-brands-400.woff2" />
+    <Content Include="Content\AdminPage\assets\fonts\fa-regular-400.eot" />
+    <Content Include="Content\AdminPage\assets\fonts\fa-regular-400.ttf" />
+    <Content Include="Content\AdminPage\assets\fonts\fa-regular-400.woff" />
+    <Content Include="Content\AdminPage\assets\fonts\fa-regular-400.woff2" />
+    <Content Include="Content\AdminPage\assets\fonts\fa-solid-900.eot" />
+    <Content Include="Content\AdminPage\assets\fonts\fa-solid-900.ttf" />
+    <Content Include="Content\AdminPage\assets\fonts\fa-solid-900.woff" />
+    <Content Include="Content\AdminPage\assets\fonts\fa-solid-900.woff2" />
+    <Content Include="Content\AdminPage\assets\fonts\themify.eot" />
+    <Content Include="Content\AdminPage\assets\fonts\themify.ttf" />
+    <Content Include="Content\AdminPage\assets\fonts\themify.woff" />
+    <Content Include="Areas\AdminBCDH\Views\Home\FooterPartial.cshtml" />
+    <Content Include="Content\fonts\Roboto-700.woff2" />
+    <Content Include="Content\fonts\Roboto-700.woff" />
+    <Content Include="Content\fonts\Roboto-700.ttf" />
+    <Content Include="Areas\AdminBCDH\Views\NotAuthorize\NotAuthorized.cshtml" />
+    <Content Include="Areas\AdminBCDH\Views\Home\LeftPanelParital.cshtml" />
+    <Content Include="Areas\AdminBCDH\Views\Home\Category.cshtml" />
+    <Content Include="Areas\AdminBCDH\Views\Home\Prodcut.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="ScriptsBundle\React\react.development.js" />
+    <Content Include="ScriptsBundle\AdminJquery\ListStaffAccount\ListStaff.min.js" />
+    <Content Include="ScriptsBundle\AdminJquery\CategoryManager\Category.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\cldr.min.js" />
@@ -685,8 +876,13 @@
     <Content Include="Scripts\cldr\supplemental.min.js" />
     <Content Include="Scripts\cldr\unresolved.js" />
     <Content Include="Scripts\cldr\unresolved.min.js" />
+    <Content Include="Scripts\devextreme-localization\dx.messages.de.js" />
+    <Content Include="Scripts\devextreme-localization\dx.messages.en.js" />
+    <Content Include="Scripts\devextreme-localization\dx.messages.ja.js" />
+    <Content Include="Scripts\devextreme-localization\dx.messages.ru.js" />
     <Content Include="Scripts\dx.all.debug.js" />
     <Content Include="Scripts\dx.all.js" />
+    <Content Include="Scripts\dx.aspnet.mvc.js" />
     <Content Include="Scripts\dx.mobile.debug.js" />
     <Content Include="Scripts\dx.mobile.js" />
     <Content Include="Scripts\dx.viz-web.debug.js" />
@@ -705,6 +901,9 @@
     <Content Include="Scripts\globalize\message.min.js" />
     <Content Include="Scripts\globalize\number.js" />
     <Content Include="Scripts\globalize\number.min.js" />
+    <Content Include="Scripts\globalize\plural.js" />
+    <Content Include="Scripts\globalize\relative-time.js" />
+    <Content Include="Scripts\globalize\unit.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -812,6 +1011,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\AdminBCDH\Views\ProcessGetResources\" />
+    <Folder Include="Areas\AdminBCDH\Views\ProcessWithCategory\" />
+    <Folder Include="Areas\AdminBCDH\Views\ProcessWithProduct\" />
     <Folder Include="Content\ImageUploaded\ImageForUser\" />
     <Folder Include="Views\Upload\" />
   </ItemGroup>
@@ -865,6 +1067,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
+      <UserProperties DismissedDevExtremeVersion="19.1.3.0" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -872,6 +1075,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\JavaScriptEngineSwitcher.V8.Native.win-x64.3.1.0\build\JavaScriptEngineSwitcher.V8.Native.win-x64.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JavaScriptEngineSwitcher.V8.Native.win-x64.3.1.0\build\JavaScriptEngineSwitcher.V8.Native.win-x64.props'))" />
+    <Error Condition="!Exists('..\packages\JavaScriptEngineSwitcher.ChakraCore.Native.win-x64.3.1.1\build\JavaScriptEngineSwitcher.ChakraCore.Native.win-x64.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JavaScriptEngineSwitcher.ChakraCore.Native.win-x64.3.1.1\build\JavaScriptEngineSwitcher.ChakraCore.Native.win-x64.props'))" />
+    <Error Condition="!Exists('..\packages\JavaScriptEngineSwitcher.V8.Native.win-x86.3.1.0\build\JavaScriptEngineSwitcher.V8.Native.win-x86.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JavaScriptEngineSwitcher.V8.Native.win-x86.3.1.0\build\JavaScriptEngineSwitcher.V8.Native.win-x86.props'))" />
+    <Error Condition="!Exists('..\packages\JavaScriptEngineSwitcher.ChakraCore.Native.win-x86.3.1.1\build\JavaScriptEngineSwitcher.ChakraCore.Native.win-x86.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\JavaScriptEngineSwitcher.ChakraCore.Native.win-x86.3.1.1\build\JavaScriptEngineSwitcher.ChakraCore.Native.win-x86.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

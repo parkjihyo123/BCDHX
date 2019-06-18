@@ -3,7 +3,6 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -15,7 +14,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 namespace BCDHX.Controllers
 {
-    [Authorize]
+
     public class AccountController : Controller, IEmail
     {
         private ApplicationSignInManager _signInManager;
@@ -23,12 +22,12 @@ namespace BCDHX.Controllers
         private WebDieuHienDB _db;
         private ApplicationDbContext _dbasp;
         private GetInformationUserUsingOSAndBrowser _getInforUser;
-        
+
         public AccountController()
         {
             _db = new WebDieuHienDB();
             _dbasp = new ApplicationDbContext();
-            
+
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -64,56 +63,68 @@ namespace BCDHX.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login(string returnUrl, string CallStatusExtend)
         {
-            if (IsAuthenticated(AuthenticationManager)&&Session["Authencation"]!=null)
+            if (IsAuthenticated(AuthenticationManager)&&User.IsInRole("Customer"))
             {
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
+                if (CallStatusExtend!=null)
+                {
+                    ViewBag.Error = "Tài đã khoản đã tồn tại, nếu quên mật khẩu xin hãy bấm vào quên mật khẩu để tìm lại.Cần hỗ trợ hãy liên hệ ngay LiveChat!";
+                }
                 ViewBag.ReturnUrl = returnUrl;
                 return View();
             }
-            
+
         }
 
         //
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-       /// [ValidateAntiForgeryToken]
+        /// [ValidateAntiForgeryToken]
         public async Task<JsonResult> Login(LoginViewModel model)
         {
             // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
+            // To enable password failures to trigger account lockout, change to shouldLockout: true           
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: true);
+           
             var tempuser = SignInManager.UserManager.Find(model.Email, model.Password);
-            if (tempuser != null)
+            if (tempuser != null && User.IsInRole("Customer"))
             {
                 if (tempuser.EmailConfirmed != true)
                 {
                     result = SignInStatus.RequiresVerification;
                 }
             }
+
             switch (result)
             {
                 case SignInStatus.Success:
-                    ///ClaimsIdentity ident = UserManager.CreateIdentity(tempuser, DefaultAuthenticationTypes.ApplicationCookie);
-                    //AuthenticationManager.SignOut();
-                    //AuthenticationManager.SignIn(ident);
-                    //var userIdentity = await tempuser.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
-                    //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie, DefaultAuthenticationTypes.ApplicationCookie);
-                    //AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = false }, userIdentity);
-                  var GetIdUser =  _db.Accounts.SingleOrDefault(x=>x.Username==model.Email);
-                    Session["Authencation"]= GetUserLoginTemp(AuthenticationManager.AuthenticationResponseGrant.Principal.Identity.Name, GetIdUser.ID_Account, "");                   
-                    //return RedirectToLocal(returnUrl);
-                    return Json(new
+                    var CustomerRoles = UserManager.GetRoles(tempuser.Id).Select(x => x).Where(x => x.StartsWith("Customer")).Count();
+                    if (CustomerRoles > 0)
                     {
-                        Status = 0,
-                        Error = "Done",
-                        ReturnUrl = model.ReturnLink
-                    });
+                        var GetIdUser = _db.Accounts.SingleOrDefault(x => x.Username == model.Email);
+                        TempData["IDUserForUploadImage"] = GetIdUser.ID_Account;
+                        return Json(new
+                        {
+                            Status = 0,
+                            Error = "Done",
+                            ReturnUrl = model.ReturnLink
+                        });
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            Status = 4,
+                            Error = "Bạn không có quyền truy cập",
+
+                        });
+                    }
                 case SignInStatus.LockedOut:
                     return Json(new
                     {
@@ -126,6 +137,7 @@ namespace BCDHX.Controllers
                         Status = 2,
                         Error = "NeedVerification"
                     });
+
                 case SignInStatus.Failure:
                 default:
                     //ModelState.AddModelError("", "Invalid login attempt.");
@@ -187,25 +199,22 @@ namespace BCDHX.Controllers
         {
             if (IsAuthenticated(AuthenticationManager))
             {
-                return RedirectToAction("Index","Home");
-            }else
+                return RedirectToAction("Index", "Home");
+            }
+            else
             {
                 return View();
             }
-           
+
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-
         public async Task<JsonResult> Register(Account model)
         {
-
-
             var user = new ApplicationUser { UserName = model.Username, Email = model.Username };
-
             var result = await UserManager.CreateAsync(user, model.Password);
             if (result.Errors.Count() != 0)
             {
@@ -219,28 +228,15 @@ namespace BCDHX.Controllers
                 if (result.Succeeded)
                 {
                     ApplicationUser currentUser = _dbasp.Users.FirstOrDefault(x => x.Email.Equals(model.Username));
-                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    Session["Authencation"] = GetUserLoginTemp(AuthenticationManager.AuthenticationResponseGrant.Principal.Identity.Name, AuthenticationManager.AuthenticationResponseGrant.Principal.Identity.GetUserId(), "");
-                    //string currentUserId = User.Identity.GetUserId();
+                    await UserManager.AddToRoleAsync(currentUser.Id, "Customer");
                     AddAccountToDB(model.Fullname, model.Username, model.Address, user.Id, model.Password);
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     SendHtmlFormattedEmail("Xác thực tài khoản", CreateEmailBodyConfirmation(model.Username, model.Password, DateTime.Now.ToString("dd-MM-yyyy"), callbackUrl), model.Username);
                     return Json("1");
                 }
             }
-
-
-
             return null;
-
-
-
-            // If we got this far, something failed, redisplay form
-            //return View(model);
         }
 
         /// <summary>
@@ -355,10 +351,7 @@ namespace BCDHX.Controllers
         {
             var TempUserId = TempData["TempIdForUser"];
             var TempUserLinkImage = "";
-            if (TempUserId != null)
-            {
-                idAccount = TempUserId.ToString();
-            }
+
             if (TempData["TempImageFileName"] != null)
             {
                 TempUserLinkImage = TempData["TempImageFileName"].ToString();
@@ -596,7 +589,6 @@ namespace BCDHX.Controllers
             var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
-
         //
         // POST: /Account/SendCode
         [HttpPost]
@@ -608,7 +600,6 @@ namespace BCDHX.Controllers
             {
                 return View();
             }
-
             // Generate the token and send it
             if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
@@ -616,7 +607,6 @@ namespace BCDHX.Controllers
             }
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
-
         //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
@@ -629,11 +619,10 @@ namespace BCDHX.Controllers
             }
 
             // Sign in the user with this external login provider if the user already has a login
-            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: true);
+            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
             switch (result)
             {
-                case SignInStatus.Success:
-                    Session["Authencation"] = GetUserLoginTemp(AuthenticationManager.AuthenticationResponseGrant.Principal.Identity.Name, AuthenticationManager.AuthenticationResponseGrant.Principal.Identity.GetUserId(), "");
+                case SignInStatus.Success:                  
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -644,7 +633,14 @@ namespace BCDHX.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    var CheckUserExsit = UserManager.FindByEmail(loginInfo.Email);
+                    if (CheckUserExsit==null)
+                    {
+                        return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    }else
+                    {
+                        return RedirectToAction("Login",new {CallStatusExtend ="ExsitAccount"});
+                    }               
             }
         }
         //
@@ -653,20 +649,18 @@ namespace BCDHX.Controllers
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]
-        
         public async Task<JsonResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model)
         {
+          
             if (User.Identity.IsAuthenticated)
             {
                 return Json(new
                 {
                     Status = "1",
                     Error = "IsAuthenticated",
-                    Returnlink = model.ReturnLink
+                    
                 });
             }
-
-
             // Get the information about the user from the external login provider
             var info = await AuthenticationManager.GetExternalLoginInfoAsync();
             if (info == null)
@@ -677,38 +671,50 @@ namespace BCDHX.Controllers
                     Error = "Login Error"
                 });
             }
-            var user = new ApplicationUser { UserName = model.Username, Email = model.Username };
-            var result = await UserManager.CreateAsync(user);
-            if (result.Succeeded)
+           
+        var user = new ApplicationUser { UserName = model.Username, Email = model.Username };
+        var CheckUserExsit=UserManager.FindByEmail(model.Username);
+            if (CheckUserExsit==null)
             {
-                result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    AddAccountToDB(model.Fullname,model.Username,model.Address,user.Id,user.PasswordHash);
-                    Session["Authencation"] = AuthenticationManager.AuthenticationResponseGrant.Principal.Identity;
-                    return Json(new
+                    result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                    if (result.Succeeded)
                     {
-                        Status = "0",
-                        Error = "Bạn đã đăng kí thành công!"
-                    });
-                   
+                        await SignInManager.SignInAsync(user, isPersistent: true, rememberBrowser: true);
+                        AddAccountToDB(model.Fullname, model.Username, model.Address, user.Id, user.PasswordHash);
+                        await UserManager.AddToRoleAsync(user.Id,"Customer");                      
+                        return Json(new
+                        {
+                            Status = "0",
+                            Error = "Bạn đã đăng kí thành công!",
+                            
+                        });
+                    }
                 }
             }
-            AddErrors(result);
-            ViewBag.ReturnUrl = model.ReturnLink;
-            return Json("");
-            //return View(model);
+            else
+            {
+                return Json(new
+                {
+                    Status = "3",
+                    Error = "Tài khoản đã tồn tại , bạn hãy kiểm tra lại, nếu quên mật khẩu hãy bấm vào quên mật khẩu để rest mật khẩu"
+                });
+            }
+           
+          
+            return Json("");            
         }
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie,
+                                    DefaultAuthenticationTypes.ExternalCookie);          
+            return RedirectToAction("Login", "Account");
         }
 
         //
@@ -738,13 +744,14 @@ namespace BCDHX.Controllers
 
             base.Dispose(disposing);
         }
-                
+
         #region Helpers
         //GetUserLoginTemp
-        public UserLoginTemp GetUserLoginTemp(string userName,string userId,string Address)
+        public UserLoginTemp GetUserLoginTemp(string userName, string userId, string Address)
         {
-            UserLoginTemp t = new UserLoginTemp{
-                UserId= userId,
+            UserLoginTemp t = new UserLoginTemp
+            {
+                UserId = userId,
                 Address = Address,
                 Username = userName
             };
@@ -786,7 +793,7 @@ namespace BCDHX.Controllers
 
         private ActionResult RedirectCustom(string returnUrl)
         {
-             return Redirect(returnUrl);
+            return Redirect(returnUrl);
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

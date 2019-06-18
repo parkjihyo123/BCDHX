@@ -33,6 +33,7 @@ namespace BCDHX.Moduns.Models
         public DateTime? DateExprie { get; set; }
 
         public bool? Status { get; set; }
+
         [StringLength(250)]
         public string Content { get; set; }
     }

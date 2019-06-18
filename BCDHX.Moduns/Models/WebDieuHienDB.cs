@@ -12,8 +12,15 @@ namespace BCDHX.Moduns.Models
         {
         }
 
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
+        public virtual DbSet<About> Abouts { get; set; }
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<AdminUser> AdminUsers { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<BestDeal> BestDeals { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<CuponCode> CuponCodes { get; set; }
         public virtual DbSet<FeedBack> FeedBacks { get; set; }
@@ -28,8 +35,6 @@ namespace BCDHX.Moduns.Models
         public virtual DbSet<StockInOutDetail> StockInOutDetails { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<WishList> WishLists { get; set; }
-        public virtual DbSet<About> Abouts { get; set; }
-        public virtual DbSet<BestDeal> BestDeals { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -44,6 +49,21 @@ namespace BCDHX.Moduns.Models
             modelBuilder.Entity<Account>()
                 .Property(e => e.Amount)
                 .HasPrecision(19, 4);
+
+            modelBuilder.Entity<AspNetRole>()
+                .HasMany(e => e.AspNetUsers)
+                .WithMany(e => e.AspNetRoles)
+                .Map(m => m.ToTable("AspNetUserRoles").MapLeftKey("RoleId").MapRightKey("UserId"));
+
+            modelBuilder.Entity<AspNetUser>()
+                .HasMany(e => e.AspNetUserClaims)
+                .WithRequired(e => e.AspNetUser)
+                .HasForeignKey(e => e.UserId);
+
+            modelBuilder.Entity<AspNetUser>()
+                .HasMany(e => e.AspNetUserLogins)
+                .WithRequired(e => e.AspNetUser)
+                .HasForeignKey(e => e.UserId);
 
             modelBuilder.Entity<Category>()
                 .Property(e => e.Name_Category)

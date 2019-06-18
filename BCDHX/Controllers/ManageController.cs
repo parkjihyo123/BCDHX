@@ -9,28 +9,22 @@ using Microsoft.Owin.Security;
 using BCDHX.Models;
 using BCDHX.Moduns.Unity;
 using BCDHX.Moduns.Models;
-using System.Data.Entity;
-using System.Net.Http;
 using PayPal.Api;
 using System.Collections.Generic;
-using System.Net;
 using System.IO;
-using System.Text;
 using System.Security.Claims;
-using BCDHX.Moduns.Mannger;
-using Rest;
 using RestSharp;
 
 namespace BCDHX.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Customer")]
     public class ManageController : Controller
     {
         
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private WebDieuHienDB _dbBCDH;
-        private SH256Code _sH256Code;
+       
         public ManageController()
         {
             this._dbBCDH = new WebDieuHienDB();
@@ -66,61 +60,42 @@ namespace BCDHX.Controllers
                 _userManager = value;
             }
         }
-        private string UserId
-        {
 
+        private string IDUser
+        {
             get
             {
-                var temp = (UserLoginTemp)Session["Authencation"];
-                return temp.UserId;
+                return User.Identity.GetUserId();
             }
+        }
 
-        }
-        private string UserName
-        {
-            get
-            {
-                var temp = (UserLoginTemp)Session["Authencation"];
-                return temp.Username;
-            }
-        }
-        // Get: / Manage/Index (New)
-        private Account OrginUserFormDatabase
-        {
-            get
-            {
-                return _dbBCDH.Accounts.SingleOrDefault(x => x.ID_Account == UserId);
-            }
-        }
-        private UserViewModel GetUserInformation
-        {
-            get
-            {
-                UserViewModel tempUser = new UserViewModel
-                {
-                    Access = OrginUserFormDatabase.Access.Value,
-                    Fullname = OrginUserFormDatabase.Fullname,
-                    Address = OrginUserFormDatabase.Address,
-                    ID_Account = OrginUserFormDatabase.ID_Account,
-                    Img = OrginUserFormDatabase.Img,
-                    Password = OrginUserFormDatabase.Password,
-                    Username = OrginUserFormDatabase.Username,
-                   Amount =  OrginUserFormDatabase.Amount.Value.ToString(),
-                };
-                return tempUser;
-            }
-        }
         public  ActionResult Index()
         {
-            
-                return View();
-        }
 
+            return View();
+                
+        }
+        public UserViewModel GetUserInformation()
+        {         
+            var t = _dbBCDH.Accounts.Where(x=>x.ID_Account==IDUser).SingleOrDefault();
+            UserViewModel tempUser = new UserViewModel
+            {
+                Access = t.Access.Value,
+                Fullname = t.Fullname,
+                Address = t.Address,
+                ID_Account = t.ID_Account,
+                Img = t.Img,
+                Password = t.Password,
+                Username = t.Username,
+                Amount = t.Amount.Value.ToString(),
+            };
+            return tempUser;
+        }
         //
         public PartialViewResult GeneralInfromation()
         {
            
-            return PartialView(GetUserInformation);
+            return PartialView(GetUserInformation());
         }
 
         [AllowAnonymous]
@@ -129,9 +104,9 @@ namespace BCDHX.Controllers
         {
             using (_dbBCDH)
             {
-                var ChangeAccount = _dbBCDH.Accounts.AsNoTracking().SingleOrDefault(x => x.ID_Account == UserId);
-                account.ID_Account = UserId;
-                account.Username = UserName;
+                var ChangeAccount = _dbBCDH.Accounts.AsNoTracking().SingleOrDefault(x => x.ID_Account == IDUser);
+                account.ID_Account = IDUser;
+                account.Username = ChangeAccount.Username;
                 account.Amount = ChangeAccount.Amount;
                 account.Access = ChangeAccount.Access;
                 account.Img = ChangeAccount.Img;
@@ -159,12 +134,12 @@ namespace BCDHX.Controllers
 
         public PartialViewResult GeneralAvatarUser()
         {          
-            return PartialView(GetUserInformation);
+            return PartialView(GetUserInformation());
         }
         
        public PartialViewResult GeneralSummaryUser()
         {
-            return PartialView(GetUserInformation);
+            return PartialView(GetUserInformation());
         }
         public PartialViewResult PayToAccountGeneral()
         {
@@ -288,17 +263,7 @@ namespace BCDHX.Controllers
         }
 
         #region Private Methods
-        private static JWTContainerModel GetJWTContainerModel(string name, string email)
-        {
-            return new JWTContainerModel()
-            {
-                Claims = new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, name),
-                    new Claim(ClaimTypes.Email, email)
-                }
-            };
-        }
+      
         #endregion
         public ActionResult SuccessView()
         {
@@ -388,9 +353,9 @@ namespace BCDHX.Controllers
             TempUserPaymentForAccount tempUser = new TempUserPaymentForAccount
             {
                 Id = transactionList.Select(x => x.invoice_number).ToString(),
-                NameAccount = UserName,
+                NameAccount = "",
                 PaymentDate = DateTime.Now,
-                UserId = UserId,
+                UserId = IDUser,
                 PaymentType = UserPaymentName.PAYTOACCOUNT.ToString(),
 
             };

@@ -16,10 +16,9 @@
     ============================================ -->
     <!-- Bootstrap CSS -->
     @Styles.Render("~/Content/css")
-    @*<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">*@
+   
     <!-- Modernizer JS -->
     @Scripts.Render("~/bundles/modernizr")
-    @Styles.Render("~/Content/DevExtremeBundle")
     @Scripts.Render("~/Scripts/DevExtremeBundle")
 </head>
 <body>
@@ -124,15 +123,9 @@
     ============================================ -->
     <!-- jQuery JS -->
     @Scripts.Render("~/bundles/jquery")
-    <!-- Popper JS -->
-    <script src="@Url.Content("~/Scripts/popper.min.js")"></script>
-    <!-- Bootstrap JS -->
+      <!--Popper JS Bootstrap JS -->
     @Scripts.Render("~/bundles/bootstrap")
-    <!-- Plugins JS -->
-    <script src="@Url.Content("~/Content/MainPage/js/plugins.js")"></script>
-    <!-- Main JS -->
-    <script src="@Url.Content("~/Content/MainPage/js/main.js")"></script>
-    <script src="@Url.Content("~/Scripts/all.js")"></script>
+   
     @RenderSection("ScriptBundle", required: false)
 </body>
 </html>
