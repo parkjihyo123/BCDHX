@@ -92,8 +92,7 @@ namespace BCDHX.Areas.AdminBCDH.Controllers
         [HttpPost]
         public ActionResult EditCategory(string key,string values)
         {
-            var TempCategory = _db.Categories.Select(x => x).Where(x => x.ID_Category == key).SingleOrDefault();
-            CategoryDataWithDB categoryModel = new CategoryDataWithDB();
+            var TempCategory = _db.Categories.Select(x => x).Where(x => x.ID_Category == key).SingleOrDefault();          
             JsonConvert.PopulateObject(values, TempCategory);
             _db.Entry(TempCategory).State=System.Data.Entity.EntityState.Modified;
             _db.SaveChanges();
@@ -102,8 +101,7 @@ namespace BCDHX.Areas.AdminBCDH.Controllers
         [HttpPost]
         public ActionResult AddCategory(string values)
         {
-            CategoryDataWithDB categoryModel = new CategoryDataWithDB();
-         
+            CategoryDataForVadiate categoryModel = new CategoryDataForVadiate();        
             JsonConvert.PopulateObject(values, categoryModel);
             Category t = new Category
             {
@@ -136,7 +134,7 @@ namespace BCDHX.Areas.AdminBCDH.Controllers
         
         #region
         [HttpPost]
-        public ActionResult IsVadiateIdCategory(CategoryDataWithDB data)
+        public ActionResult IsVadiateIdCategory(CategoryDataForVadiate data)
         {
             bool fg = false;
             var Mess = "Mã danh mục không hợp lệ";
@@ -165,16 +163,11 @@ namespace BCDHX.Areas.AdminBCDH.Controllers
         [HttpPost]
         public ActionResult GetIdOfCategory()
         {
-            var temp = _db.Categories.Select(x => x.ID_Category).ToList();
-            var t = from p in _db.Categories
-                    select new
-                    {
-                        IDCategory=p.ID_Category,
-                        NameCategory=p.Name_Category
-                    };
-            if (t!=null)
+           
+            var gh = _db.Categories.Select(x => new { ID_Category = x.ID_Category, Name_Category = x.Name_Category }).ToList();
+            if (gh!=null)
             {
-                return Json(t);
+                return Json( gh );
             }
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }

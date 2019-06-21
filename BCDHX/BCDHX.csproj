@@ -311,10 +311,13 @@
     <Compile Include="Areas\AdminBCDH\Controllers\NotAuthorizeController.cs" />
     <Compile Include="Areas\AdminBCDH\Controllers\ProcessGetResourcesController.cs" />
     <Compile Include="Areas\AdminBCDH\Controllers\ProcessWithCategoryController.cs" />
+    <Compile Include="Areas\AdminBCDH\Controllers\ProcessWithImageProductController.cs" />
     <Compile Include="Areas\AdminBCDH\Controllers\ProcessWithProductController.cs" />
     <Compile Include="Areas\AdminBCDH\Models\AccountViewModelsAdmin.cs" />
-    <Compile Include="Areas\AdminBCDH\Models\CategoryDataWithDB.cs" />
+    <Compile Include="Areas\AdminBCDH\Models\CategoryDataForVadiate.cs" />
     <Compile Include="Areas\AdminBCDH\Models\CategoryViewModel.cs" />
+    <Compile Include="Areas\AdminBCDH\Models\ImageProductViewModel.cs" />
+    <Compile Include="Areas\AdminBCDH\Models\ProductViewModel.cs" />
     <Compile Include="Areas\AdminBCDH\Models\RoleViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -463,6 +466,7 @@
     <Content Include="Content\ErrorPage\css\style.css" />
     <Content Include="Content\ErrorPage\img\bg.jpg" />
     <Content Include="Content\ImageUploaded\ImageForProduct\6098_shop1_996424_grande.jpg" />
+    <Content Include="Content\ImageUploaded\ImageForProduct\nophoto.png" />
     <Content Include="Content\LoadingScreen\css\jquery.loadingModal.css" />
     <Content Include="Content\LoadingScreen\css\jquery.loadingModal.min.css" />
     <Content Include="Content\LoadingScreen\js\jquery.loadingModal.js" />
@@ -742,6 +746,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="readme.txt" />
+    <Content Include="ScriptsBundle\AdminJquery\ImageProduct\ImageProduct.min.js" />
     <Content Include="ScriptsBundle\AdminJquery\ProductManager\Product.min.js" />
     <Content Include="ScriptsBundle\GeneralUser.js" />
     <Content Include="ScriptsBundle\React\Admin\ListStaffAccount\ListStaffAccount.jsx" />
@@ -862,7 +867,9 @@
     <Content Include="Areas\AdminBCDH\Views\NotAuthorize\NotAuthorized.cshtml" />
     <Content Include="Areas\AdminBCDH\Views\Home\LeftPanelParital.cshtml" />
     <Content Include="Areas\AdminBCDH\Views\Home\Category.cshtml" />
-    <Content Include="Areas\AdminBCDH\Views\Home\Prodcut.cshtml" />
+    <Content Include="Areas\AdminBCDH\Views\Home\Product.cshtml" />
+    <Content Include="Content\cldr\main\currencies.json" />
+    <Content Include="Content\cldr\main\numbers.json" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="ScriptsBundle\React\react.development.js" />
     <Content Include="ScriptsBundle\AdminJquery\ListStaffAccount\ListStaff.min.js" />
@@ -904,6 +911,7 @@
     <Content Include="Scripts\globalize\plural.js" />
     <Content Include="Scripts\globalize\relative-time.js" />
     <Content Include="Scripts\globalize\unit.js" />
+    <Content Include="Scripts\devextreme-intl.min.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -1013,6 +1021,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\AdminBCDH\Views\ProcessGetResources\" />
     <Folder Include="Areas\AdminBCDH\Views\ProcessWithCategory\" />
+    <Folder Include="Areas\AdminBCDH\Views\ProcessWithImageProduct\" />
     <Folder Include="Areas\AdminBCDH\Views\ProcessWithProduct\" />
     <Folder Include="Content\ImageUploaded\ImageForUser\" />
     <Folder Include="Views\Upload\" />

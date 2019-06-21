@@ -7,7 +7,7 @@ using System.Web;
 
 namespace BCDHX.Areas.AdminBCDH.Models
 {
-    public class CategoryDataWithDB
+    public class CategoryDataForVadiate
     {
         private string _CreateDate;
         private string _LastModified;

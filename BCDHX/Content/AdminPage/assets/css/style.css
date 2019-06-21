@@ -1200,7 +1200,7 @@ header .form-inline {
   width: 100%; }
 
 .card {
-  margin-bottom: 1.875em;
+  margin-bottom: 0.75em;
   border-radius: 5px;
   padding: 0;
   border: 0px solid transparent;
@@ -2502,5 +2502,9 @@ footer.site-footer {
   #cellPaiChart #pieLabel0 {
     left: inherit !important;
     right: 20px !important; }
-
+.productinfo .productdes {
+    width:300px;
+    text-align: justify;
+    white-space: normal;
+}
 /*# sourceMappingURL=style.css.map */

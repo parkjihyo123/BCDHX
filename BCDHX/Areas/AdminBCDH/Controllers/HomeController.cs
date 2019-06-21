@@ -23,7 +23,7 @@ namespace BCDHX.Areas.AdminBCDH.Controllers
             return View();
         }
         [CustomeAuthorizeAdmin(Roles = "Admin,Staff,Manager")]
-        public ActionResult Prodcut()
+        public ActionResult Product()
         {
             return View();
         }
