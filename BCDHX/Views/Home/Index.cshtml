@@ -24,15 +24,21 @@
 @section Brands
 {
     @Html.Partial("~/Views/Home/BrandsPartial.cshtml")
-}   
+}
 @section BestDeal{
-        @Html.Action("BestDeal","Product")
-    }
+    @Html.Action("BestDeal", "Product")
+}
 @section NewArrival{
-    @Html.Action("NewArrival","Product")
+    @Html.Action("NewArrival", "Product")
 }
 @section Subscribe{
     @Html.Partial("~/Views/Home/SubscribePartial.cshtml")
 }
 @Html.Action("BestSeller", "Product")
+@section ScriptBundle
+{
+
+    <script src="@Url.Content("~/ScriptsBundle/ProductGrid/ProductGrid.js")"></script>
+}
+
 

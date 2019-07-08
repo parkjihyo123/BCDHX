@@ -100,6 +100,12 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="PayPal, Version=1.9.1.0, Culture=neutral, PublicKeyToken=5b4afc1ccaef40fb, processorArchitecture=MSIL">
       <HintPath>..\packages\PayPal.1.9.1\lib\net451\PayPal.dll</HintPath>
     </Reference>
@@ -308,6 +314,7 @@
     <Compile Include="Areas\AdminBCDH\AdminBCDHAreaRegistration.cs" />
     <Compile Include="Areas\AdminBCDH\Controllers\AccountController.cs" />
     <Compile Include="Areas\AdminBCDH\Controllers\HomeController.cs" />
+    <Compile Include="Areas\AdminBCDH\Controllers\ManagerController.cs" />
     <Compile Include="Areas\AdminBCDH\Controllers\NotAuthorizeController.cs" />
     <Compile Include="Areas\AdminBCDH\Controllers\ProcessGetResourcesController.cs" />
     <Compile Include="Areas\AdminBCDH\Controllers\ProcessWithCategoryController.cs" />
@@ -325,6 +332,7 @@
     <Compile Include="Controllers\NotificationSystemController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
+    <Compile Include="Controllers\WishListProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -335,9 +343,12 @@
     <Compile Include="Models\ModelObject\CategoryBestDeal.cs" />
     <Compile Include="Models\ModelObject\CategoryFeature.cs" />
     <Compile Include="Models\ModelObject\NewArrivalProduct.cs" />
+    <Compile Include="Models\ModelObject\PagingProduct.cs" />
     <Compile Include="Models\ModelObject\ProductBestDeal.cs" />
     <Compile Include="Models\ModelObject\Product.cs" />
+    <Compile Include="Models\ModelObject\ProductDetailModelView.cs" />
     <Compile Include="Models\ModelObject\ProductFeature.cs" />
+    <Compile Include="Models\ModelObject\WishListViewModel.cs" />
     <Compile Include="Models\ProductEnum.cs" />
     <Compile Include="Models\UserPayment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -739,6 +750,7 @@
     <Content Include="Content\MainPage\js\popper.min.js" />
     <Content Include="Content\MainPage\js\vendor\jquery-1.12.4.min.js" />
     <Content Include="Content\MainPage\js\vendor\modernizr-2.8.3.min.js" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\SweetAlret\sweetalert2.all.js" />
     <Content Include="Content\SweetAlret\sweetalert2.min.css" />
     <Content Include="favicon.ico" />
@@ -747,13 +759,17 @@
     <Content Include="Content\Site.css" />
     <Content Include="readme.txt" />
     <Content Include="ScriptsBundle\AdminJquery\ImageProduct\ImageProduct.min.js" />
+    <Content Include="ScriptsBundle\AdminJquery\Manager\ImageAvataSaffHeader.js" />
+    <Content Include="ScriptsBundle\AdminJquery\Manager\ManagerAccountPrivate.js" />
     <Content Include="ScriptsBundle\AdminJquery\ProductManager\Product.min.js" />
     <Content Include="ScriptsBundle\GeneralUser.js" />
+    <Content Include="ScriptsBundle\ProductGrid\ProductGrid.js" />
     <Content Include="ScriptsBundle\React\Admin\ListStaffAccount\ListStaffAccount.jsx" />
     <Content Include="ScriptsBundle\React\remarkable.min.js" />
     <Content Include="ScriptsBundle\React\react-dom.development.js" />
     <Content Include="ScriptsBundle\React\Login.jsx" />
     <Content Include="ScriptsBundle\AccountSC.min.js" />
+    <Content Include="ScriptsBundle\WishList\WishList.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\aspnet\dx.aspnet.data.js" />
@@ -870,6 +886,7 @@
     <Content Include="Areas\AdminBCDH\Views\Home\Product.cshtml" />
     <Content Include="Content\cldr\main\currencies.json" />
     <Content Include="Content\cldr\main\numbers.json" />
+    <Content Include="Areas\AdminBCDH\Views\Manager\Index.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="ScriptsBundle\React\react.development.js" />
     <Content Include="ScriptsBundle\AdminJquery\ListStaffAccount\ListStaff.min.js" />
@@ -962,8 +979,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -1016,6 +1031,14 @@
     <Content Include="Views\Product\BestSeller.cshtml" />
     <Content Include="Views\Product\BestDeal.cshtml" />
     <Content Include="Views\Product\NewArrival.cshtml" />
+    <Content Include="Views\Home\PageBannerForProductGridPartial.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Shared\HomeTempates\_LayoutOther.cshtml" />
+    <Content Include="Views\Product\ProductByCategory.cshtml" />
+    <Content Include="Views\Product\ProductDetail.cshtml" />
+    <Content Include="Views\Product\RealtedProduct.cshtml" />
+    <Content Include="Views\WishListProduct\Index.cshtml" />
+    <Content Include="Views\WishListProduct\PageBannerForWishList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1023,6 +1046,7 @@
     <Folder Include="Areas\AdminBCDH\Views\ProcessWithCategory\" />
     <Folder Include="Areas\AdminBCDH\Views\ProcessWithImageProduct\" />
     <Folder Include="Areas\AdminBCDH\Views\ProcessWithProduct\" />
+    <Folder Include="Content\ImageUploaded\ImageBanner\" />
     <Folder Include="Content\ImageUploaded\ImageForUser\" />
     <Folder Include="Views\Upload\" />
   </ItemGroup>

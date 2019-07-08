@@ -1,0 +1,142 @@
+﻿@model BCDHX.Models.UserAdminModelAdmin
+@{
+    ViewBag.Title = "Thông tin tài khoản";
+    Layout = "~/Areas/AdminBCDH/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Breadcrums{
+    <div class="breadcrumbs">
+        <div class="breadcrumbs-inner">
+            <div class="row m-0">
+                <div class="col-sm-4">
+                    <div class="page-header float-left">
+                        <div class="page-title">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="page-header float-right">
+                        <div class="page-title">
+                            <ol class="breadcrumb text-right">
+                                <li>@Html.ActionLink("Thống kê", "Index", "Home")</li>
+                                <li class="active">@Html.ActionLink("Thông tin tài khoản", "Index", "Manager")</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="row">
+    <div class="col-lg">
+        <div class="card">
+            <div class="card-header">
+                <h4>Thông tin tài khoản</h4>
+            </div>
+            <div class="card-body">
+                <div class="custom-tab">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="custom-nav-home-tab" data-toggle="tab" href="#custom-nav-home" role="tab" aria-controls="custom-nav-home" aria-selected="true">Thông tin tài khoản chung</a>
+                            <a class="nav-item nav-link" id="custom-nav-profile-tab" data-toggle="tab" href="#custom-nav-profile" role="tab" aria-controls="custom-nav-profile" aria-selected="false">Đổi mật khẩu</a>
+                            <a class="nav-item nav-link" id="custom-nav-contact-tab" data-toggle="tab" href="#custom-nav-contact" role="tab" aria-controls="custom-nav-contact" aria-selected="false">Contact</a>
+                        </div>
+                    </nav>
+                    <div class="tab-content pl-3 pt-2" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="custom-nav-home" role="tabpanel" aria-labelledby="custom-nav-home-tab">
+                            <div class="row">
+                                <div class="col-sm-10"><h1>Xin chào,@Model.Fullname</h1></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <!--left col-->
+                                    <div class="text-center">
+                                        <img src="@Url.Content("~/Content/ImageUploaded/ImageForUser/"+Model.Img)" class="avatar img-circle img-thumbnail" alt="avatar">
+                                        <h6>Sử dụng ảnh khác...</h6>
+                                        <div id="UploadImageAvatarPrivatePresonZone"></div>
+                                    </div><br>
+                                   
+                                </div><!--/col-3-->
+                                <div class="col-sm-9">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a data-toggle="tab" href="#home">Home</a></li>                                     
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="home">
+                                            <hr>
+                                            <form class="form" id="UpdatePersonPrivate">
+                                                <div class="form-group">
+                                                    <div class="col-xs-6">
+                                                        <label for="first_name"><h4>Mã staff:</h4></label>
+                                                        <input type="text" class="form-control"    value="@Model.ID_AdminUser" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-xs-6">
+                                                        <label for="first_name"><h4>Họ và tên:</h4></label>
+                                                        <input type="text" class="form-control" name="first_name" id="Fullname" placeholder="Họ và tên" value="@Model.Fullname" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-xs-6">
+                                                        <label for="phone"><h4>Tên tài khoản</h4></label>
+                                                        <input type="text" class="form-control" value="@Model.Username" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-xs-6">
+                                                        <label for="mobile"><h4>Quyền hạn</h4></label>
+                                                        <input type="text" class="form-control" value="@Model.Access" readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-xs-12">
+                                                        <br>
+                                                        <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Thay đổi</button>
+                                                        <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                            <hr>
+
+                                        </div>
+
+                                    </div><!--/tab-pane-->
+                                </div><!--/tab-content-->
+
+                            </div><!--/col-9-->
+                        </div>
+
+                        <div class="tab-pane fade" id="custom-nav-profile" role="tabpanel" aria-labelledby="custom-nav-profile-tab">
+                            <form  id="formUpdatePersonPrivatePassword">
+                                <div id="UpdatePersonPrivatePassword">
+
+                                </div>
+                                </form>
+                                @*<form class="form" id="UpdatePersonPrivatePassword">
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        <label for="first_name"><h4>Mật khẩu cũ:</h4></label>
+                        <input type="text" class="form-control"  id="Fullname"   required>
+                    </div>
+                </div>
+            </form>*@
+                        </div>
+                        <div class="tab-pane fade" id="custom-nav-contact" role="tabpanel" aria-labelledby="custom-nav-contact-tab">
+                            <p>đang phát triển nốt</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /# column -->
+@section scripts{
+    <script src="@Url.Content("~/ScriptsBundle/AdminJquery/Manager/ManagerAccountPrivate.js")"></script>
+}
+

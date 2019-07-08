@@ -108,10 +108,7 @@ namespace BCDHX.Controllers
                 {
                     string path = Path.Combine(Server.MapPath("~/Content/ImageUploaded/ImageForUser/StaffAvata"), Path.GetFileName(UpdateAvata.FileName));
                     SaveResizeImage(Image.FromStream(UpdateAvata.InputStream), path);               
-                        //var tempForChange = _dbBCDH.AdminUsers.AsNoTracking().SingleOrDefault(x => x.UserName == User.Identity.Name);
-                        //tempForChange.Img = fileName;
-                        //_dbBCDH.Entry(tempForChange).State = System.Data.Entity.EntityState.Modified;
-                        //_dbBCDH.SaveChanges();    
+                        
                 }
             }
             catch
@@ -163,7 +160,47 @@ namespace BCDHX.Controllers
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
-       
-       
+
+       [HttpPost]
+       public ActionResult ProcessChangeAvatarForPrivatePerson(HttpPostedFileBase ImagePrivate)
+        {
+            try
+            {
+                string[] imageExtensions = { ".jpg", ".jpeg", ".gif", ".png" };
+                var fileName = ImagePrivate.FileName.ToLower();
+                var isValidExtenstion = imageExtensions.Any(ext =>
+                {
+                    return fileName.LastIndexOf(ext) > -1;
+                });
+
+                if (isValidExtenstion)
+                {
+                    // Uncomment to save the file
+                    //var path = Server.MapPath("~/Content/ImageUploaded/ImageForUser/");
+                    string path = Path.Combine(Server.MapPath("~/Content/ImageUploaded/ImageForUser/"), Path.GetFileName(ImagePrivate.FileName));
+                    //if (!Directory.Exists(path))
+                    //    Directory.CreateDirectory(path);
+
+                    if (SaveResizeImage(Image.FromStream(ImagePrivate.InputStream), path))
+                    {
+
+                        var tempForChange = _dbBCDH.AdminUsers.AsNoTracking().SingleOrDefault(x => x.UserName == User.Identity.Name);
+                        tempForChange.Img = fileName;
+                        _dbBCDH.Entry(tempForChange).State = System.Data.Entity.EntityState.Modified;
+                        _dbBCDH.SaveChanges();
+                        return new HttpStatusCodeResult(HttpStatusCode.OK);
+                    }
+
+                    //Test.SaveAs(path);
+                }
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+        }
+
+
     }
 }

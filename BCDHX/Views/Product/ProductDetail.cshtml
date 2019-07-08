@@ -1,0 +1,165 @@
+﻿@model BCDHX.Models.ModelObject.ProductDetailModelView
+@{
+    ViewBag.Title = "ProductDetail";
+    Layout = "~/Views/Shared/HomeTempates/_LayoutOther.cshtml";
+}
+@section PageBannerForAll
+{
+    @Html.Action("PageBannerForProductGridPartial", "Home")
+}
+<div class="row mb-90">
+    @if (Model == null)
+    {
+        <div class="col-lg-12">
+            <p style="font-size:22px"><strong>Không Tìm Thấy Sản phẩm!</strong></p>@Html.ActionLink("Bấm vào đây để quay lại", "Index", "Product")
+            <hr>
+        </div>
+    }
+    else
+    {
+        <div class="col-lg-6 col-12 mb-50">
+
+            <!-- Image -->
+            <div class="single-product-image thumb-right">
+
+                <div class="tab-content">
+                    <div id="single-image-1" class="tab-pane fade show active big-image-slider">
+                        <div class="big-image"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/" + Model.Img1)" alt="Big Image"><a href="@Url.Content("~/Content/ImageUploaded/ImageForProduct/" + Model.Img1)" class="big-image-popup"><i class="fa fa-search-plus"></i></a></div>
+                        @if (Model.Img2 != null)
+                        {
+                            <div class="big-image"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/" + Model.Img2)" alt="Big Image"><a href="@Url.Content("~/Content/ImageUploaded/ImageForProduct/" + Model.Img2)" class="big-image-popup"><i class="fa fa-search-plus"></i></a></div>
+                        }@if (Model.Img3 != null)
+                        {
+                            <div class="big-image"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/" + Model.Img3)" alt="Big Image"><a href="@Url.Content("~/Content/ImageUploaded/ImageForProduct/" + Model.Img3)" class="big-image-popup"><i class="fa fa-search-plus"></i></a></div>
+                        }@if (Model.Img4 != null)
+                        {
+                            <div class="big-image"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/" + Model.Img4)" alt="Big Image"><a href="@Url.Content("~/Content/ImageUploaded/ImageForProduct/" + Model.Img4)" class="big-image-popup"><i class="fa fa-search-plus"></i></a></div>
+                        }
+                    </div>
+                </div>
+                <div class="thumb-image-slider nav" data-vertical="true">
+                    <a class="thumb-image active" data-toggle="tab" href="#single-image-1"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/" + Model.Img1)" alt="Thumbnail Image"></a>
+                    @if (Model.Img2 != null)
+                    {
+                        <a class="thumb-image" data-toggle="tab" href="#single-image-1"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/" + Model.Img2)" alt="Thumbnail Image"></a>
+
+                    }@if (Model.Img3 != null)
+                    {
+                        <a class="thumb-image" data-toggle="tab" href="#single-image-1"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/" + Model.Img3)" alt="Thumbnail Image"></a>
+
+                    }@if (Model.Img4 != null)
+                    {
+                        <a class="thumb-image" data-toggle="tab" href="#single-image-1"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/" + Model.Img4)" alt="Thumbnail Image"></a>
+
+                    }
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6 col-12 mb-50">
+
+            <!-- Content -->
+            <div class="single-product-content">
+                <!-- Category & Title -->
+                <div class="head-content">
+                    <div class="category-title">
+                        @Html.ActionLink(Model.NameCatogory, "ProductByCategory", "Product", new { categoryname = Model.NameCatogory }, new { @class = "cat" })
+                        <h5 class="title">@Html.ActionLink(Model.Name_Product, "ProductDetail", "Product", new { productid = Model.ID_Product }, null)</h5>
+                    </div>
+
+                    @if (!Model.Sale.Equals("null"))
+                    {
+                        <h5 class="price"><span class="old">@Model.Price</span>@Model.Sale</h5>
+                    }
+                    else
+                    {
+                        <h5 class="price">@Model.Price</h5>
+                    }
+
+                </div>
+                <div class="single-product-description">
+                    <div class="ratting">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fas fa-star-half"></i>
+                        <i class="fa fa-star-o"></i>
+                    </div>
+
+                    <div class="desc">
+                        <p>@Model.Description</p>
+                    </div>
+
+                    <span class="availability">Trạng thái sản phẩm: <span>Còn hàng</span></span>
+
+                    <div class="quantity-colors">
+                        <div class="quantity">
+                            <h5>Quantity</h5>
+                            <div class="pro-qty"><input type="text" value="1"></div>
+                        </div>
+
+                        <div class="colors">
+                            <h5>Version</h5>
+                            <select class="nice-select">
+                                <option>VerA</option>
+                                <option>VerB</option>
+                                <option>VerC</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="actions">
+
+                        <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
+
+                        <div class="wishlist-compare">
+                            <a href="#" data-tooltip="Wishlist" onclick="return GetProductIDForAddWishList('@Model.ID_Product')"><i class="ti-heart"></i></a>
+                        </div>
+
+                    </div>
+
+                    <div class="tags">
+
+                        <h5>Tags:</h5>
+                        @Html.ActionLink(Model.NameCatogory, "ProductByCategory", "Product", new { categoryname = Model.NameCatogory }, null)
+                    </div>
+
+                    <div class="share">
+                        <h5>Share: </h5>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+
+</div>
+@if (Model != null)
+{
+    <!-- Related Product Section Start -->
+    @Html.Action("RealtedProduct", "Product", new { NameCatogory = ViewBag.RelatedProduct })
+    <!-- Related Product Section End -->
+}
+
+@section Brands
+{
+    @Html.Partial("~/Views/Home/BrandsPartial.cshtml")
+}
+@section Subscribe{
+    @Html.Partial("~/Views/Home/SubscribePartial.cshtml")
+}
+@section ScriptBundle
+{
+
+    <script src="@Url.Content("~/ScriptsBundle/ProductGrid/ProductGrid.js")"></script>
+}

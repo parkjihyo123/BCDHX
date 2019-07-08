@@ -13,6 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="~/Content/MainPage/images/iconBCDH.jpg">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Oswald:200,300,400,500,600,700" rel="stylesheet">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link rel="stylesheet" href="@Url.Content("~/Content/LoadingScreen/css/jquery.loadingModal.css")">
@@ -59,16 +60,14 @@
                         <p>File ảnh hỗ trợ .jpg, .jpeg, .gif, .png.</p>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
     @Html.Partial("~/Views/Home/BrandsPartial.cshtml")
     @Html.Partial("~/Views/Home/footer.cshtml")
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")   
-    @Scripts.Render("~/Scripts/DevExtremeBundle")   
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/DevExtremeBundle")
     <script src="@Url.Content("~/ScriptsBundle/AccountSC.min.js")"></script>
 </body>
-
 </html>

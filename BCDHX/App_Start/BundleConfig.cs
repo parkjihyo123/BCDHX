@@ -9,17 +9,20 @@ namespace BCDHX
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            //bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+            //            "~/Scripts/jquery-{version}.js"));
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                       "~/Scripts/jquery-3.3.1.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
             bundles.Add(new BabelBundle("~/bundles/React").Include(
                             "~/ScriptsBundle/React/react.development.js",
                             "~/ScriptsBundle/React/react-dom.development.js",
-                            "~/ScriptsBundle/React/remarkable.min.js", 
+                            "~/ScriptsBundle/React/remarkable.min.js",
                             "~/ScriptsBundle/React/Login.jsx"
                 ));
+           
             bundles.Add(new BabelBundle("~/bundles/Admin/React").Include(
                  "~/ScriptsBundle/React/react.development.js",
                  "~/ScriptsBundle/React/react-dom.development.js",
@@ -39,14 +42,15 @@ namespace BCDHX
                       "~/Content/SweetAlret/sweetalert2.all.js",
                       "~/Content/MainPage/js/jquery.validate.js"
                       ));
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/MainPage/css/bootstrap.min.css",                               
-                      "~/Content/MainPage/css/plugins.css",
+            bundles.Add(new StyleBundle("~/Content/css").Include(                 
+                      "~/Content/MainPage/css/bootstrap.min.css",                 
                        "~/Content/MainPage/css/themify-icons.css",
-                        "~/Content/MainPage/css/icofont.css",
-                          "~/Content/MainPage/css/all.css",
-                      "~/Content/MainPage/css/style.css"                  
-                    ) );
+                        "~/Content/MainPage/css/icofont.css",  
+                        "~/Content/MainPage/css/plugins.css",
+                        "~/Content/MainPage/css/all.css",
+                      "~/Content/MainPage/css/style.css"
+                    ));
+         
             bundles.Add(new StyleBundle("~/AdminContent/css").Include(
               "~/Content/AdminPage/assets/css/normalize.min.css",
                    "~/Content/MainPage/css/bootstrap.min.css",
@@ -61,10 +65,16 @@ namespace BCDHX
             bundles.Add(new ScriptBundle("~/AdminBCDH/JS").Include(
                    "~/Scripts/popper.min.js",
                      "~/Scripts/bootstrap.js",
-                     "~/Content/SweetAlret/sweetalert2.all.js",
-                     "~/Content/AdminPage/assets/js/main.js"
-                     //"~/ScriptsBundle/AdminJquery/ListStaffAccount/ListStaff.js"
+                     "~/Content/SweetAlret/sweetalert2.all.js",                
+                     "~/Content/AdminPage/assets/js/main.js",
+                     "~/ScriptsBundle/AdminJquery/Manager/ImageAvataSaffHeader.js"
                      ));
+            bundles.Add(new ScriptBundle("~/AdminBCDH/JSLogin").Include(
+                 "~/Scripts/popper.min.js",
+                   "~/Scripts/bootstrap.js",
+                   "~/Content/SweetAlret/sweetalert2.all.js"  
+                   ));
+            BundleTable.EnableOptimizations = true;
         }
     }
 }

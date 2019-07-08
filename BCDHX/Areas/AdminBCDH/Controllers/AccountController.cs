@@ -13,14 +13,15 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace BCDHX.Areas.AdminBCDH.Controllers
-{   [Authorize]
+{
+    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private WebDieuHienDB _db;
         private ApplicationDbContext _dbasp;
-        private GetInformationUserUsingOSAndBrowser _getInforUser;
+
         public AccountController()
         {
             _db = new WebDieuHienDB();
@@ -67,34 +68,35 @@ namespace BCDHX.Areas.AdminBCDH.Controllers
         [HttpPost]
         public async Task<JsonResult> Login(LoginViewModelAdmin account)
         {
-            
+
             var result = await SignInManager.PasswordSignInAsync(account.Email, account.Password, account.RememberMe, shouldLockout: true);
-            
+
             switch (result)
             {
                 case SignInStatus.Success:
-                    var temp =await SignInManager.UserManager.FindByEmailAsync(account.Email);                   
-                    var CheckUserCondition =  UserManager.GetRoles(temp.Id).Select(x=>x);
-                    if (CheckUserCondition.Where(x=>!x.StartsWith("Customer")).Count()>0)
+                    var temp = await SignInManager.UserManager.FindByEmailAsync(account.Email);
+                    var CheckUserCondition = UserManager.GetRoles(temp.Id).Select(x => x);
+                    if (CheckUserCondition.Where(x => !x.StartsWith("Customer")).Count() > 0)
                     {
-                   
+
                         return Json(new
                         {
                             Status = 0,
                             Error = "Done",
                             ReturnUrl = account.ReturnLink
                         });
-                    }else
+                    }
+                    else
                     {
                         SignInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
                         return Json(new
                         {
                             Status = 4,
                             Error = "Không có quyền đăng nhập vào đây!",
-                           
+
                         });
                     }
-                   
+
                 case SignInStatus.LockedOut:
                     return Json(new
                     {
@@ -109,7 +111,7 @@ namespace BCDHX.Areas.AdminBCDH.Controllers
                     });
                 case SignInStatus.Failure:
                 default:
-                 
+
                     return Json(new
                     {
                         Status = 3,
@@ -117,7 +119,7 @@ namespace BCDHX.Areas.AdminBCDH.Controllers
                     });
             }
         }
-       
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -164,7 +166,7 @@ namespace BCDHX.Areas.AdminBCDH.Controllers
             }
         }
 
-       
+
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
@@ -180,7 +182,12 @@ namespace BCDHX.Areas.AdminBCDH.Controllers
             return Redirect(returnUrl);
         }
 
-        
+        public ActionResult LogOff()
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie,
+                                    DefaultAuthenticationTypes.ExternalCookie);
+            return RedirectToAction("Login", "Account");
+        }
         #endregion
     }
 }

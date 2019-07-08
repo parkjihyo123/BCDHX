@@ -19,7 +19,7 @@ class Login extends React.Component {
             Password: this.state.UserPassword,
             RememberMe: this.state.Remember
         }
-        fetch("https://localhost:44343/AdminBCDH/Account/Login", {
+        fetch(Url+"/AdminBCDH/Account/Login", {
             method: "POST",
             headers: {
                 'Accept': 'application/json',

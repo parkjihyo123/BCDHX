@@ -58,7 +58,7 @@
 /*  01. Theme default CSS
 /*----------------------------------------*/
 /*-- Google Font --*/
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Oswald:200,300,400,500,600,700");
+/*@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Oswald:200,300,400,500,600,700");*/
 /*-- Common Style --*/
 *, *::after, *::before {
   -webkit-box-sizing: border-box;
@@ -277,7 +277,7 @@ ul{
 	
 }
 .content{
-	width:100%;
+	/* //width:100%; */
 	margin:0 auto;
 }
 p.footer {
@@ -8011,7 +8011,7 @@ img.mfp-img {
       color: #202020;
       border-radius: 50px;
       display: block;
-      width: 170px;
+      width: 200px;
       padding: 10px 25px 10px 56px;
       opacity: 0;
       visibility: hidden;
@@ -8902,7 +8902,7 @@ img.mfp-img {
           color: #202020;
           border-radius: 50px;
           display: block;
-          width: 170px;
+          width: 185px;
           padding: 10px 25px 10px 56px;
           -webkit-transition: all 0.7s cubic-bezier(0.77, -1.5, 0.12, 3) 0s;
           -o-transition: all 0.7s cubic-bezier(0.77, -1.5, 0.12, 3) 0s;

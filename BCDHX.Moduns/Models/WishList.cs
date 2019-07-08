@@ -9,12 +9,12 @@ namespace BCDHX.Moduns.Models
     [Table("WishList")]
     public partial class WishList
     {
+      
         [Key]
-        [StringLength(8)]
+        [StringLength(50)]
+        public string ID_WishList { get; set; }
+        [StringLength(256)]
         public string ID_Account { get; set; }
-
-        public int? ID_WishList { get; set; }
-
         [StringLength(50)]
         public string ID_Product { get; set; }
     }

@@ -55,9 +55,9 @@
                                                 <div class="ee-product">
                                                     <!-- Image -->
                                                     <div class="image">
-                                                        <a href="single-product.html" class="img"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/"+ @item.Img)" alt="Product Image"></a>
+                                                        <a href="../Product/ProductDetail/?productid=@item.ID_Product" class="img"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/"+item.Img)" alt="Product Image"></a>
                                                         <div class="wishlist-compare">
-                                                            <a href="#" data-tooltip="Wishlist"><i class="ti-heart"></i></a>
+                                                            <a href="#" data-tooltip="Wishlist" onclick="return GetProductIDForAddWishList('@item.ID_Product')"><i class="ti-heart"></i></a>
                                                         </div>
                                                         <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
                                                     </div>
@@ -65,8 +65,8 @@
                                                     <div class="content">
                                                         <!-- Category & Title -->
                                                         <div class="category-title">
-                                                            <a href="#" class="cat">@item.NameCatogory</a>
-                                                            <h5 class="title"><a href="single-product.html">@item.Name_Product</a></h5>
+                                                            @Html.ActionLink(item.NameCatogory, "ProductByCategory", "Product", new { categoryname = item.NameCatogory }, new { @class = "cat" })
+                                                            <h5 class="title">@Html.ActionLink(item.Name_Product, "ProductDetail", "Product", new { productid = item.ID_Product }, null)</h5>
                                                         </div>
                                                         <!-- Price & Ratting -->
                                                         <div class="price-ratting">
@@ -101,12 +101,9 @@
                                                     <div class="ee-product">
                                                         <!-- Image -->
                                                         <div class="image">
-
-                                                            <a href="single-product.html" class="img"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/"+ @ItemTemp.Img)" alt="Product Image"></a>
-
+                                                            <a href="../Product/ProductDetail/?productid=@ItemTemp.ID_Product" class="img"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/"+ItemTemp.Img)" alt="Product Image"></a>
                                                             <div class="wishlist-compare">
-
-                                                                <a href="#" data-tooltip="Wishlist"><i class="ti-heart"></i></a>
+                                                                <a href="#" data-tooltip="Wishlist" onclick="return GetProductIDForAddWishList('@ItemTemp.ID_Product')"><i class="ti-heart"></i></a>
                                                             </div>
                                                             <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
                                                         </div>
@@ -114,8 +111,8 @@
                                                         <div class="content">
                                                            <!-- Category & Title -->
                                                             <div class="category-title">
-                                                                <a href="#" class="cat">@ItemTemp.NameCatogory</a>
-                                                                <h5 class="title"><a href="single-product.html">@ItemTemp.Name_Product</a></h5>
+                                                                @Html.ActionLink(ItemTemp.NameCatogory, "ProductByCategory", "Product", new { categoryname = ItemTemp.NameCatogory }, new { @class = "cat" })
+                                                                <h5 class="title">@Html.ActionLink(ItemTemp.Name_Product, "ProductDetail", "Product", new { productid = ItemTemp.ID_Product }, null)</h5>
                                                             </div>
                                                             <!-- Price & Ratting -->
                                                             <div class="price-ratting">

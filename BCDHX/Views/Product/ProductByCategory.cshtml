@@ -1,0 +1,191 @@
+﻿@model PagedList.IPagedList<BCDHX.Models.ModelObject.Product>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "ProductByCategory";
+    Layout = "~/Views/Shared/HomeTempates/_LayoutOther.cshtml";
+}
+@section PageBannerForAll
+{
+    @Html.Action("PageBannerForProductGridPartial", "Home")
+}
+<div class="row">
+    <div class="col-12">
+        <div class="row mb-50">
+            <div class="col">
+                <!-- Shop Top Bar Start -->
+                <div class="shop-top-bar">
+                    <!-- Product View Mode -->
+                    <div class="product-view-mode">
+                        <a href="#" data-target="grid"><i class="fa fa-th" id="SelectGridMode" onclick="return SelectMode('Grid')"></i></a>
+                        <a href="#" data-target="list"><i class="fa fa-list" id="SelectListMode" onclick="return SelectMode('List')"></i></a>
+                    </div>
+                    <!-- Product Showing -->
+                    @using (Html.BeginForm("Index", "Product", FormMethod.Get, new { id = "ShowingForm" }))
+                    {
+                        <input type="hidden" value="@ViewBag.SelectMode" id="SelectModeip" name="selectmode">
+                        <div class="product-showing">
+                            <p>Số sản phẩm xuất hiện</p>
+                            <select class="nice-select" id="selectPage">
+                                <option value="8">8</option>
+                                <option value="12">12</option>
+                                <option value="16">16</option>
+                                <option value="20">20</option>
+                                <option value="24">24</option>
+                            </select>
+                            <input type="hidden" name="pagesize" value="@ViewBag.Temppagesize" id="scrpagesize">
+                        </div>
+
+                        <!-- Product Short -->
+                        <div class="product-short">
+                            <p>Lọc theo</p>
+                            <select class="nice-select" id="selectSort">
+                                <option value="trending">Đang Hot</option>
+                                <option value="sales">Bán Chạy Nhất</option>
+                                <option value="bestdeal">Best deal</option>
+                                <option value="date">Hàng Mới Về</option>
+                                <option value="priceasc">Giá: thấp - cao</option>
+                                <option value="pricedesc">Giá: cao - thấp</option>
+                            </select>
+                            <input type="hidden" name="sortby" value="@ViewBag.tempSortBy" id="scrsortby">
+                        </div>
+
+                    }
+
+
+                    <!-- Product Pages -->
+                    <div class="product-pages">
+                        <p>Trang số  @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) trên tổng trang @Model.PageCount</p>
+                    </div>
+
+                </div>
+                <!-- Shop Top Bar End -->
+            </div>
+        </div>
+        <!-- Shop Product Wrap Start -->
+        <!-- Shop Product Wrap Start -->
+        <div class="shop-product-wrap grid row" id="test">
+            @foreach (var item in Model.Select(x => x))
+            {
+                <div class="col-xl-3 col-lg-4 col-md-6 col-12 pb-30 pt-10">
+                    <!-- Product Start -->
+                    <div class="ee-product">
+                        <!-- Image -->
+                        <div class="image">
+                            <a href="../Product/ProductDetail/?productid=@item.ID_Product" class="img"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/"+item.Img)" alt="Product Image"></a>
+                            <div class="wishlist-compare">
+                                <a href="#" data-tooltip="Wishlist" onclick="return GetProductIDForAddWishList('@item.ID_Product')"><i class="ti-heart"></i></a>
+                            </div>
+                            <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>Thêm vào giỏ</span></a>
+                        </div>
+                        <!-- Content -->
+                        <div class="content">
+                            <!-- Category & Title -->
+                            <div class="category-title">
+                                @Html.ActionLink(item.NameCatogory, "ProductByCategory", "Product", new { categoryname = item.NameCatogory, pagesize = ViewBag.Temppagesize, sortby = ViewBag.tempSortBy, selectmode = ViewBag.SelectMode }, new { @class = "cat" })
+                                <h5 class="title">@Html.ActionLink(item.Name_Product, "ProductDetail", "Product", new { productid = item.ID_Product }, null)</h5>
+                            </div>
+                            <!-- Price & Ratting -->
+                            <div class="price-ratting">
+                                @if (!item.Sale.Equals("null"))
+                                {
+                                    <h5 class="price"><span class="old">@item.Price</span>@item.Sale</h5>
+                                }
+                                else
+                                {
+                                    <h5 class="price">@item.Price</h5>
+                                }
+                                <div class="ratting">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fas fa-star-half"></i>
+                                    <i class="fa fa-star-o"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product End -->
+                    <!-- Product List Start -->
+                    <div class="ee-product-list">
+                        <!-- Image -->
+                        <div class="image">
+                            <span class="label sale">sale</span>
+                            <a href="../Product/ProductDetail/?productid=@item.ID_Product" class="img"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/"+item.Img)" alt="Product Image"></a>
+                        </div>
+                        <!-- Content -->
+                        <div class="content">
+                            <!-- Category & Title -->
+                            <div class="head-content">
+                                <div class="category-title">
+                                    @Html.ActionLink(item.NameCatogory, "ProductByCategory", "Product", new { categoryname = item.NameCatogory, pagesize = ViewBag.Temppagesize, sortby = ViewBag.tempSortBy, selectmode = ViewBag.SelectMode }, new { @class = "cat" })
+                                    <h5 class="title">@Html.ActionLink(item.Name_Product, "ProductDetail", "Product", new { productid = item.ID_Product }, null)</h5>
+                                </div>
+                                @if (!item.Sale.Equals("null"))
+                                {
+                                    <h5 class="price"><span class="old">@item.Price</span>@item.Sale</h5>
+                                }
+                                else
+                                {
+                                    <h5 class="price">@item.Price</h5>
+                                }
+                            </div>
+                            <div class="left-content">
+                                <div class="ratting">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fas fa-star-half"></i>
+                                    <i class="fa fa-star-o"></i>
+                                </div>
+                                <div class="desc">
+                                    <p>@item.Description</p>
+                                </div>
+                                <div class="actions">
+                                    <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>Thêm vào giỏ</span></a>
+                                    <div class="wishlist-compare">
+                                        <a href="#" data-tooltip="Wishlist" onclick="return GetProductIDForAddWishList('@item.ID_Product')"><i class="ti-heart"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="right-content">
+                                <div class="specification">
+                                    <h5>Miêu tả</h5>
+                                    <ul>
+                                        <li>@item.Description</li>
+                                    </ul>
+                                </div>
+                                <span class="availability">Tình trạng hàng: <span>Còn</span></span>
+                            </div>
+
+                        </div>
+
+                    </div><!-- Product List End -->
+                    <!-- Product End -->
+                </div>
+            }
+        </div>
+        <!-- Shop Product Wrap End -->
+
+        <div class="row mt-30">
+            <div class="col">
+                @Html.PagedListPager(Model, page => Url.Action("ProductByCategory", new { page, pagesize = ViewBag.Temppagesize, sortby = ViewBag.tempSortBy, selectmode = ViewBag.SelectMode }))
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@section Brands
+{
+    @Html.Partial("~/Views/Home/BrandsPartial.cshtml")
+}
+@section Subscribe{
+    @Html.Partial("~/Views/Home/SubscribePartial.cshtml")
+}
+@section ScriptBundle
+{
+
+    <script src="@Url.Content("~/ScriptsBundle/ProductGrid/ProductGrid.js")"></script>
+}
+

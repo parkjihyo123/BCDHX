@@ -1,0 +1,76 @@
+﻿@model BCDHX.Models.ModelObject.WishListViewModel
+@{
+    ViewBag.Title = "Danh sách mong ước";
+    Layout = "~/Views/Shared/HomeTempates/_LayoutOther.cshtml";
+}
+
+@section PageBannerForAll
+{
+    @Html.Action("PageBannerForWishList", "WishListProduct")
+}
+<div class="row">
+    <div class="col-12">
+        <form action="#">
+            <div class="cart-table table-responsive">
+                @if (Model.ListProductWishList == null)
+                {
+                    <p>Danh sách ước mơ trống!</p>
+                }
+                else
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="pro-thumbnail">Ảnh</th>
+                                <th class="pro-title">Tên sản phẩm</th>
+                                <th class="pro-price">Giá</th>
+                                <th class="pro-subtotal">Mua</th>
+                                <th class="pro-remove">Xóa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ListProductWishList)
+                            {
+                                <tr>
+                                    <td class="pro-thumbnail"><a href="../Product/ProductDetail/?productid=@item.ID_Product"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/" + item.Img)" alt="Product"></a></td>
+                                    <td class="pro-title"><a href="../Product/ProductDetail/?productid=@item.ID_Product">@item.Name_Product</a></td>
+                                    <td class="pro-price">
+                                        @if (!item.Sale.Equals("null"))
+                                        {
+                                            <h5 class="price"><span class="old">@item.Price</span>@item.Sale</h5>
+                                        }
+                                        else
+                                        {
+                                            <h5 class="price">@item.Price</h5>
+                                        }
+                                    </td>
+                                    <td class="pro-addtocart"><button>Mua ngay</button></td>
+                                    <td class="pro-remove"><a href="#" onclick="return removeWishList('@item.ID_Product')"><i class="fas fa-trash-alt"></i></a></td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                }
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+@section Brands
+{
+    @Html.Partial("~/Views/Home/BrandsPartial.cshtml")
+}
+@section Subscribe{
+    @Html.Partial("~/Views/Home/SubscribePartial.cshtml")
+}
+@section ScriptBundle
+{
+
+    <script src="@Url.Content("~/ScriptsBundle/WishList/WishList.min.js")"></script>
+}
+

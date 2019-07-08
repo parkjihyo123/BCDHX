@@ -31,7 +31,46 @@ namespace BCDHX.Models
         public string Fullname { get; set; }    
         public string Img { get; set; }
     }
-   
+    public class UserAdminModelAdmin
+    {
+        private int _Access;
+        public string ID_AdminUser { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Access {
+            get
+            {
+                return ConvertAccess(this._Access); 
+            }
+            set
+            {
+                this._Access = Convert.ToInt32( value);
+            }
+        }
+        public string Fullname { get; set; }
+        public string Img { get; set; }
+
+
+        public string ConvertAccess(int key)
+        {
+            if (key == 2)
+            {
+                return "Admin";
+            }
+            else if (key == 3)
+            {
+                return "Staff";
+            }
+            else if (key == 4)
+            {
+                return "Manager";
+            }
+            else
+            {
+                return "Custom";
+            }
+        }
+    }
 
     public class SendCodeViewModelAdmin
     {

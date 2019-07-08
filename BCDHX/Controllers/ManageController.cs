@@ -98,29 +98,41 @@ namespace BCDHX.Controllers
             return PartialView(GetUserInformation());
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpPost]
-        public JsonResult UpdateGeneralProfile([Bind(Exclude = "ID_Account,Amount,Username")]Account account)
+        public async Task<JsonResult> UpdateGeneralProfile([Bind(Exclude = "ID_Account,Amount,Username")]Account account)
         {
             using (_dbBCDH)
             {
-                var ChangeAccount = _dbBCDH.Accounts.AsNoTracking().SingleOrDefault(x => x.ID_Account == IDUser);
-                account.ID_Account = IDUser;
-                account.Username = ChangeAccount.Username;
-                account.Amount = ChangeAccount.Amount;
-                account.Access = ChangeAccount.Access;
-                account.Img = ChangeAccount.Img;
-                _dbBCDH.Entry(account).State = System.Data.Entity.EntityState.Modified;
-                var rs = _dbBCDH.SaveChanges();
-                if (rs == 1)
+                var UserTemp = UserManager.FindById(User.Identity.GetUserId());
+                if (await ChangePassword(account.Password,UserTemp.Id))
                 {
-                    return Json(new
+                    var ChangeAccount = _dbBCDH.Accounts.AsNoTracking().SingleOrDefault(x => x.ID_Account == IDUser);
+                    account.ID_Account = IDUser;
+                    account.Username = ChangeAccount.Username;
+                    account.Amount = ChangeAccount.Amount;
+                    account.Access = ChangeAccount.Access;
+                    account.Img = ChangeAccount.Img;
+                    _dbBCDH.Entry(account).State = System.Data.Entity.EntityState.Modified;
+                    var rs = _dbBCDH.SaveChanges();
+                    if (rs == 1)
                     {
-                        Status = 0,
-                        Error = "Cập nhật thành công"
-                    });
+                        return Json(new
+                        {
+                            Status = 0,
+                            Error = "Cập nhật thành công"
+                        });
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            Status = 1,
+                            Error = "Cập nhật không thành công"
+                        });
+                    }
                 }
-                else if (rs == 0)
+                else
                 {
                     return Json(new
                     {
@@ -128,8 +140,25 @@ namespace BCDHX.Controllers
                         Error = "Cập nhật không thành công"
                     });
                 }
+               
             }
-            return null;
+          
+        }
+        private async Task<bool> ChangePassword(string key, string id)
+        {
+            var TempUserOrgin = _dbBCDH.Accounts.AsNoTracking().SingleOrDefault(x => x.ID_Account == key);
+
+            IdentityResult resultValidate = await UserManager.PasswordValidator.ValidateAsync(key);
+            if (resultValidate.Succeeded)
+            {
+                var CodedRestPasswor = await UserManager.GeneratePasswordResetTokenAsync(id);
+                var result = await UserManager.ResetPasswordAsync(id, CodedRestPasswor, key);
+                return result.Succeeded;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public PartialViewResult GeneralAvatarUser()

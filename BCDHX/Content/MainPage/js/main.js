@@ -430,11 +430,9 @@ $('.brand-slider').slick({
     Product View Mode
 ------------------------*/
 $('.product-view-mode a').on('click', function(e){
-    e.preventDefault();
-    
+    e.preventDefault(); 
     var shopProductWrap = $('.shop-product-wrap');
     var viewMode = $(this).data('target');
-    
     $('.product-view-mode a').removeClass('active');
     $(this).addClass('active');
     shopProductWrap.removeClass('grid list').addClass(viewMode);
@@ -580,11 +578,11 @@ counter.counterUp({
 /*--
 	Twitter Feed
 -----------------------------------*/
-$('.footer-tweet').twittie({
-    template: '<span class="author">{{screen_name}}</span>, {{tweet}}',
-    count: 2,
-    apiPath: 'assets/api/tweet.php',
-});
+//$('.footer-tweet').twittie({
+//    template: '<span class="author">{{screen_name}}</span>, {{tweet}}',
+//    count: 2,
+//    apiPath: 'assets/api/tweet.php',
+//});
 
 /*--
     Scroll Up
@@ -599,7 +597,8 @@ $.scrollUp({
 /*--
     Nice Select
 ------------------------*/
-$('.nice-select').niceSelect()
+    $('.nice-select').niceSelect();
+
     
 /*--
 	Price Range Slider

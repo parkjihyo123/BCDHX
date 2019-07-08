@@ -2,7 +2,7 @@
 <header id="header" class="header">
     <div class="top-left">
         <div class="navbar-header">
-            <a class="navbar-brand" href="./"><img src="@Url.Content("~/Content/AdminPage/images/logo_file.png")" alt="Logo"></a>
+            <a class="navbar-brand" href="./Home"><img src="@Url.Content("~/Content/AdminPage/images/logo_file.png")" alt="Logo"></a>
             @*<a class="navbar-brand hidden" href="./"><img src="@Url.Content("~/Content/AdminPage/images/logo_file.png")" alt="Logo"></a>*@
             <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
         </div>
@@ -46,12 +46,12 @@
 
             <div class="user-area dropdown float-right">
                 <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="user-avatar rounded-circle" src="@Url.Content("~/Content/AdminPage/images/Admin.jpg")" alt="User Avatar">
+                    <img class="user-avatar rounded-circle"  id="StaffAvataHeader">
                 </a>
                 <div class="user-menu dropdown-menu">
-                    <a class="nav-link" href="#"><i class="far fa-user"></i>Chỉnh sửa tài khoản</a>
-                    <a class="nav-link" href="#"><i class="fas fa-user-cog"></i>Quản lí tài khoản</a>
-                    <a class="nav-link" href="#"><i class="fas fa-power-off"></i>Thoát</a>
+                    <a class="nav-link" href="/AdminBCDH/Manager"><i class="far fa-user"></i>Quản lí tài khoản</a>
+                   
+                    <a class="nav-link" href="../Account/LogOff"><i class="fas fa-power-off"></i>Thoát</a>
                 </div>
             </div>
         </div>

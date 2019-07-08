@@ -1,0 +1,55 @@
+﻿@model BCDHX.Moduns.Models.Silder
+<!-- Page Banner Section Start -->
+<div class="page-banner-section section">
+    <div class="page-banner-wrap row row-0 d-flex align-items-center ">
+
+        <!-- Page Banner -->
+        <div class="col-lg-4 col-12 order-lg-2 d-flex align-items-center justify-content-center">
+            <div class="page-banner">
+                <h1>D.sách mong ước</h1>
+                <p>Ở đây sẽ có các sản phẩm được bạn lưu vào danh sách mong ước của mình, hoặc có thể yêu cầu give away qua các event của shop!</p>
+                <div class="breadcrumb">
+                    <ul>
+                        <li>@Html.ActionLink("Trang chủ", "Index", "Home")</li>
+                        <li>@Html.ActionLink("D.sách sản phẩm", "Index", "Product")</li>
+                        <li>@Html.ActionLink("D.sách mong ước", "Index", "WishListProduct")</li>
+                      
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Banner -->
+        <div class="col-lg-4 col-md-6 col-12 order-lg-1">
+            <div class="banner">
+                <a href="#">
+                    @if (Model.Img != null)
+                    {
+                        <img src="@Url.Content("~/Content/ImageUploaded/ImageBanner/"+Model.Img)" alt="Banner">
+                    }
+                    else
+                    {
+                        <img src="@Url.Content("~/Content/MainPage/images/banner/banner-15.jpg")" alt="Banner">
+                    }
+                </a>
+            </div>
+        </div>
+
+        <!-- Banner -->
+        <div class="col-lg-4 col-md-6 col-12 order-lg-3">
+            <div class="banner">
+                <a href="#">
+                    @if (Model.Img != null)
+                    {
+                        <img src="@Url.Content("~/Content/ImageUploaded/ImageBanner/"+Model.Img)" alt="Banner">
+                    }
+                    else
+                    {
+                        <img src="@Url.Content("~/Content/MainPage/images/banner/banner-15.jpg")" alt="Banner">
+                    }
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div><!-- Page Banner Section End -->
