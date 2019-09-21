@@ -27,14 +27,14 @@ namespace BCDHX.Moduns.Unity
 
 
         private  string _numbers = "0123456789";
-        public  string RandomNumber()
+        public  string RandomNumber(int size)
         {
             Random random = new Random();
             StringBuilder builder = new StringBuilder(6);
             string numberAsString = "";
             int numberAsNumber = 0;
 
-            for (var i = 0; i < 4; i++)
+            for (var i = 0; i < size; i++)
             {
                 builder.Append(_numbers[random.Next(1, _numbers.Length)]);
             }

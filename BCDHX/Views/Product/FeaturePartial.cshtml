@@ -60,7 +60,7 @@
                                                         <div class="wishlist-compare">
                                                             <a href="#" data-tooltip="Wishlist" onclick="return GetProductIDForAddWishList('@item1.ID_Product')"><i class="ti-heart"></i></a>
                                                         </div>
-                                                        <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
+                                                        <a href="#" class="add-to-cart" onclick="return AddToCardProductGrid('@item1.ID_Product','1')"><i class="ti-shopping-cart"></i><span>Thêm vào giỏ</span></a>
                                                     </div>
                                                     <!-- Content -->
                                                     <div class="content">
@@ -94,7 +94,7 @@
                                                         <div class="wishlist-compare">
                                                             <a href="#" data-tooltip="Wishlist" onclick="return GetProductIDForAddWishList('@item1.ID_Product')"><i class="ti-heart"></i></a>
                                                         </div>
-                                                        <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
+                                                        <a href="#" class="add-to-cart" onclick="return AddToCardProductGrid('@item1.ID_Product','1')"><i class="ti-shopping-cart"></i><span>Thêm vào giỏ</span></a>
                                                     </div>
                                                     <!-- Content -->
                                                     <div class="content">
@@ -155,17 +155,16 @@
 
                                                         <a href="single-product.html" class="img"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/"+@item1.Img)" alt="Product Image"></a>
                                                         <div class="wishlist-compare">
-                                                            <a href="#" data-tooltip="Compare"><i class="ti-control-shuffle"></i></a>
-                                                            <a href="#" data-tooltip="Wishlist"><i class="ti-heart"></i></a>
+                                                            <a href="#" data-tooltip="Wishlist" onclick="return GetProductIDForAddWishList('@item1.ID_Product')"><i class="ti-heart"></i></a>
                                                         </div>
-                                                        <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
+                                                        <a href="#" class="add-to-cart" onclick="return AddToCardProductGrid('@item1.ID_Product','1')"><i class="ti-shopping-cart"></i><span>Thêm vào giỏ</span></a>
                                                     </div>
                                                     <!-- Content -->
                                                     <div class="content">
                                                         <!-- Category & Title -->
                                                         <div class="category-title">
-                                                            <a href="#" class="cat">@item1.ID_Category</a>
-                                                            <h5 class="title"><a href="single-product.html">@item1.Name_Product</a></h5>
+                                                            @Html.ActionLink(item1.NameCatogory, "ProductByCategory", "Product", new { categoryname = item1.NameCatogory }, new { @class = "cat" })
+                                                            <h5 class="title">@Html.ActionLink(item1.Name_Product, "ProductDetail", "Product", new { productid = item1.ID_Product }, null)</h5>
                                                         </div>
                                                         <!-- Price & Ratting -->
                                                         <div class="price-ratting">
@@ -191,27 +190,23 @@
                                                         }
                                                         <a href="single-product.html" class="img"><img src="@Url.Content("~/Content/ImageUploaded/ImageForProduct/"+@item1.Img)" alt="Product Image"></a>
                                                         <div class="wishlist-compare">
-                                                            <a href="#" data-tooltip="Compare"><i class="ti-control-shuffle"></i></a>
-                                                            <a href="#" data-tooltip="Wishlist"><i class="ti-heart"></i></a>
+                                                            <a href="#" data-tooltip="Wishlist" onclick="return GetProductIDForAddWishList('@item1.ID_Product')"><i class="ti-heart"></i></a>
                                                         </div>
-                                                        <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
+                                                        <a href="#" class="add-to-cart" onclick="return AddToCardProductGrid('@item1.ID_Product','1')"><i class="ti-shopping-cart"></i><span>Thêm vào giỏ</span></a>
                                                     </div>
                                                     <!-- Content -->
                                                     <div class="content">
                                                         <!-- Category & Title -->
                                                         <div class="category-title">
-                                                            <a href="#" class="cat">@item1.ID_Category</a>
-                                                            <h5 class="title"><a href="single-product.html">@item1.Name_Product</a></h5>
+                                                            @Html.ActionLink(item1.NameCatogory, "ProductByCategory", "Product", new { categoryname = item1.NameCatogory }, new { @class = "cat" })
+                                                            <h5 class="title">@Html.ActionLink(item1.Name_Product, "ProductDetail", "Product", new { productid = item1.ID_Product }, null)</h5>
                                                         </div>
                                                         <!-- Price & Ratting -->
                                                         <div class="price-ratting">
-                                                            <h5 class="price">@item1.Price </h5>
-                                                          
-
+                                                            <h5 class="price">@item1.Price </h5>                                                     
                                                         </div>
 
                                                     </div>
-
                                                 </div><!-- Product End -->
                                             </div>
                                         }

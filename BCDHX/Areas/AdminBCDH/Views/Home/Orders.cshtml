@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Orders";
+    Layout = "~/Areas/AdminBCDH/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Breadcrums{
+    <div class="breadcrumbs">
+        <div class="breadcrumbs-inner">
+            <div class="row m-0">
+                <div class="col-sm-4">
+                    <div class="page-header float-left">
+                        <div class="page-title">
+                            <h1>Chỉnh sửa chung sản phẩm</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="page-header float-right">
+                        <div class="page-title">
+                            <ol class="breadcrumb text-right">
+                                <li>@Html.ActionLink("Thống kê", "Index", "Home")</li>
+                                <li class="active">@Html.ActionLink("Đơn hàng", "Orders", "Home")</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    Đơn hàng của khách
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="OrderPage">
+
+                </div> 
+            </div>
+        </div>
+        <br>
+        
+    </div>
+
+@section scripts{
+    <script src="@Url.Content("~/ScriptsBundle/AdminJquery/OrderManager/OrderManager.min.js")"></script>
+}
+
+

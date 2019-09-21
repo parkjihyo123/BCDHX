@@ -9,39 +9,34 @@
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false"><i class="menu-icon fas fa-users-cog"></i> Quản lí tài khoản Staff</a>
                     <ul class="sub-menu children dropdown-menu">
-                        <li><i class="menu-icon far fa-list-alt"></i>@Html.ActionLink("Edit tài khoản staff", "ListStaffAccount", "Home")</li>                      
+                        <li><i class="menu-icon far fa-list-alt"></i>@Html.ActionLink("Edit tài khoản staff", "ListStaffAccount", "Home")</li>
                     </ul>
                 </li>
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Danh.M sản phẩm</a>
                     <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fas fa-edit"></i>@Html.ActionLink("Sửa danh.m sản phẩm", "Category", "Home")</li>                       
+                        <li><i class="fas fa-edit"></i>@Html.ActionLink("Sửa danh.m sản phẩm", "Category", "Home")</li>
                     </ul>
                 </li>
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Quản lí sản.p</a>
                     <ul class="sub-menu children dropdown-menu">
-                        <li><i class="menu-icon fa fa-th"></i>@Html.ActionLink("Chỉnh sửa sản.ph", "Product","Home")</li>                      
+                        <li><i class="menu-icon fa fa-th"></i>@Html.ActionLink("Chỉnh sửa sản.ph", "Product", "Home")</li>
                     </ul>
                 </li>
-                <li class="menu-title">Icons</li><!-- /.menu-title -->
+
+                <li class="menu-title">Quản lí UI</li><!-- /.menu-title -->
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Slider paging</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fas fa-pager"></i>@Html.ActionLink("Ảnh slider", "PageBanner", "Home")</li>
+                    </ul>
+                </li>
 
                 <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Icons</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="menu-icon fas fa-file-invoice"></i>Q.lí đơn hàng</a>
                     <ul class="sub-menu children dropdown-menu">
-                        <li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Font Awesome</a></li>
-                        <li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Themefy Icons</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="widgets.html"> <i class="menu-icon ti-email"></i>Widgets </a>
-                </li>
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>Charts</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="menu-icon fa fa-line-chart"></i><a href="charts-chartjs.html">Chart JS</a></li>
-                        <li><i class="menu-icon fa fa-area-chart"></i><a href="charts-flot.html">Flot Chart</a></li>
-                        <li><i class="menu-icon fa fa-pie-chart"></i><a href="charts-peity.html">Peity Chart</a></li>
+                        <li><i class="menu-icon  fas fa-receipt"></i>@Html.ActionLink("Đơn hàng","Orders", "Home")</li>  
                     </ul>
                 </li>
 
@@ -52,7 +47,7 @@
                         <li><i class="menu-icon fa fa-street-view"></i><a href="maps-vector.html">Vector Maps</a></li>
                     </ul>
                 </li>
-                <li class="menu-title">Extras</li><!-- /.menu-title -->
+                <li class="menu-title">Khác</li><!-- /.menu-title -->
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Pages</a>
                     <ul class="sub-menu children dropdown-menu">

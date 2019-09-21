@@ -28,5 +28,7 @@ namespace BCDHX.Moduns.Models
 
         [Column(TypeName = "money")]
         public decimal? ValueSale { get; set; }
+
+        public int? PercentSale { get; set; }
     }
 }

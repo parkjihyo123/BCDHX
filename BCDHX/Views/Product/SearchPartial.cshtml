@@ -1,0 +1,17 @@
+﻿
+<div class="header-advance-search">
+    @using (Html.BeginForm("SearchingEngine", "Product", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="input"><input type="text" placeholder="Tìm Kiếm Sản Phẩm " name="keyword"></div>
+        <div class="select">
+            <select class="nice-select" name="SearchOnMainOptin">
+                <option value="All">Tất cả</option>
+                <option value="offical">Offical Goods</option>
+                <option value="unoffical">UnOffical Goods</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="submit"><button><i class="icofont-search-2"></i></button></div>
+    }
+</div>

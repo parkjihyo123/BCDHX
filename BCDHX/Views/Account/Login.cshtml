@@ -2,12 +2,10 @@
 @model LoginViewModel
 @using Microsoft.Owin.Security
 @{
-    /**/
 
     ViewBag.Title = "Đăng nhập";
     Layout = null;
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
-
 }
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -22,13 +20,12 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Oswald:200,300,400,500,600,700" rel="stylesheet">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <link rel="stylesheet" href="@Url.Content("~/Content/LoadingScreen/css/jquery.loadingModal.min.css")">
-    <link href="@Url.Content("~/Content/SweetAlret/sweetalert2.min.css")" rel="stylesheet" />
     @Styles.Render("~/Content/DevExtremeBundle")
 </head>
 <body>
     @Html.Partial("~/Views/Home/HeaderCustom.cshtml")
     @Html.Partial("~/Views/Home/PageBannerForLoginPartial.cshtml")
+    @Html.Partial("~/Views/Cart/CartPartial.cshtml")
     <!-- Login Section Start -->
     <div class="login-section section mt-90 mb-90">
         <div class="container">
@@ -53,7 +50,7 @@
                                 <div class="col-12"><input type="submit" value="Đăng nhập"></div>
                             </div>
                         </form>
-                        <h4>Bạn Chưa Có Tài Khoản ?<a href="/Account/Register">Đăng Kí Ngay!</a></h4>
+                        <h4>Bạn Chưa Có Tài Khoản ?<a href="../Account/Register">Đăng Kí Ngay!</a></h4>
                     </div>
                 </div>
                 <div class="col-md-1 col-12 d-flex">
@@ -65,72 +62,20 @@
                 </div>
             </div>
         </div>
-    </div><!-- Login Section End -->
-    <!--Modal ResendConfirmEmail-->
-    <div class="modal fade" id="ResendConfirmEmail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Gửi lại email kích hoạt tài khoản</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                    <div class="ee-login">
-                        <form id="resendconfirm">
-                            <div class="col-12 mb-30"><div id="SumErrorResend"></div></div>
-                            <div class="col-12 mb-30"><label>Xin mời nhập email cần gửi lại:</label></div>
-                            <div class="col-12 mb-30"><input type="text" id="ReSendConfirmUserName" placeholder="Email đã đăng kí !" required=""></div>
-
-                            <div class="col-12"><input type="submit" value="Gửi"></div>
-                        </form>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-
-                    <div class="col-12"><h4>Cảm ơn đã tin tưởng và sử dụng dịch vụ của shop!</h4></div>
-                </div>
-            </div>
-        </div>
     </div>
+    <!-- Login Section End -->
+    <!--Modal ResendConfirmEmail-->
+    @Html.Partial("~/Views/Account/ResendConfirmEmailModalPartial.cshtml")
     <!--Modal ResendConfirmEmail End-->
     <!--Modal ForgotPassword-->
-    <div class="modal fade" id="ForgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Bạn quên mật khẩu?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="ee-login">
-                        <form id="ForgotPasswordForm">
-                            <div class="col-12 mb-30"><div id="SumErrorForgot"></div></div>
-                            <div class="col-12 mb-30"><label>Xin mời nhập tên đăng nhập (email đăng ký):</label></div>
-                            <div class="col-12 mb-30"><input type="text" id="ForgotPasswordEmail" placeholder="Email đã đăng kí !" required=""></div>
-                            <div class="col-12"><input type="submit" value="Gửi"></div>
-                        </form>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-
-                    <div class="col-12"><h4>Cảm ơn đã tin tưởng và sử dụng dịch vụ của shop!</h4></div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @Html.Partial("~/Views/Account/ForgotPasswordModalPartial.cshtml")
     <!--Modal ForgotPassword End-->
     @Html.Partial("~/Views/Home/BrandsPartial.cshtml")
     @Html.Partial("~/Views/Home/footer.cshtml")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/DevExtremeBundle")
+    @Scripts.Render("~/bundle/cart")
     <script src="@Url.Content("~/ScriptsBundle/AccountSC.min.js")"></script>
 </body>
 </html>

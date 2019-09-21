@@ -1,0 +1,51 @@
+﻿@model BCDHX.Moduns.Models.Silder
+<div class="page-banner-section section">
+    <div class="page-banner-wrap row row-0 d-flex align-items-center ">
+
+        <!-- Page Banner -->
+        <div class="col-lg-4 col-12 order-lg-2 d-flex align-items-center justify-content-center">
+            <div class="page-banner">
+                <h1>Giỏ Hàng</h1>    
+                <div class="breadcrumb">
+                    <ul>
+                        <li>@Html.ActionLink("Trang chủ","Index","Home")</li>
+                        <li>@Html.ActionLink("Shop", "Index", "Product")</li>
+                        <li>@Html.ActionLink("Cart", "Index", "Cart")</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Banner -->
+        <div class="col-lg-4 col-md-6 col-12 order-lg-1">
+            <div class="banner">
+                <a href="#">
+                    @if (Model.Img != null)
+                    {
+                        <img src="@Url.Content("~/Content/ImageUploaded/ImageBanner/"+Model.Img)" alt="Banner">
+                    }
+                    else
+                    {
+                        <img src="@Url.Content("~/Content/MainPage/images/banner/banner-15.jpg")" alt="Banner">
+                    }
+                </a>
+            </div>
+        </div>
+
+        <!-- Banner -->
+        <div class="col-lg-4 col-md-6 col-12 order-lg-3">
+            <div class="banner">
+                <a href="#">
+                    @if (Model.Img != null)
+                    {
+                        <img src="@Url.Content("~/Content/ImageUploaded/ImageBanner/"+Model.Img)" alt="Banner">
+                    }
+                    else
+                    {
+                        <img src="@Url.Content("~/Content/MainPage/images/banner/banner-15.jpg")" alt="Banner">
+                    }
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

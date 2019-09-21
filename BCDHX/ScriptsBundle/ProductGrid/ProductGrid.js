@@ -1,5 +1,6 @@
-﻿var Url = window.location.origin + "/Product";
+﻿let Url = window.location.origin + "/Product";
 let UrlAdd = window.location.origin + "/WishListProduct/AddWishList";
+let UrlAddToCart = window.location.origin + "/Cart/AddItemToCart";
 let page;
 let pre;
 $("#selectPage,#selectSort").on("change", function () {
@@ -55,10 +56,10 @@ function sendRequest(url, method, data) {
 
 function GetProductIDForAddWishList(id) {
     var d = $.Deferred();
-    let productId = id; 
+    let productId = id;
     $.ajax(UrlAdd, {
         method: "POST",
-        data: { productID: productId},
+        data: { productID: productId },
         cache: false,
         xhrFields: { withCredentials: true }
     }).done(function (result) {
@@ -75,7 +76,12 @@ function ShowProcessAddWishList(rs) {
             type: 'success',
             title: rs.Error,
             showConfirmButton: true,
-            confirmButtonColor: '#F3D930'
+            confirmButtonColor: '#F3D930',
+            allowOutsideClick: false,
+        }).then((result) => {
+            if (result.value) {
+                LoadCartAfterAdded();
+            }
         })
     } else if (rs.Status == 2 || rs.Status == 3) {
         Swal.fire({
@@ -92,8 +98,62 @@ function ShowProcessAddWishList(rs) {
             confirmButtonColor: '#F3D930'
         }).then((result) => {
             if (result.value) {
-                window.location.href = window.location.origin + "/Account/Login";
+                $("#elegantModalForm").modal('show');
+               // window.location.href = window.location.origin + "/Account/Login";
             }
         })
     }
 }
+function AddToCardProductGrid(productidY, quantitY, optionY) {
+    var d = $.Deferred();
+    let temp = {
+        productID: productidY,
+        quantity: quantitY,
+        option: optionY
+    };
+    $.ajax(UrlAddToCart, {
+        method: "POST",
+        data: temp,
+        cache: false,
+        xhrFields: { withCredentials: true }
+    }).done(function (result) {
+        d.resolve(showMessAddtoCart(result));
+    }).fail(function (xhr) {
+        d.reject(xhr.responseJSON ? xhr.responseJSON.Message : xhr.statusText);
+    });
+    return d.promise();
+}
+function showMessAddtoCart(rs) {
+    if (rs.Status == 1) {
+        Swal.fire({
+            type: 'success',
+            title: rs.Error,
+            showConfirmButton: true,
+            confirmButtonColor: '#F3D930',
+            allowOutsideClick:false
+        }).then((result) => {
+            if (result.value) {
+                LoadCartAfterAdded();
+            }
+        })
+    } else {
+        Swal.fire({
+            type: 'error',
+            title: rs.Error,
+            showConfirmButton: true,
+            confirmButtonColor: '#F3D930'
+        })
+    }
+}
+
+function SubmitFromAddToCart() {
+    $("#AddtoCardProductDetail").submit();
+}
+
+$("#AddtoCardProductDetail").on("submit", function (event) {
+    event.preventDefault();
+    let quantityF = $("#quantityProductDetail").val();
+    let productID = $("#ProductID").val();
+    let option = $("#OptionVer option:selected").val();
+    AddToCardProductGrid(productID, quantityF, option);
+})

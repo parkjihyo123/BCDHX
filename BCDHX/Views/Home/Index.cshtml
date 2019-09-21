@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/HomeTempates/_Layout.cshtml";
 }
 @section Hero{
-    @Html.Partial("~/Views/Home/HeroSectionPartial.cshtml")
+    @Html.Action("HeroSectionPartial", "Home")
 }
 @section Banner{
     @Html.Partial("~/Views/Home/BannerPartial.cshtml")
@@ -37,7 +37,6 @@
 @Html.Action("BestSeller", "Product")
 @section ScriptBundle
 {
-
     <script src="@Url.Content("~/ScriptsBundle/ProductGrid/ProductGrid.js")"></script>
 }
 

@@ -19,6 +19,7 @@ namespace BCDHX
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
                 namespaces: new[] { "BCDHX.Controllers" }
             );
+           
         }
     }
 }

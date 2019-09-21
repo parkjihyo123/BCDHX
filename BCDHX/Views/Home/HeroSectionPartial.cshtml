@@ -1,35 +1,28 @@
-﻿<div class="hero-section section mb-30">
+﻿@model List<BCDHX.Moduns.Models.Silder>
+<div class="hero-section section mb-30">
     <div class="container">
         <div class="row">
             <div class="col">
                 <!-- Hero Slider Start -->
                 <div class="hero-slider hero-slider-one">
-
                     <!-- Hero Item Start -->
-                    <div class="hero-item">
-                        <div class="row align-items-center justify-content-between">
-
-                            <!-- Hero Content -->
-                            <div class="hero-content col">
-
-                                <h2>Nhanh Tay</h2>
-                                <h1><span>Website Mới</span></h1>
-                                <h1>Với <span class="big">29%</span>Sale OFF</h1>
-                                <a href="#">Mua Ngay</a>
-
+                    @foreach (var item in Model)
+                    {
+                        <div class="hero-item">
+                            <div class="row align-items-center justify-content-between">
+                                <!-- Hero Content -->
+                                <div class="hero-content col">
+                                    @Html.Raw(item.NameSlider)
+                                    @Html.ActionLink("Mua Ngay","Index","Product")
+                                </div>
+                                <!-- Hero Image -->
+                                <div class="hero-image col">
+                                   <img src="@Url.Content("~/Content/ImageUploaded/ImageBanner/"+item.Img)"/> 
+                                </div>
                             </div>
-
-                            <!-- Hero Image -->
-                            <div class="hero-image col">
-                                <img src="~/Content/MainPage/images/hero/hero-1.png" alt="Hero Image">
-                            </div>
-
                         </div>
-                    </div><!-- Hero Item End -->
-                    <!-- Hero Item Start -->
-                    
-                   <!-- Hero Item End -->
-
+                    }
+                    <!-- Hero Item End -->  
                 </div><!-- Hero Slider End -->
 
             </div>

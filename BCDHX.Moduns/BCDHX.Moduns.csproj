@@ -37,6 +37,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="JWT, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\JWT.5.2.2\lib\net46\JWT.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=5.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.5.4.0\lib\net451\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
     </Reference>
@@ -84,6 +87,7 @@
     <Compile Include="Models\BestDeal.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CuponCode.cs" />
+    <Compile Include="Models\CuponCodeHistory.cs" />
     <Compile Include="Models\C__MigrationHistory.cs" />
     <Compile Include="Models\FeedBack.cs" />
     <Compile Include="Models\ImageForProduct.cs" />
@@ -91,6 +95,7 @@
     <Compile Include="Models\InvoiceAccount.cs" />
     <Compile Include="Models\InvoiceDetail.cs" />
     <Compile Include="Models\LinkSystem.cs" />
+    <Compile Include="Models\News.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Silder.cs" />
     <Compile Include="Models\StockInOut.cs" />

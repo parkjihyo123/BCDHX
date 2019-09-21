@@ -23,6 +23,8 @@ namespace BCDHX
         {
             if (!Context.Request.IsSecureConnection)
                 Response.Redirect(Context.Request.Url.ToString().Replace("http:", "https:"));
+            var temp = Request.QueryString;
         }
+        
     }
 }

@@ -1,0 +1,79 @@
+﻿@model List<BCDHX.Models.ModelObject.TreeNode>
+<div class="col order-12 order-lg-2 order-xl-2 d-none d-lg-block">
+    <!-- Main Menu Start -->
+    <div class="main-menu">
+        <nav>
+            <ul>
+                <li class="active">@Html.ActionLink("Trang Chủ", "Index", "Home")</li>
+                <li class="menu-item-has-children">
+                    @Html.ActionLink("Danh Mục Sản Phẩm", "Index", "Product")
+                    <ul class="sub-menu">
+                        <li class="menu-item-has-children">
+                            @Html.ActionLink("Offical Goods", "ProductByCategory", "Product", new { categoryname = "official" }, null)
+                            <ul class="sub-menu">
+                                @foreach (var item in Model.Where(x => x.CategoryID.StartsWith("official")))
+                                {
+                                    <li>
+                                        @Html.ActionLink(item.CategoryName, "ProductByCategory", "Product", new { categoryname = item.CategoryName }, null)
+                                        <ul class="sub-menu">
+                                            @foreach (var child in item.Children)
+                                            {
+                                                <li>
+                                                    @Html.ActionLink(child.CategoryName, "ProductByCategory", "Product", new { categoryname = child.CategoryName }, null)
+                                                </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                        <li class="menu-item-has-children">
+                            @Html.ActionLink("UnOfficial Goods", "ProductByCategory", "Product", new { categoryname = "unofficial" }, null)
+                            <ul class="sub-menu">
+                                @foreach (var item in Model.Where(x => x.CategoryID.StartsWith("unofficial")))
+                                {
+                                    <li>
+                                        @Html.ActionLink(item.CategoryName, "ProductByCategory", "Product", new { categoryname = item.CategoryName }, null)
+                                        <ul class="sub-menu">
+                                            @foreach (var child in item.Children)
+                                            {
+                                                <li>
+                                                    @Html.ActionLink(child.CategoryName, "ProductByCategory", "Product", new { categoryname = child.CategoryName }, null)
+                                                </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                        <li class="menu-item-has-children">
+                            @Html.ActionLink("Orther", "ProductByCategory", "Product", new { categoryname = "other" }, null)
+                            <ul class="sub-menu">
+                                @foreach (var item in Model.Where(x => x.CategoryID.StartsWith("other")))
+                                {
+                                    <li>
+                                        @Html.ActionLink(item.CategoryName, "ProductByCategory", "Product", new { categoryname = item.CategoryName }, null)
+                                        <ul class="sub-menu">
+                                            @foreach (var child in item.Children)
+                                            {
+                                                <li>
+                                                    @Html.ActionLink(child.CategoryName, "ProductByCategory", "Product", new { categoryname = child.CategoryName }, null)
+                                                </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                </li>         
+                <li class="menu-item-has-children">
+                    <a href="#">Tin Tức</a>          
+                </li>
+                <li class="menu-item-has-children">
+                    <a href="#">Liên Hệ</a>
+                </li>
+            </ul>
+        </nav>
+    </div><!-- Main Menu End -->
+</div>

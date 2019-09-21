@@ -57,7 +57,7 @@ namespace BCDHX.Controllers
                         var productTemp = _dbBCDHX.Products.AsNoTracking().Where(x => x.ID_Product == productID).SingleOrDefault();
                         if (productTemp != null)
                         {
-                            var wishListID = _randomcode.RandomNumber();
+                            var wishListID = _randomcode.RandomNumber(4);
                             WishList wishListmodel = new WishList { ID_Account = userTemp.Id, ID_Product = productID, ID_WishList = wishListID };
                             _dbBCDHX.Entry(wishListmodel).State = System.Data.Entity.EntityState.Added;
                             _dbBCDHX.SaveChanges();
@@ -136,6 +136,7 @@ namespace BCDHX.Controllers
             }
 
         }
+      
         public PartialViewResult PageBannerForWishList()
         {
             Silder tempImagePageBanner = _dbBCDHX.Silders.Where(x => x.Title == "PageBannerForWishList").SingleOrDefault() ?? new Silder();

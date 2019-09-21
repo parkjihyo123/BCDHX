@@ -56,6 +56,9 @@
     <Reference Include="ClearScript, Version=5.5.6.0, Culture=neutral, PublicKeyToken=935d0c957da47c73, processorArchitecture=MSIL">
       <HintPath>..\packages\JavaScriptEngineSwitcher.V8.3.1.0\lib\net45\ClearScript.dll</HintPath>
     </Reference>
+    <Reference Include="Crypto, Version=1.0.5085.23995, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Crypto.1.0.1\lib\net45\Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="DevExtreme.AspNet.Data, Version=2.2.1.0, Culture=neutral, PublicKeyToken=982f5dab1439d0f7, processorArchitecture=MSIL">
       <HintPath>..\packages\DevExtreme.AspNet.Data.2.2.1\lib\net452\DevExtreme.AspNet.Data.dll</HintPath>
     </Reference>
@@ -75,6 +78,9 @@
     <Reference Include="JSPool, Version=4.0.0.0, Culture=neutral, PublicKeyToken=2fc7775f73072640, processorArchitecture=MSIL">
       <HintPath>..\packages\JSPool.4.0.0\lib\net45\JSPool.dll</HintPath>
     </Reference>
+    <Reference Include="JWT, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\JWT.5.2.2\lib\net46\JWT.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
@@ -85,14 +91,14 @@
     <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.1.1.2\lib\netstandard1.1\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=5.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.5.4.0\lib\net451\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=5.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.5.5.0\lib\net451\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Logging, Version=5.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Logging.5.4.0\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=5.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.5.5.0\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.4.0\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.5.0\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
@@ -142,9 +148,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.4.0\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
@@ -316,6 +319,8 @@
     <Compile Include="Areas\AdminBCDH\Controllers\HomeController.cs" />
     <Compile Include="Areas\AdminBCDH\Controllers\ManagerController.cs" />
     <Compile Include="Areas\AdminBCDH\Controllers\NotAuthorizeController.cs" />
+    <Compile Include="Areas\AdminBCDH\Controllers\ProcessOrderController.cs" />
+    <Compile Include="Areas\AdminBCDH\Controllers\ProcessPageBannerController.cs" />
     <Compile Include="Areas\AdminBCDH\Controllers\ProcessGetResourcesController.cs" />
     <Compile Include="Areas\AdminBCDH\Controllers\ProcessWithCategoryController.cs" />
     <Compile Include="Areas\AdminBCDH\Controllers\ProcessWithImageProductController.cs" />
@@ -324,36 +329,54 @@
     <Compile Include="Areas\AdminBCDH\Models\CategoryDataForVadiate.cs" />
     <Compile Include="Areas\AdminBCDH\Models\CategoryViewModel.cs" />
     <Compile Include="Areas\AdminBCDH\Models\ImageProductViewModel.cs" />
+    <Compile Include="Areas\AdminBCDH\Models\OrderViewModel.cs" />
     <Compile Include="Areas\AdminBCDH\Models\ProductViewModel.cs" />
     <Compile Include="Areas\AdminBCDH\Models\RoleViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\CheckOutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NotificationSystemController.cs" />
+    <Compile Include="Controllers\PaymentResultController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\WishListProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="JWT\JWTService.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\CartViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\InvoiceModel.cs" />
+    <Compile Include="Models\InvoiceModelDetail.cs" />
+    <Compile Include="Models\InvoiceModelView.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ModelEnum\PaymentMethodEnum.cs" />
     <Compile Include="Models\ModelObject\BestDealContent.cs" />
     <Compile Include="Models\ModelObject\CategoryBestDeal.cs" />
     <Compile Include="Models\ModelObject\CategoryFeature.cs" />
+    <Compile Include="Models\ModelObject\CuponModel.cs" />
     <Compile Include="Models\ModelObject\NewArrivalProduct.cs" />
     <Compile Include="Models\ModelObject\PagingProduct.cs" />
+    <Compile Include="Models\ModelObject\PaymentWithBKOnline.cs" />
     <Compile Include="Models\ModelObject\ProductBestDeal.cs" />
     <Compile Include="Models\ModelObject\Product.cs" />
     <Compile Include="Models\ModelObject\ProductDetailModelView.cs" />
     <Compile Include="Models\ModelObject\ProductFeature.cs" />
+    <Compile Include="Models\ModelObject\ProductModelCart.cs" />
+    <Compile Include="Models\ModelObject\TreeNode.cs" />
     <Compile Include="Models\ModelObject\WishListViewModel.cs" />
-    <Compile Include="Models\ProductEnum.cs" />
+    <Compile Include="Models\ModelEnum\ProductEnum.cs" />
+    <Compile Include="Models\UpdateCartModelView.cs" />
     <Compile Include="Models\UserPayment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Unity\CustomeAuthorizeAdmin.cs" />
+    <Compile Include="Unity\PaymentBK\PaymentLibrary.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\AdminPage\assets\css\cs-skin-elastic.css" />
@@ -472,6 +495,8 @@
     <Content Include="Content\dx.win10.white.css" />
     <Content Include="Content\dx.win8.black.css" />
     <Content Include="Content\dx.win8.white.css" />
+    <Content Include="Content\Email\InvoiceEmail\InvoiceAfterFristSaleCode.html" />
+    <Content Include="Content\Email\InvoiceEmail\InvcoiveEmail.html" />
     <Content Include="Content\Email\NotificationEmail\NotificationEmail.html" />
     <Content Include="Content\Email\NotificationEmail\RestEmail.html" />
     <Content Include="Content\ErrorPage\css\style.css" />
@@ -623,7 +648,6 @@
     <Content Include="Content\MainPage\images\icons\feature-walet.png" />
     <Content Include="Content\MainPage\images\icons\marker.png" />
     <Content Include="Content\MainPage\images\logo-light.png" />
-    <Content Include="Content\MainPage\images\logo.png" />
     <Content Include="Content\MainPage\images\logoBCDH.jpg" />
     <Content Include="Content\MainPage\images\online-payment-png.png" />
     <Content Include="Content\MainPage\images\payment-support.png" />
@@ -761,7 +785,11 @@
     <Content Include="ScriptsBundle\AdminJquery\ImageProduct\ImageProduct.min.js" />
     <Content Include="ScriptsBundle\AdminJquery\Manager\ImageAvataSaffHeader.js" />
     <Content Include="ScriptsBundle\AdminJquery\Manager\ManagerAccountPrivate.js" />
+    <Content Include="ScriptsBundle\AdminJquery\OrderManager\OrderManager.min.js" />
+    <Content Include="ScriptsBundle\AdminJquery\Pagebanner\PageBanner.min.js" />
     <Content Include="ScriptsBundle\AdminJquery\ProductManager\Product.min.js" />
+    <Content Include="ScriptsBundle\Cart\CartProduct.min.js" />
+    <Content Include="ScriptsBundle\CheckOut\CheckOut.min.js" />
     <Content Include="ScriptsBundle\GeneralUser.js" />
     <Content Include="ScriptsBundle\ProductGrid\ProductGrid.js" />
     <Content Include="ScriptsBundle\React\Admin\ListStaffAccount\ListStaffAccount.jsx" />
@@ -884,13 +912,15 @@
     <Content Include="Areas\AdminBCDH\Views\Home\LeftPanelParital.cshtml" />
     <Content Include="Areas\AdminBCDH\Views\Home\Category.cshtml" />
     <Content Include="Areas\AdminBCDH\Views\Home\Product.cshtml" />
-    <Content Include="Content\cldr\main\currencies.json" />
-    <Content Include="Content\cldr\main\numbers.json" />
     <Content Include="Areas\AdminBCDH\Views\Manager\Index.cshtml" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="ScriptsBundle\React\react.development.js" />
     <Content Include="ScriptsBundle\AdminJquery\ListStaffAccount\ListStaff.min.js" />
     <Content Include="ScriptsBundle\AdminJquery\CategoryManager\Category.min.js" />
+    <Content Include="Areas\AdminBCDH\Views\Home\PageBanner.cshtml" />
+    <Content Include="Areas\AdminBCDH\Views\Home\Orders.cshtml" />
+    <Content Include="Areas\AdminBCDH\Views\Home\WidgetPartial.cshtml" />
+    <Content Include="Areas\AdminBCDH\Views\Home\OrderPatialView.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\cldr.js" />
     <Content Include="Scripts\cldr.min.js" />
@@ -1039,10 +1069,28 @@
     <Content Include="Views\Product\RealtedProduct.cshtml" />
     <Content Include="Views\WishListProduct\Index.cshtml" />
     <Content Include="Views\WishListProduct\PageBannerForWishList.cshtml" />
+    <Content Include="Views\Cart\CartPartial.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Cart\PageBannerCart.cshtml" />
+    <Content Include="Views\Account\ModalLogin.cshtml" />
+    <Content Include="Views\Account\ResendConfirmEmailModalPartial.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordModalPartial.cshtml" />
+    <Content Include="Views\CheckOut\Index.cshtml" />
+    <Content Include="Views\CheckOut\PageBannerCheckOut.cshtml" />
+    <Content Include="Views\PaymentResult\Index.cshtml" />
+    <Content Include="Views\PaymentResult\PageBannerPaymentresult.cshtml" />
+    <Content Include="Views\PaymentResult\ResultUseBalance.cshtml" />
+    <Content Include="Views\PaymentResult\ShowTest.cshtml" />
+    <Content Include="Views\Home\ProductMenuTree.cshtml" />
+    <Content Include="Views\Product\SearchPartial.cshtml" />
+    <Content Include="Views\Product\SearchingEngine.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\AdminBCDH\Views\PageBanner\" />
     <Folder Include="Areas\AdminBCDH\Views\ProcessGetResources\" />
+    <Folder Include="Areas\AdminBCDH\Views\ProcessOrder\" />
     <Folder Include="Areas\AdminBCDH\Views\ProcessWithCategory\" />
     <Folder Include="Areas\AdminBCDH\Views\ProcessWithImageProduct\" />
     <Folder Include="Areas\AdminBCDH\Views\ProcessWithProduct\" />

@@ -1,4 +1,4 @@
-
+﻿
 !function($) {
     "use strict";
 
@@ -68,12 +68,11 @@
                 .append("<div class='col-md-6'><div class='form-group'><label class='control-label'>Event Name</label><input class='form-control' placeholder='Insert Event Name' type='text' name='title'/></div></div>")
                 .append("<div class='col-md-6'><div class='form-group'><label class='control-label'>Category</label><select class='form-control' name='category'></select></div></div>")
                 .find("select[name='category']")
-                .append("<option value='bg-danger'>Danger</option>")
-                .append("<option value='bg-success'>Success</option>")
-                .append("<option value='bg-dark'>Dark</option>")
-                .append("<option value='bg-primary'>Primary</option>")
-                .append("<option value='bg-pink'>Pink</option>")
-                .append("<option value='bg-info'>Info</option>")
+                .append("<option value='bg-danger'>Cần làm ngay</option>")
+                .append("<option value='bg-success'>Hoàn thành</option>")
+                .append("<option value='bg-primary'>Dự định chính</option>")
+                .append("<option value='bg-pink'>Ưu tiên vừa</option>")
+                .append("<option value='bg-info'>Nhắc nhở</option>")
                 .append("<option value='bg-warning'>Warning</option></div></div>");
             $this.$modal.find('.delete-event').hide().end().find('.save-event').show().end().find('.modal-body').empty().prepend(form).end().find('.save-event').unbind('click').click(function () {
                 form.submit();
@@ -130,20 +129,6 @@
         var form = '';
         var today = new Date($.now());
 
-        var defaultEvents =  [{
-                title: 'Hey!',
-                start: new Date($.now() + 158000000),
-                className: 'bg-dark'
-            }, {
-                title: 'See John Deo',
-                start: today,
-                end: today,
-                className: 'bg-danger'
-            }, {
-                title: 'Buy a Theme',
-                start: new Date($.now() + 338000000),
-                className: 'bg-primary'
-            }];
 
         var $this = this;
         $this.$calendarObj = $this.$calendar.fullCalendar({
@@ -158,7 +143,7 @@
                 center: 'title',
                 right: 'month,agendaWeek,agendaDay'
             },
-            events: defaultEvents,
+            //events: defaultEvents,
             editable: true,
             droppable: true, // this allows things to be dropped onto the calendar !!!
             eventLimit: true, // allow "more" link when too many events

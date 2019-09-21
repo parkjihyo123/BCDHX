@@ -47,6 +47,12 @@ namespace BCDHX.Moduns.Models
         [StringLength(250)]
         public string MaVanDon { get; set; }
 
+        [Column(TypeName = "ntext")]
+        public string Note { get; set; }
+
+        [StringLength(250)]
+        public string Orgin { get; set; }
+
         public virtual Account Account { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

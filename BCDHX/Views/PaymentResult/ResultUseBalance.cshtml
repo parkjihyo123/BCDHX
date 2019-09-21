@@ -1,0 +1,107 @@
+﻿@using BCDHX.Models
+@using System.Globalization
+@{
+                /**/
+
+                ViewBag.Title = "ResultUseBalance";
+                Layout = "~/Views/Shared/HomeTempates/_LayoutOther.cshtml";
+                var tempInvoices = (InvoiceModel)ViewBag.tempInvoie;
+                var tempInvoiceDetail = (List<InvoiceModelView>)ViewBag.tempInvoieDetail;
+                var shipping = new Decimal(0);
+                foreach (var item in tempInvoiceDetail)
+                {
+                    shipping = item._ShippingFee;
+                }
+                var totalGrand = string.Format(CultureInfo.GetCultureInfo("vi-VN"), "{0:C}", tempInvoiceDetail.Sum(x => x._Price) + shipping);
+}
+
+@section PageBannerForAll{
+    @Html.Action("PageBannerPaymentresult", "PaymentResult")
+}
+<div class="invoice-box">
+    <table cellpadding="0" cellspacing="0">
+        <tr class="top">
+            <td colspan="2">
+                <table>
+                    <tr>
+                        <td class="title">
+                            @*<img src="https://www.sparksuite.com/images/logo.png" style="width:100%; max-width:300px;">*@
+                        </td>
+                        <td>
+                            <strong>Mã đơn hàng #</strong>: @tempInvoices.ID_Invoice<br>
+                            <strong>Ngày mua:</strong> @tempInvoices.Purchase_Date<br>
+                            <strong>Tình trạng:</strong> @(tempInvoices.Status_Order.GetValueOrDefault(true))
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr class="information">
+            <td colspan="2">
+                <table>
+                    <tr>
+                        <td>
+                            <strong>Địa chỉ:</strong> @tempInvoices.Shipping_Address
+                        </td>
+
+                        <td>
+                            @tempInvoices.Fullname<br>
+                            @tempInvoices.Email
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr class="heading">
+            <td>
+                Phương thức thanh toán
+            </td>
+
+            <td>
+                Check #
+            </td>
+        </tr>
+
+        <tr class="details">
+            <td>
+                @tempInvoices.Payment_Methods
+            </td>
+        </tr>
+
+        <tr class="heading">
+            <td>
+                Danh sách sản phẩm
+            </td>
+
+            <td>
+                Giá
+            </td>
+        </tr>
+        @foreach (var item in tempInvoiceDetail)
+        {
+            <tr class="item">
+                <td>
+                    @item.NameProduct
+                </td>
+
+                <td>
+                    @item.Price
+                </td>
+            </tr>
+        }
+        <tr class="total">
+            <td></td>
+
+            <td>
+                Tổng tiền (Tổng sản phẩm + ship): @totalGrand
+            </td>
+        </tr>
+    </table>
+</div>
+@section Brands{
+    @Html.Partial("~/Views/Home/BrandsPartial.cshtml")
+}
+@section Subscribe{
+    @Html.Partial("~/Views/Home/SubscribePartial.cshtml")
+}

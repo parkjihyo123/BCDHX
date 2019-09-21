@@ -23,7 +23,7 @@ namespace BCDHX.Models
 
     public class UserViewModel
     {
-        private decimal _amount;
+        public decimal _amount { get; set; }
         public string ID_Account { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }

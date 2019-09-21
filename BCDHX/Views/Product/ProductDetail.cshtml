@@ -93,33 +93,30 @@
                     </div>
 
                     <span class="availability">Trạng thái sản phẩm: <span>Còn hàng</span></span>
-
                     <div class="quantity-colors">
-                        <div class="quantity">
-                            <h5>Quantity</h5>
-                            <div class="pro-qty"><input type="text" value="1"></div>
-                        </div>
-
-                        <div class="colors">
-                            <h5>Version</h5>
-                            <select class="nice-select">
-                                <option>VerA</option>
-                                <option>VerB</option>
-                                <option>VerC</option>
-                                <option>Other</option>
-                            </select>
-                        </div>
-
+                        <form id="AddtoCardProductDetail">
+                            <input type="hidden" value="@Model.ID_Product" id="ProductID">
+                            <div class="quantity">
+                                <h5>Số lượng</h5>
+                                <div class="pro-qty"><input type="text" value="1" id="quantityProductDetail"></div>
+                            </div>
+                            <div class="colors">
+                                <h5>Version</h5>
+                                <select class="nice-select" id="OptionVer">
+                                    <option value="verA" selected>VerA</option>
+                                    <option value="verB">VerB</option>
+                                    <option value="verC">VerC</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </form>                      
                     </div>
 
                     <div class="actions">
-
-                        <a href="#" class="add-to-cart"><i class="ti-shopping-cart"></i><span>ADD TO CART</span></a>
-
+                        <a href="#" class="add-to-cart" onclick="return SubmitFromAddToCart()"><i class="ti-shopping-cart"></i><span>Add to cart</span></a>
                         <div class="wishlist-compare">
                             <a href="#" data-tooltip="Wishlist" onclick="return GetProductIDForAddWishList('@Model.ID_Product')"><i class="ti-heart"></i></a>
                         </div>
-
                     </div>
 
                     <div class="tags">

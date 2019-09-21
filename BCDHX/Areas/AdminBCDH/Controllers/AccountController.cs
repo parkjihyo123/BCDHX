@@ -98,6 +98,7 @@ namespace BCDHX.Areas.AdminBCDH.Controllers
                     }
 
                 case SignInStatus.LockedOut:
+                    SignInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
                     return Json(new
                     {
                         Status = 1,
@@ -111,7 +112,7 @@ namespace BCDHX.Areas.AdminBCDH.Controllers
                     });
                 case SignInStatus.Failure:
                 default:
-
+                    SignInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
                     return Json(new
                     {
                         Status = 3,

@@ -23,12 +23,14 @@ namespace BCDHX.Moduns.Models
         public virtual DbSet<BestDeal> BestDeals { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<CuponCode> CuponCodes { get; set; }
+        public virtual DbSet<CuponCodeHistory> CuponCodeHistories { get; set; }
         public virtual DbSet<FeedBack> FeedBacks { get; set; }
         public virtual DbSet<ImageForProduct> ImageForProducts { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<InvoiceAccount> InvoiceAccounts { get; set; }
         public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; }
         public virtual DbSet<LinkSystem> LinkSystems { get; set; }
+        public virtual DbSet<News> News { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Silder> Silders { get; set; }
         public virtual DbSet<StockInOut> StockInOuts { get; set; }

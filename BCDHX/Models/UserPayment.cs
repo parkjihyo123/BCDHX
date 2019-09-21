@@ -11,6 +11,6 @@ namespace BCDHX.Models
     }
     public enum UserPaymentStatus
     {
-        SUCCESS,ERROR,HOLD,SHIPPING
+        SUCCESS,PEDDING,ERROR, HOLD,SHIPPING
     }
 }

@@ -1,3 +1,4 @@
+﻿var UrlAccount = window.location.origin;
 (function ($) {
     "use strict";
     
@@ -7,6 +8,7 @@
 var windows = $(window);
 var screenSize = windows.width();
 var sticky = $('.header-sticky');
+
 
 windows.on('scroll', function() {
     var scroll = windows.scrollTop();
@@ -136,20 +138,7 @@ searchToggle.on('click', function(){
 /*--
     Header Cart
 ------------------------*/
-var headerCart = $('.header-cart');
-var closeCart = $('.close-cart, .cart-overlay');
-var miniCartWrap = $('.mini-cart-wrap');
 
-headerCart.on('click', function(e){
-    e.preventDefault();
-    $('.cart-overlay').addClass('visible');
-    miniCartWrap.addClass('open');
-});
-closeCart.on('click', function(e){
-    e.preventDefault();
-    $('.cart-overlay').removeClass('visible');
-    miniCartWrap.removeClass('open');
-});
     
 /*--
     Hero Slider
@@ -618,23 +607,24 @@ $('#price-amount').val( '$' + $('#price-range').slider( 'values', 0 ) +
 /*----- 
 	Quantity
 --------------------------------*/
-$('.pro-qty').prepend('<span class="dec qtybtn">-</span>');
-$('.pro-qty').append('<span class="inc qtybtn">+</span>');
-$('.qtybtn').on('click', function() {
-	var $button = $(this);
-	var oldValue = $button.parent().find('input').val();
-	if ($button.hasClass('inc')) {
-	  var newVal = parseFloat(oldValue) + 1;
-	} else {
-	   // Don't allow decrementing below zero
-	  if (oldValue > 0) {
-		var newVal = parseFloat(oldValue) - 1;
-		} else {
-		newVal = 0;
-	  }
-	  }
-	$button.parent().find('input').val(newVal);
-});  
+    $('.pro-qty').prepend('<span class="dec qtybtn">-</span>');
+    $('.pro-qty').append('<span class="inc qtybtn">+</span>');
+    $('.qtybtn').on('click', function () {
+        var $button = $(this);
+        var oldValue = $button.parent().find('input').val();
+        if ($button.hasClass('inc')) {
+            var newVal = parseFloat(oldValue) + 1;
+        } else {
+            // Don't allow decrementing below zero
+            if (oldValue > 0) {
+                var newVal = parseFloat(oldValue) - 1;
+            } else {
+                newVal = 0;
+            }
+        }
+        $button.parent().find('input').val(newVal);
+    });
+
     
 /*----- 
 	Shipping Form Toggle
@@ -674,3 +664,167 @@ $('#account-image-upload').on('change', function () {
     
     
 })(jQuery);	
+$("#loginModalForm").on("submit", function (e) {
+    e.preventDefault();
+    e.preventDefault();
+    var username = $("#Form-email1").val();
+    var password = $("#Form-pass1").val();
+    // var remmber = $("input[type='checkbox']").val();
+    var temp = {
+        Email: username,
+        Password: password,
+        RememberMe: true
+    }
+    $.ajax({
+        type: 'POST',
+        url: UrlAccount + "/Account/Login",
+        data: JSON.stringify(temp),
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            // setting a timeout
+            $('body').loadingModal({
+                position: 'auto',
+                text: '',
+                color: '#fff',
+                opacity: '0.7',
+                backgroundColor: 'rgb(0,0,0)',
+                animation: 'circle'
+            });
+        },
+        success: function (rs) {
+            $('body').loadingModal('destroy');
+            //alert(rs)
+            if (rs.Status == 0 && rs.Error == "Done") {
+                $("#sumerror").html("")
+                Swal.fire({
+                    type: 'success',
+                    title: 'Đăng nhập thành công!',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                setTimeout(function () {
+                    var rtLink = rs.ReturnUrl;
+                    if (rtLink == null) {
+                        window.location.reload();
+                    }
+                }, 2000);
+
+            }
+            else if (rs.Status == 1) {
+                $("#sumerror").html("<span style='color:red'>" + rs.Error + "</span>")
+            } else if (rs.Status == 2) {
+                $("#sumerror").html("<span style='color:red'>Tài khoản cần phải kích hoạt để trở thành khách hàng thân thiết của shop, xin lỗi vì sự bất tiện này. Xin kiểm tra lại hòm thư email để kích hoạt tài khoản!.Nếu không nhận được thư thì bấm vào đây để gửi lại:</span>" + "<a style='float:none' herf='#'onClick='return showModelReSend();'>Click!</a>")
+            } else {
+                $("#sumerror").html("<span style='color:red'>" + rs.Error + "</span>")
+            }
+        },
+        error: function (xhr, status, error) {
+            var errorMessage = xhr.status + ': ' + xhr.statusText
+            alert('Error - ' + errorMessage);
+        }
+    });
+})
+
+function showModelReSend() {
+
+    $('#ResendConfirmEmail').modal('show');
+}
+
+$("#resendconfirm").on("submit", function ResendEmail(e) {
+    e.preventDefault();
+    var email = $("#ReSendConfirmUserName").val();
+    var temp = {
+        Username: email
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: UrlAccount + "/Account/ReSendConfirmEmail",
+        data: JSON.stringify(temp),
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            // setting a timeout
+            $('body').loadingModal({
+                position: 'auto',
+                text: '',
+                color: '#fff',
+                opacity: '0.7',
+                backgroundColor: 'rgb(0,0,0)',
+                animation: 'circle'
+            });
+        },
+        success: function (rs) {
+            $('body').loadingModal('destroy');
+            //alert(rs)
+            if (rs.Status == 0) {
+                $("#SumErrorResend").html("")
+                Swal.fire({
+                    type: 'success',
+                    title: rs.Error,
+                    showConfirmButton: true,
+                    confirmButtonColor: '#F3D930'
+                });
+            }
+            else if (rs.Status == 1 || rs.Status == 2) {
+                $("#SumErrorResend").html("<span style='color:red'>" + rs.Error + "</span>")
+            }
+        }, error: function (xhr, status, error) {
+            var errorMessage = xhr.status + ': ' + xhr.statusText
+            alert('Error - ' + errorMessage);
+        }
+    });
+})
+////////////////////
+///////////////////Forgot Password
+$("#ForgotPasswordForm").on("submit", function g(e) {
+    e.preventDefault();
+    var email = $("#ForgotPasswordEmail").val();
+    var temp = {
+        Email: email
+    }
+    $.ajax({
+        type: 'POST',
+        url: UrlAccount + "/Account/ForgotPassword",
+        data: JSON.stringify(temp),
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function () {
+            // setting a timeout
+            $('body').loadingModal({
+                position: 'auto',
+                text: '',
+                color: '#fff',
+                opacity: '0.7',
+                backgroundColor: 'rgb(0,0,0)',
+                animation: 'circle'
+            });
+        },
+        success: function (rs) {
+            $('body').loadingModal('destroy');
+
+            if (rs.Status == 0) {
+                $("#SumErrorForgot").html("")
+                Swal.fire({
+                    type: 'success',
+                    title: rs.Error,
+                    showConfirmButton: true,
+                    confirmButtonColor: '#F3D930'
+                });
+                
+            }
+            else if (rs.Status == 1) {
+                $("#SumErrorForgot").html("<span style='color:red'>" + rs.Error + "</span>")
+            }
+        }, error: function (xhr, status, error) {
+            var errorMessage = xhr.status + ': ' + xhr.statusText
+            alert('Error - ' + errorMessage);
+        }
+    });
+})
+function ShowModalForgot() {
+    $("#ForgotPasswordModal").modal('show');
+}
+function LoginWithExternal(value) {
+    $("#providerID").val(value);
+    document.getElementById('formLogin').submit();
+}
+

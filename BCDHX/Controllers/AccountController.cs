@@ -65,13 +65,13 @@ namespace BCDHX.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl, string CallStatusExtend)
         {
-            if (IsAuthenticated(AuthenticationManager)&&User.IsInRole("Customer"))
+            if (IsAuthenticated(AuthenticationManager) && User.IsInRole("Customer"))
             {
                 return RedirectToAction("Index", "Home");
             }
             else
             {
-                if (CallStatusExtend!=null)
+                if (CallStatusExtend != null)
                 {
                     ViewBag.Error = "Tài đã khoản đã tồn tại, nếu quên mật khẩu xin hãy bấm vào quên mật khẩu để tìm lại.Cần hỗ trợ hãy liên hệ ngay LiveChat!";
                 }
@@ -91,9 +91,8 @@ namespace BCDHX.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true           
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: true);
-           
             var tempuser = SignInManager.UserManager.Find(model.Email, model.Password);
-            if (tempuser != null && User.IsInRole("Customer"))
+            if (tempuser != null)
             {
                 if (tempuser.EmailConfirmed != true)
                 {
@@ -118,6 +117,7 @@ namespace BCDHX.Controllers
                     }
                     else
                     {
+                        ForceLogOff();
                         return Json(new
                         {
                             Status = 4,
@@ -126,12 +126,14 @@ namespace BCDHX.Controllers
                         });
                     }
                 case SignInStatus.LockedOut:
+                    ForceLogOff();
                     return Json(new
                     {
                         Status = 1,
                         Error = "Tài khoản bị khóa"
                     });
                 case SignInStatus.RequiresVerification:
+                    ForceLogOff();
                     return Json(new
                     {
                         Status = 2,
@@ -139,8 +141,7 @@ namespace BCDHX.Controllers
                     });
 
                 case SignInStatus.Failure:
-                default:
-                    //ModelState.AddModelError("", "Invalid login attempt.");
+                default: 
                     return Json(new
                     {
                         Status = 3,
@@ -148,7 +149,10 @@ namespace BCDHX.Controllers
                     });
             }
         }
-
+        public void ForceLogOff()
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie, DefaultAuthenticationTypes.ExternalCookie);
+        }
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
@@ -408,9 +412,9 @@ namespace BCDHX.Controllers
         {
             //ApplicationUser currentUser = _dbasp.Users.FirstOrDefault(x => x.Email.Equals(model.Username));
             Account currentUser = _db.Accounts.SingleOrDefault(x => x.Username.Equals(model.Username));
-            if (currentUser != null && SignInManager.UserManager.Find(currentUser.Username, currentUser.Password) != null)
+            if (currentUser != null && SignInManager.UserManager.FindById(currentUser.ID_Account) != null)
             {
-                var tempUserAfterSign = SignInManager.UserManager.Find(currentUser.Username, currentUser.Password);
+                var tempUserAfterSign = SignInManager.UserManager.FindById(currentUser.ID_Account);
                 if (!tempUserAfterSign.EmailConfirmed)
                 {
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(tempUserAfterSign.Id);
@@ -622,7 +626,7 @@ namespace BCDHX.Controllers
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
             switch (result)
             {
-                case SignInStatus.Success:                  
+                case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -634,13 +638,14 @@ namespace BCDHX.Controllers
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                     var CheckUserExsit = UserManager.FindByEmail(loginInfo.Email);
-                    if (CheckUserExsit==null)
+                    if (CheckUserExsit == null)
                     {
                         return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
-                    }else
+                    }
+                    else
                     {
-                        return RedirectToAction("Login",new {CallStatusExtend ="ExsitAccount"});
-                    }               
+                        return RedirectToAction("Login", new { CallStatusExtend = "ExsitAccount" });
+                    }
             }
         }
         //
@@ -651,14 +656,14 @@ namespace BCDHX.Controllers
         [AllowAnonymous]
         public async Task<JsonResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model)
         {
-          
+
             if (User.Identity.IsAuthenticated)
             {
                 return Json(new
                 {
                     Status = "1",
                     Error = "IsAuthenticated",
-                    
+
                 });
             }
             // Get the information about the user from the external login provider
@@ -671,10 +676,10 @@ namespace BCDHX.Controllers
                     Error = "Login Error"
                 });
             }
-           
-        var user = new ApplicationUser { UserName = model.Username, Email = model.Username };
-        var CheckUserExsit=UserManager.FindByEmail(model.Username);
-            if (CheckUserExsit==null)
+
+            var user = new ApplicationUser { UserName = model.Username, Email = model.Username };
+            var CheckUserExsit = UserManager.FindByEmail(model.Username);
+            if (CheckUserExsit == null)
             {
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -684,12 +689,12 @@ namespace BCDHX.Controllers
                     {
                         await SignInManager.SignInAsync(user, isPersistent: true, rememberBrowser: true);
                         AddAccountToDB(model.Fullname, model.Username, model.Address, user.Id, user.PasswordHash);
-                        await UserManager.AddToRoleAsync(user.Id,"Customer");                      
+                        await UserManager.AddToRoleAsync(user.Id, "Customer");
                         return Json(new
                         {
                             Status = "0",
                             Error = "Bạn đã đăng kí thành công!",
-                            
+
                         });
                     }
                 }
@@ -702,18 +707,18 @@ namespace BCDHX.Controllers
                     Error = "Tài khoản đã tồn tại , bạn hãy kiểm tra lại, nếu quên mật khẩu hãy bấm vào quên mật khẩu để rest mật khẩu"
                 });
             }
-           
-          
-            return Json("");            
+
+
+            return Json("");
         }
 
         //
         // POST: /Account/LogOff
-        
+
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie,
-                                    DefaultAuthenticationTypes.ExternalCookie);          
+                                    DefaultAuthenticationTypes.ExternalCookie);
             return RedirectToAction("Login", "Account");
         }
 
@@ -725,25 +730,7 @@ namespace BCDHX.Controllers
             return View();
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_userManager != null)
-                {
-                    _userManager.Dispose();
-                    _userManager = null;
-                }
-
-                if (_signInManager != null)
-                {
-                    _signInManager.Dispose();
-                    _signInManager = null;
-                }
-            }
-
-            base.Dispose(disposing);
-        }
+        
 
         #region Helpers
         //GetUserLoginTemp

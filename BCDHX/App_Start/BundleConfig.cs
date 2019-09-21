@@ -21,8 +21,7 @@ namespace BCDHX
                             "~/ScriptsBundle/React/react-dom.development.js",
                             "~/ScriptsBundle/React/remarkable.min.js",
                             "~/ScriptsBundle/React/Login.jsx"
-                ));
-           
+                ));          
             bundles.Add(new BabelBundle("~/bundles/Admin/React").Include(
                  "~/ScriptsBundle/React/react.development.js",
                  "~/ScriptsBundle/React/react-dom.development.js",
@@ -48,7 +47,9 @@ namespace BCDHX
                         "~/Content/MainPage/css/icofont.css",  
                         "~/Content/MainPage/css/plugins.css",
                         "~/Content/MainPage/css/all.css",
-                      "~/Content/MainPage/css/style.css"
+                      "~/Content/MainPage/css/style.css",
+                      "~/Content/LoadingScreen/css/jquery.loadingModal.min.css",
+                      "~/Content/SweetAlret/sweetalert2.min.css"
                     ));
          
             bundles.Add(new StyleBundle("~/AdminContent/css").Include(
@@ -74,6 +75,9 @@ namespace BCDHX
                    "~/Scripts/bootstrap.js",
                    "~/Content/SweetAlret/sweetalert2.all.js"  
                    ));
+            bundles.Add(new ScriptBundle("~/bundle/cart").Include(
+                "~/ScriptsBundle/Cart/CartProduct.min.js"
+                  ));
             BundleTable.EnableOptimizations = true;
         }
     }

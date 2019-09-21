@@ -130,7 +130,7 @@ namespace BCDHX.Controllers
                                                Description = p.Description,
                                                NameCatogory = g.Name_Category
 
-                                           }).ToList().Where(x => x.NameCatogory == categoryname);
+                                           }).ToList().Where(x => x.NameCatogory == categoryname || x.ID_Category.StartsWith(categoryname));
             ViewBag.tempSortBy = sortby;
             ViewBag.Temppagesize = pageSizeNumber;
             ViewBag.SelectMode = selectMode;
@@ -226,8 +226,111 @@ namespace BCDHX.Controllers
          
             return View(tempProductDetail);
         }
+        public ActionResult SearchingEngine(string keyword, int? page, int? pagesize, string sortby, string selectmode)
+        {
 
-
+            string sortBy = (sortby ?? "def");
+            string selectMode = (selectmode ?? "grid");
+            int pageNumber = (page ?? 1);
+            int pageSizeNumber = (pagesize ?? 8);
+            var tempProductWithCategory = _dbBCDHX.Products.Join(_dbBCDHX.ImageForProducts, pros => pros.ID_Product, image => image.ID_Product, (proN, imageN) => new { Product = proN, ImageForProduct = imageN }).Join(_dbBCDHX.Categories, productN => productN.Product.ID_Category, categoryN => categoryN.ID_Category, (productN, categoryN) => new { Product = productN, Category = categoryN }).ToList().Where(x => x.Product.Product.Quantity>0&& x.Product.Product.Name_Product.Contains(keyword)).Select(x => new Models.ModelObject.Product { Description = x.Product.Product.Description, ID_Category = x.Category.ID_Category, Quantity = x.Product.Product.Quantity.Value, ID_Product = x.Product.Product.ID_Product, Status = x.Product.Product.Status.Value, Img = x.Product.ImageForProduct.IMG1, Name_Product = x.Product.Product.Name_Product, Price = x.Product.Product.Price.Value.ToString(), Sale = x.Product.Product.Sale.Value.ToString(), NameCatogory = x.Category.Name_Category });;
+            ViewBag.tempSortBy = sortby;
+            ViewBag.Temppagesize = pageSizeNumber;
+            ViewBag.SelectMode = selectMode;
+            switch (sortby)
+            {
+                case "trending":
+                    tempProductWithCategory = tempProductWithCategory.Select(x => x).OrderBy(x => x.Name_Product).Where(x => x.Status == 3 || x.Status == 2).ToList();
+                    break;
+                case "sales":
+                    tempProductWithCategory = tempProductWithCategory.Select(x => x).OrderBy(x => x.Name_Product).Where(x => x.Status == 3).ToList();
+                    break;
+                case "bestdeal":
+                    tempProductWithCategory = tempProductWithCategory.Select(x => x).OrderBy(x => x.Name_Product).Where(x => x.Status == 4).ToList();
+                    break;
+                case "date":
+                    tempProductWithCategory = tempProductWithCategory.Select(x => x).OrderBy(x => x.Name_Product).Where(x => x.Status == 2).ToList();
+                    break;
+                case "priceasc":
+                    tempProductWithCategory = (from p in _dbBCDHX.Products
+                                               join e in _dbBCDHX.ImageForProducts on p.ID_Product equals e.ID_Product
+                                               join g in _dbBCDHX.Categories on p.ID_Category equals g.ID_Category
+                                               where p.Quantity > 0
+                                               orderby p.Price
+                                               select new Models.ModelObject.Product
+                                               {
+                                                   ID_Product = p.ID_Product,
+                                                   ID_Category = p.ID_Category,
+                                                   Name_Product = p.Name_Product,
+                                                   Quantity = p.Quantity.Value,
+                                                   Price = p.Price.Value.ToString(),
+                                                   Status = p.Status.Value,
+                                                   Sale = p.Sale.Value.ToString(),
+                                                   Img = e.IMG1,
+                                                   Description = p.Description
+                                               }).ToList();
+                    break;
+                case "pricedesc":
+                    tempProductWithCategory = (from p in _dbBCDHX.Products
+                                               join e in _dbBCDHX.ImageForProducts on p.ID_Product equals e.ID_Product
+                                               join g in _dbBCDHX.Categories on p.ID_Category equals g.ID_Category
+                                               where p.Quantity > 0
+                                               orderby p.Price descending
+                                               select new Models.ModelObject.Product
+                                               {
+                                                   ID_Product = p.ID_Product,
+                                                   ID_Category = p.ID_Category,
+                                                   Name_Product = p.Name_Product,
+                                                   Quantity = p.Quantity.Value,
+                                                   Price = p.Price.Value.ToString(),
+                                                   Status = p.Status.Value,
+                                                   Sale = p.Sale.Value.ToString(),
+                                                   Img = e.IMG1,
+                                                   Description = p.Description,
+                                                   NameCatogory = g.Name_Category
+                                               }).ToList();
+                    break;
+                default:
+                   
+                    break;
+            }
+            ViewBag.tempSortBy = sortby;
+            ViewBag.Temppagesize = pageSizeNumber;
+            ViewBag.SelectMode = selectMode;
+            ViewBag.KeyWord = keyword;
+            return View(tempProductWithCategory.ToPagedList(pageNumber, pageSizeNumber));
+            
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SearchingEngine()
+        {
+            string keyword = Request.Form["keyword"];
+            string optionvalue = Request.Form["SearchOnMainOptin"];
+            int pageNumber = 1;
+            int pageSizeNumber = 8;
+            ViewBag.KeyWord = keyword;
+            ViewBag.SelectMode = "grid";
+            ViewBag.tempSortBy = "def";
+            var tempProduct = _dbBCDHX.Products.Join(_dbBCDHX.ImageForProducts, pros => pros.ID_Product, image => image.ID_Product, (proN, imageN) => new { Product = proN, ImageForProduct = imageN }).Join(_dbBCDHX.Categories, productN => productN.Product.ID_Category, categoryN => categoryN.ID_Category, (productN, categoryN) => new { Product = productN, Category = categoryN }).ToList().Where(x => x.Product.Product.Quantity>0).Select(x => new Models.ModelObject.Product { Description = x.Product.Product.Description, ID_Category = x.Category.ID_Category, Quantity = x.Product.Product.Quantity.Value, ID_Product = x.Product.Product.ID_Product, Status = x.Product.Product.Status.Value, Img = x.Product.ImageForProduct.IMG1, Name_Product = x.Product.Product.Name_Product, Price = x.Product.Product.Price.Value.ToString(), Sale = x.Product.Product.Sale.Value.ToString(), NameCatogory = x.Category.Name_Category });
+            switch (optionvalue)
+            {
+                case "offical":tempProduct = tempProduct.Where(x=>x.ID_Category.Contains("offical") ||x.Name_Product.Contains(keyword));
+                    break;
+                case "unoffical":
+                    tempProduct = tempProduct.Where(x => x.ID_Category.Contains("unoffical") || x.Name_Product.Contains(keyword));
+                    break;
+                case "other":
+                    tempProduct = tempProduct.Where(x => x.ID_Category.Contains("other") || x.Name_Product.Contains(keyword));
+                    break;
+                default:
+                    tempProduct = tempProduct.Where(x=>x.Name_Product.Contains(keyword));
+                    break;
+            }
+           
+            return View(tempProduct.ToPagedList(pageNumber, pageSizeNumber));
+        }
+        
         public PartialViewResult RealtedProduct(string NameCatogory)
         {
             var tempRealtedProduct = (from p in _dbBCDHX.Products
@@ -337,6 +440,10 @@ namespace BCDHX.Controllers
         {
             var temp = GetNewArrivalProduct();
             return PartialView(temp);
+        }
+        public PartialViewResult SearchPartial()
+        {
+            return PartialView();
         }
         #region
         //Get Category Best Deal

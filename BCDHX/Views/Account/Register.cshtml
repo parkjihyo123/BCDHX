@@ -16,18 +16,16 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Oswald:200,300,400,500,600,700" rel="stylesheet">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <link rel="stylesheet" href="@Url.Content("~/Content/LoadingScreen/css/jquery.loadingModal.css")">
-    <link href="@Url.Content("~/Content/SweetAlret/sweetalert2.min.css")" rel="stylesheet" />
     @Styles.Render("~/Content/DevExtremeBundle")
 </head>
 <body>
     @Html.Partial("~/Views/Home/HeaderCustom.cshtml")
     @Html.Partial("~/Views/Home/PageBannerForRg.cshtml")
+    @Html.Partial("~/Views/Cart/CartPartial.cshtml")
     <div class="register-section section mt-90 mb-90">
         <div class="container">
             <div class="row">
                 <!-- Register -->
-
                 <div class="col-md-6 col-12 d-flex">
                     <div class="ee-register">
                         <h3>Bạn Muốn Trở Thành Thành Viên Của Bà Chị Shop</h3>
@@ -68,6 +66,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Scripts/DevExtremeBundle")
+    @Scripts.Render("~/bundle/cart")
     <script src="@Url.Content("~/ScriptsBundle/AccountSC.min.js")"></script>
 </body>
 </html>
