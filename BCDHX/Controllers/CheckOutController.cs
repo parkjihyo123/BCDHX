@@ -309,7 +309,7 @@ namespace BCDHX.Controllers
             _paymentLibrary.AddRequestData("description", "Thanh toan don hang so:"+ invoicemodel.ID_Invoice);
             _paymentLibrary.AddRequestData("jwt", new JWTService().GenerateToken(paymentBK));
             _paymentLibrary.AddRequestData("url_success", GetUrlOrgin()+"/PaymentResult/ShowTest1");
-            _paymentLibrary.AddRequestData("webhooks", GetUrlOrgin() + "/PaymentResult/ShowTest");
+            _paymentLibrary.AddRequestData("webhooks", GetUrlOrgin() + "/PaymentResult/WebHookResult");
             
             string paymentUrl = _paymentLibrary.CreateRequestUrl(baseUrl + "api/v4/order/send");
             using (HttpClient client = new HttpClient())

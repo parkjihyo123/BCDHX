@@ -1,11 +1,16 @@
 ﻿using BCDHX.Models;
+using BCDHX.Models.ModelObject;
 using BCDHX.Moduns.Models;
+using BCDHX.Moduns.Unity;
+using BCDHX.Unity.PaymentBK;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace BCDHX.Controllers
 {
@@ -15,9 +20,11 @@ namespace BCDHX.Controllers
         private const string CartSession = "CartSession";
         private readonly WebDieuHienDB _dbBCDH;
         private ApplicationUserManager _userManager;
+        private readonly PaymentLibrary _paymentLibrary;
         public PaymentResultController()
         {
             _dbBCDH = new WebDieuHienDB();
+            _paymentLibrary = new PaymentLibrary();
         }
         public PaymentResultController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
@@ -40,7 +47,24 @@ namespace BCDHX.Controllers
         {
             return View();
         }
-       
+        [HttpPost]
+        public ActionResult WebHookResult(HttpContext context)
+        {
+            var jsonSerialzer = new JavaScriptSerializer();
+            var jsonString = string.Empty;
+            context.Request.InputStream.Position = 0;
+            using (var inputStream = new StreamReader(context.Request.InputStream))
+            {
+                jsonString = inputStream.ReadToEnd();
+            }
+            var data = new PaymentWebWook();
+            data = jsonSerialzer.Deserialize<PaymentWebWook>(jsonString);
+            var number_ramdom = new RandomCode().RandomNumber(2);
+            LinkSystem mg = new LinkSystem {ID_LinkSystem= Convert.ToInt32(number_ramdom)};
+            _dbBCDH.Entry(mg).State = System.Data.Entity.EntityState.Added;
+            _dbBCDH.SaveChanges();
+            return new EmptyResult();
+        }
         public ActionResult ShowTest()
         {
             
