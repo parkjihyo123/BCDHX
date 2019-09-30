@@ -71,6 +71,7 @@ namespace BCDHX.Areas.AdminBCDH.Controllers
             {
                 ApplicationUser currentUser = _dbasp.Users.FirstOrDefault(x => x.Email.Equals(userAdmin.UserName));
                 await UserManager.AddToRoleAsync(currentUser.Id, ConvertAccsessToRole(userAdmin.Acess.Value));
+                currentUser.EmailConfirmed = true;
                 userAdmin.ID_AdminUser = currentUser.Id;
                 _db.Entry(userAdmin).State = System.Data.Entity.EntityState.Added;
                 _db.SaveChanges();

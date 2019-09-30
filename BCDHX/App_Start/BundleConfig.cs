@@ -51,7 +51,21 @@ namespace BCDHX
                       "~/Content/LoadingScreen/css/jquery.loadingModal.min.css",
                       "~/Content/SweetAlret/sweetalert2.min.css"
                     ));
-         
+            bundles.Add(new StyleBundle("~/Content/MainPageNew/css").Include(
+                "~/Conent/MainPageNew/css/open-iconic-bootstrap.min.css",
+                "~/Conent/MainPageNew/css/animate.css",
+                "~/Conent/MainPageNew/css/owl.carousel.min.css",
+                "~/Conent/MainPageNew/css/owl.theme.default.min.css",
+                "~/Conent/MainPageNew/css/magnific-popup.css"
+                       //"~/Content/MainPage/css/bootstrap.min.css",
+                       // "~/Content/MainPage/css/themify-icons.css",
+                       //  "~/Content/MainPage/css/icofont.css",
+                       //  "~/Content/MainPage/css/plugins.css",
+                       //  "~/Content/MainPage/css/all.css",
+                       //"~/Content/MainPage/css/style.css",
+                       //"~/Content/LoadingScreen/css/jquery.loadingModal.min.css",
+                       //"~/Content/SweetAlret/sweetalert2.min.css"
+                       ));
             bundles.Add(new StyleBundle("~/AdminContent/css").Include(
               "~/Content/AdminPage/assets/css/normalize.min.css",
                    "~/Content/MainPage/css/bootstrap.min.css",
